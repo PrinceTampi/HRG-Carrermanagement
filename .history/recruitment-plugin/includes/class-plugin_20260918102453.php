@@ -36,6 +36,7 @@ class Recruitment_Plugin {
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_public_assets' ] );
 
         add_shortcode( 'recruitment_careers', [ $this, 'render_careers_shortcode' ] );
+        add_filter( 'the_content', [ $this, 'render_front_page' ] );
     }
 
     public function render_front_page( string $content ): string {
