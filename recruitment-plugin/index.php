@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);
 
+if ( ! defined( 'ABSPATH' ) ) {
+    http_response_code( 403 );
+    exit;
+}
+
 session_start();
 
 // Load core dependencies.

@@ -6,13 +6,11 @@
  */
 $user = wp_get_current_user();
 ?>
-<header class="site-header">
-    <a class="brand" href="?page=dashboard">Recruitment<span>Plugin</span></a>
+<header class="recruitment-admin__header">
+    <a class="recruitment-admin__brand" href="<?= esc_url( recruitment_get_admin_url( 'recruitment-dashboard' ) ) ?>"><span> D </span> DAW Recruitment</a>
     <nav aria-label="Admin navigasi">
-        <a href="?page=careers">← Public Site</a>
-        <?php if ( $user ) : ?>
-            <span><?= htmlspecialchars( $user['display_name'], ENT_QUOTES, 'UTF-8' ) ?></span>
-        <?php endif; ?>
-        <a class="nav-action" href="?page=logout">Logout</a>
+        <a href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>">Public Site</a>
+        <span><?= esc_html( $user->display_name ) ?></span>
+        <a class="nav-action" href="<?= esc_url( wp_logout_url( home_url( '/' ) ) ) ?>">Logout</a>
     </nav>
 </header>

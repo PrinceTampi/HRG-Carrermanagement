@@ -1,46 +1,7 @@
 <?php
-/**
- * public/pages/application-status.php
- *
- * Halaman pengecekan status lamaran.
- *
- * URL: /karir/status/
- *
- * User tidak perlu memiliki akun WordPress.
- * Gunakan token lamaran untuk lookup status.
- *
- * Alur:
- *   Application Token → Status Lookup → Application Status
- *
- * TODO: Implementasi token lookup dari database.
- */
+$token = sanitize_text_field( wp_unslash( $_GET['token'] ?? '' ) );
 ?>
-<!doctype html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Status Lamaran | Recruitment Plugin</title>
-    <link rel="stylesheet" href="assets/css/public.css">
-</head>
-<body>
-<?php require __DIR__ . '/../components/header.php'; ?>
-<main class="content-shell">
-    <p class="eyebrow">Cek Status Lamaran</p>
-    <h1>Status Lamaran Kamu.</h1>
-    <p class="lede">Masukkan kode token yang dikirimkan ke email kamu untuk melihat status lamaran.</p>
-    <form method="get" action="">
-        <input type="hidden" name="page" value="application-status">
-        <label for="token">Kode Token Lamaran</label>
-        <input id="token" name="token" type="text" placeholder="Contoh: REC-20260908-001" required>
-        <button class="button" type="submit">Cek Status <span aria-hidden="true">-&gt;</span></button>
-    </form>
-    <?php
-    // TODO: Tampilkan application-status-card jika token ditemukan.
-    // require __DIR__ . '/../components/application-status-card.php';
-    ?>
-</main>
-<?php require __DIR__ . '/../components/footer.php'; ?>
-<script src="assets/js/public.js"></script>
-</body>
-</html>
+<div class="daw-recruitment"><div class="daw-recruitment__section"><div class="daw-recruitment__container daw-recruitment__form-container">
+    <?php require recruitment_get_plugin_path( 'components/public/header.php' ); ?>
+    <section class="daw-recruitment__panel"><span class="daw-recruitment__eyebrow">Cek Status Lamaran</span><h1>Status Lamaran Kamu</h1><p class="daw-recruitment__form-lede">Masukkan kode lamaran untuk melihat perkembangan proses recruitment.</p><form class="daw-recruitment__application-form" method="get"><input type="hidden" name="recruitment_page" value="tracking"><label>Kode Lamaran<input name="token" required placeholder="Contoh: REC-20260908-001" value="<?= esc_attr( $token ) ?>"></label><label>Email<input name="email" type="email" required placeholder="email@example.com"></label><button class="daw-recruitment__button" type="submit">Cek Status</button></form><?php if ( $token ) : ?><div class="daw-recruitment__status-result"><strong>Lamaran <?= esc_html( $token ) ?></strong><p>Status saat ini: <b>Menunggu Seleksi Administrasi</b></p><div class="daw-recruitment__status-track"><span class="is-done">Lamaran Dikirim</span><span class="is-current">Seleksi Administrasi</span><span>Psikotes</span><span>Wawancara</span><span>Keputusan Akhir</span></div></div><?php endif; ?></section>
+</div></div><?php require recruitment_get_plugin_path( 'components/public/footer.php' ); ?></div>

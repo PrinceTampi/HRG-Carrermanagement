@@ -19,8 +19,8 @@ class Recruitment_Plugin {
         return [
             'name'      => 'Recruitment Plugin',
             'status'    => 'Active',
-            'version'   => '1.0.0',
-            'site_url'  => get_plugin_url(),
+            'version'   => RECRUITMENT_PLUGIN_VERSION,
+            'site_url'  => recruitment_get_plugin_url(),
             'shortcode' => '[recruitment_careers]',
         ];
     }
@@ -30,7 +30,78 @@ class Recruitment_Plugin {
      * Called from recruitment-plugin.php on init.
      */
     public function init(): void {
-        // TODO: Register WordPress hooks here.
-        // add_action( 'init', [ $this, 'register_routes' ] );
+        add_action( 'init', [ $this, 'register_content' ] );
+        add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
+        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
+        add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_public_assets' ] );
+
+        add_shortcode( 'recruitment_careers', [ $this, 'render_careers_shortcode' ] );
+        add_filter( 'the_content', [ $this, 'render_front_page' ] );
+    }
+
+    public function render_front_page( string $content ): string {
+        if ( is_admin() || ! is_front_page() || ! is_main_query() || ! in_the_loop() ) {
+            return $content;
+        }
+
+        return do_shortcode( '[recruitment_careers]' );
+    }
+
+    public function register_content(): void {
+        register_post_type(
+            'daw_vacancy',
+            [
+                'labels'       => [ 'name' => 'Lowongan', 'singular_name' => 'Lowongan' ],
+                'public'       => true,
+                'show_in_rest' => true,
+                'supports'     => [ 'title', 'editor', 'excerpt' ],
+                'menu_icon'    => 'dashicons-businessperson',
+                'rewrite'      => [ 'slug' => 'lowongan' ],
+            ]
+        );
+    }
+
+    public function register_admin_menu(): void {
+        add_menu_page(
+            'Recruitment',
+            'Recruitment',
+            'manage_recruitment',
+            'recruitment-dashboard',
+            [ $this, 'render_admin_dashboard' ],
+            'dashicons-groups',
+            26
+        );
+    }
+
+    public function enqueue_public_assets(): void {
+        wp_enqueue_style( 'recruitment-public', recruitment_get_plugin_url( 'assets/css/public.css' ), [], RECRUITMENT_PLUGIN_VERSION );
+        wp_enqueue_script( 'recruitment-public', recruitment_get_plugin_url( 'assets/js/public.js' ), [], RECRUITMENT_PLUGIN_VERSION, true );
+    }
+
+    public function enqueue_admin_assets(): void {
+        wp_enqueue_style( 'recruitment-admin', recruitment_get_plugin_url( 'assets/css/admin.css' ), [], RECRUITMENT_PLUGIN_VERSION );
+        wp_enqueue_script( 'recruitment-admin', recruitment_get_plugin_url( 'assets/js/admin.js' ), [], RECRUITMENT_PLUGIN_VERSION, true );
+    }
+
+    public function render_careers_shortcode(): string {
+        $page_id = get_queried_object_id();
+        if ( $page_id ) {
+            update_option( 'recruitment_public_page_id', absint( $page_id ) );
+        }
+
+        $screen = sanitize_key( $_GET['recruitment_page'] ?? 'careers' );
+        $screen = [ 'application' => 'application-form', 'tracking' => 'application-status' ][ $screen ] ?? $screen;
+
+        ob_start();
+        ( new Recruitment_Router() )->render( $screen );
+        return ob_get_clean();
+    }
+
+    public function render_admin_dashboard(): void {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( esc_html__( 'Anda tidak memiliki izin untuk mengakses halaman ini.', 'recruitment-plugin' ) );
+        }
+
+        ( new Recruitment_Router() )->render( 'dashboard' );
     }
 }

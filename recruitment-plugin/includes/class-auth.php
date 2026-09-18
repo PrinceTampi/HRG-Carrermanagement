@@ -40,8 +40,6 @@ class Recruitment_Auth {
      * @return bool
      */
     public function current_user_can( string $capability ): bool {
-        // TODO: Replace with WordPress current_user_can() when running in WP.
-        $user = wp_get_current_user();
-        return $user !== null && isset( $user['role'] ) && $user['role'] === 'administrator';
+        return current_user_can( $capability );
     }
 }

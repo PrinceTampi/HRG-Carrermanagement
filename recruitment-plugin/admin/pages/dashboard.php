@@ -1,20 +1,11 @@
 <?php $user = wp_get_current_user(); ?>
-<!doctype html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard HRD | Recruitment Plugin</title>
-    <link rel="stylesheet" href="assets/css/public.css">
-    <link rel="stylesheet" href="assets/css/admin.css">
-</head>
-<body>
-<?php require __DIR__ . '/../components/header.php'; ?>
+<div class="recruitment-admin">
+<?php require recruitment_get_plugin_path( 'components/admin/header.php' ); ?>
 <div class="admin-layout">
-    <?php require __DIR__ . '/../components/sidebar.php'; ?>
+    <?php require recruitment_get_plugin_path( 'components/admin/sidebar.php' ); ?>
     <main class="content-shell">
         <p class="eyebrow">Authenticated area</p>
-        <h1>Good to see you, <?= htmlspecialchars( $user['display_name'], ENT_QUOTES, 'UTF-8' ) ?>.</h1>
+        <h1>Good to see you, <?= esc_html( $user->display_name ) ?>.</h1>
         <p class="lede">Ringkasan aktivitas rekrutmen.</p>
         <section class="stats-row">
             <?php
@@ -26,13 +17,11 @@
                 [ 'label' => 'Applications in Review', 'value' => '—' ],
             ];
             foreach ( $stats as $stat ) :
-                require __DIR__ . '/../components/stats-card.php';
+                require recruitment_get_plugin_path( 'components/admin/stats-card.php' );
             endforeach;
             ?>
         </section>
     </main>
 </div>
-<footer><span>Recruitment Plugin</span><span>HRD Dashboard</span></footer>
-<script src="assets/js/admin.js"></script>
-</body>
-</html>
+<footer><span>DAW Recruitment</span><span>HRD Dashboard</span></footer>
+</div>

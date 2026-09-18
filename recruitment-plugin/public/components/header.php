@@ -1,24 +1,11 @@
-<?php
-/**
- * public/components/header.php
- *
- * Header halaman Karir (public area).
- *
- * Contoh navigasi:
- *   Logo | Home | Karir | Tentang
- */
-$logged_in = is_user_logged_in();
-?>
-<header class="site-header">
-    <a class="brand" href="?page=careers">Recruitment<span>Plugin</span></a>
-    <nav aria-label="Navigasi utama">
-        <a href="?page=careers">Karir</a>
-        <a href="?page=application-status">Cek Status</a>
-        <?php if ( $logged_in ) : ?>
-            <a href="?page=dashboard">Dashboard</a>
-            <a class="nav-action" href="?page=logout">Logout</a>
-        <?php else : ?>
-            <a class="nav-action" href="?page=login">HRD Login</a>
-        <?php endif; ?>
+<header class="daw-recruitment__header">
+    <a class="daw-recruitment__brand" href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>">
+        <span class="daw-recruitment__logo">D</span>
+        <span>DAW<small>PT. Daya Adicipta Wisesa</small></span>
+    </a>
+    <nav class="daw-recruitment__nav" aria-label="Navigasi utama">
+        <a href="#">Beranda</a><a href="#">Tentang Kami</a><a href="#">Produk</a><a href="#">Layanan</a><a href="#">News</a>
+        <a class="is-active" href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>">Career</a><a href="#">Event</a><a href="#">Kontak</a>
     </nav>
+    <a class="daw-recruitment__cta" href="<?= esc_url( recruitment_get_public_url( 'tracking' ) ) ?>">Tracking Lamaran</a>
 </header>

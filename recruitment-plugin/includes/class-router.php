@@ -1,5 +1,10 @@
 <?php
 
+// Backward-compatible entry point. New code must use routes/class-router.php.
+require_once dirname( __DIR__ ) . '/routes/class-router.php';
+if ( false ) {
+// Legacy class body retained for source compatibility.
+
 /**
  * Recruitment_Router — handles URL routing and page rendering.
  *
@@ -44,6 +49,11 @@ class Recruitment_Router {
      * @param array<string, mixed> $data Data to extract into the template scope.
      */
     public function render( string $page, array $data = [] ): void {
+        if ( ! defined( 'ABSPATH' ) ) {
+            http_response_code( 403 );
+            exit;
+        }
+
         $slug = array_key_exists( $page, self::ROUTES ) ? $page : 'careers';
 
         // Guard protected admin pages.
@@ -63,4 +73,5 @@ class Recruitment_Router {
         $template = __DIR__ . '/../' . self::ROUTES[ $slug ];
         require $template;
     }
+}
 }

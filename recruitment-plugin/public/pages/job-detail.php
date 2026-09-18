@@ -1,41 +1,37 @@
 <?php
-/**
- * public/pages/job-detail.php
- *
- * Halaman detail lowongan.
- *
- * URL: /karir/lowongan/{job}/
- *
- * Berisi:
- * - job title
- * - department
- * - location
- * - description
- * - requirements
- * - responsibilities
- * - CTA Apply
- *
- * TODO: Ambil data job dari Recruitment_Database berdasarkan slug/ID.
- */
+
+$job_id = absint( $_GET['job_id'] ?? 0 );
+$vacancy = $job_id ? get_post( $job_id ) : null;
+$job = [
+    'id' => '1', 'title' => 'Sales Executive', 'location' => 'Airmadidi', 'dealer' => 'DAW Airmadidi', 'region' => 'Sulawesi Utara', 'type' => 'Full Time',
+    'description' => 'Bergabunglah dengan tim penjualan DAW dan jadilah bagian dari keluarga Honda yang terus berkembang. Anda akan bertanggung jawab untuk melayani pelanggan, mencapai target penjualan, dan membangun hubungan jangka panjang dengan pelanggan.',
+    'deadline' => '30 September 2026', 'postedDate' => '1 Agustus 2026',
+    'requirements' => [ 'Pendidikan minimal D3 semua jurusan', 'Memiliki kemampuan komunikasi yang baik', 'Berpengalaman di bidang penjualan min. 1 tahun', 'Memiliki kendaraan bermotor dan SIM C', 'Mampu bekerja dalam tim' ],
+    'responsibilities' => [ 'Melayani calon pembeli kendaraan Honda', 'Mencapai target penjualan bulanan', 'Melakukan follow-up kepada prospek pelanggan', 'Membuat laporan penjualan harian' ],
+];
+if ( $vacancy && 'daw_vacancy' === $vacancy->post_type ) {
+    $job['id'] = (string) $vacancy->ID;
+    $job['title'] = get_the_title( $vacancy );
+    $job['description'] = wpautop( wp_kses_post( $vacancy->post_content ) );
+    $job['location'] = (string) get_post_meta( $vacancy->ID, '_daw_location', true );
+    $job['dealer'] = (string) get_post_meta( $vacancy->ID, '_daw_dealer', true );
+    $job['region'] = (string) get_post_meta( $vacancy->ID, '_daw_region', true );
+    $job['type'] = (string) get_post_meta( $vacancy->ID, '_daw_type', true );
+}
 ?>
-<!doctype html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Detail Lowongan | Recruitment Plugin</title>
-    <link rel="stylesheet" href="assets/css/public.css">
-</head>
-<body>
-<?php require __DIR__ . '/../components/header.php'; ?>
-<main class="content-shell">
-    <p class="eyebrow">Detail Lowongan</p>
-    <h1>Frontend Developer</h1>
-    <p class="lede">Technology · Full Time · Jakarta</p>
-    <p>TODO: Tampilkan deskripsi, requirements, dan responsibilities dari database.</p>
-    <a class="button" href="?page=application-form">Lamar Posisi Ini <span aria-hidden="true">-&gt;</span></a>
-</main>
-<?php require __DIR__ . '/../components/footer.php'; ?>
-<script src="assets/js/public.js"></script>
-</body>
-</html>
+<div class="daw-recruitment">
+    <?php require recruitment_get_plugin_path( 'components/public/header.php' ); ?>
+    <main class="daw-recruitment__section"><div class="daw-recruitment__container">
+        <a class="daw-recruitment__back" href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>">&larr; Kembali ke Lowongan</a>
+        <div class="daw-recruitment__detail-grid">
+            <div>
+                <section class="daw-recruitment__panel"><div class="daw-recruitment__job-head"><div><h1><?= esc_html( $job['title'] ) ?></h1><div class="daw-recruitment__job-meta"><span><?= esc_html( $job['type'] ) ?></span><span><?= esc_html( $job['location'] ) ?></span><span><?= esc_html( $job['dealer'] ) ?></span></div></div><span class="daw-recruitment__job-type">Open</span></div><p class="daw-recruitment__detail-meta">Diposting: <?= esc_html( $job['postedDate'] ) ?> &middot; Batas lamaran: <strong><?= esc_html( $job['deadline'] ) ?></strong></p></section>
+                <section class="daw-recruitment__panel"><h2>Tentang Posisi Ini</h2><div class="daw-recruitment__detail-copy"><?= wp_kses_post( $job['description'] ) ?></div></section>
+                <section class="daw-recruitment__panel"><h2>Tanggung Jawab</h2><ol class="daw-recruitment__detail-list"><?php foreach ( $job['responsibilities'] as $item ) : ?><li><?= esc_html( $item ) ?></li><?php endforeach; ?></ol></section>
+                <section class="daw-recruitment__panel"><h2>Persyaratan</h2><ul class="daw-recruitment__detail-list daw-recruitment__detail-list--checks"><?php foreach ( $job['requirements'] as $item ) : ?><li><?= esc_html( $item ) ?></li><?php endforeach; ?></ul></section>
+            </div>
+            <aside><section class="daw-recruitment__panel daw-recruitment__detail-cta"><h2>Tertarik dengan posisi ini?</h2><a class="daw-recruitment__button" href="<?= esc_url( recruitment_get_public_url( 'application', [ 'job_id' => $job['id'] ] ) ) ?>">Lamar Sekarang</a><a class="daw-recruitment__detail-secondary" href="<?= esc_url( recruitment_get_public_url( 'tracking' ) ) ?>">Cek Status Lamaran</a><p>Batas lamaran: <strong><?= esc_html( $job['deadline'] ) ?></strong></p></section><section class="daw-recruitment__panel"><h2>Informasi Pekerjaan</h2><dl class="daw-recruitment__detail-info"><dt>Lokasi</dt><dd><?= esc_html( $job['location'] ) ?></dd><dt>Dealer</dt><dd><?= esc_html( $job['dealer'] ) ?></dd><dt>Wilayah</dt><dd><?= esc_html( $job['region'] ) ?></dd><dt>Jenis Pekerjaan</dt><dd><?= esc_html( $job['type'] ) ?></dd></dl></section></aside>
+        </div>
+    </div></main>
+    <?php require recruitment_get_plugin_path( 'components/public/footer.php' ); ?>
+</div>

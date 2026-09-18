@@ -1,5 +1,10 @@
 <?php
 
+// Backward-compatible entry point. New code must use database/class-database.php.
+require_once dirname( __DIR__ ) . '/database/class-database.php';
+if ( false ) {
+// Legacy class body retained for source compatibility.
+
 /**
  * Recruitment_Database — database abstraction layer.
  *
@@ -44,4 +49,5 @@ class Recruitment_Database {
         // TODO: Implementasi menggunakan $wpdb->get_results() dengan prepared statement.
         return [];
     }
+}
 }

@@ -12,9 +12,9 @@
  * - Settings
  * - Logout
  */
-$current = $_GET['page'] ?? 'dashboard';
+$current = sanitize_key( $_GET['page'] ?? 'recruitment-dashboard' );
 $nav_items = [
-    'dashboard'    => 'Dashboard',
+    'recruitment-dashboard' => 'Dashboard',
     'vacancies'    => 'Vacancies',
     'applicants'   => 'Applicants',
     'applications' => 'Applications',
@@ -24,10 +24,10 @@ $nav_items = [
 <aside class="admin-sidebar">
     <nav aria-label="Admin menu">
         <?php foreach ( $nav_items as $slug => $label ) : ?>
-            <a href="?page=<?= $slug ?>" class="<?= $current === $slug ? 'active' : '' ?>">
-                <?= htmlspecialchars( $label, ENT_QUOTES, 'UTF-8' ) ?>
+            <a href="<?= esc_url( recruitment_get_admin_url( $slug ) ) ?>" class="<?= $current === $slug ? 'active' : '' ?>">
+                <?= esc_html( $label ) ?>
             </a>
         <?php endforeach; ?>
-        <a href="?page=logout" class="nav-action">Logout</a>
+        <a href="<?= esc_url( wp_logout_url( home_url( '/' ) ) ) ?>" class="nav-action">Logout</a>
     </nav>
 </aside>

@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
-<?php require __DIR__ . '/../components/header.php'; ?>
+<?php require recruitment_get_plugin_path( 'components/admin/header.php' ); ?>
 <div class="admin-layout">
-    <?php require __DIR__ . '/../components/sidebar.php'; ?>
+    <?php require recruitment_get_plugin_path( 'components/admin/sidebar.php' ); ?>
     <main class="content-shell">
         <p class="eyebrow">Plugin overview</p>
         <h1>Applicants.</h1>
@@ -27,7 +27,7 @@
                     </div>
             <?php endforeach; endif; ?>
         </section>
-        <?php require __DIR__ . '/../components/application-table.php'; ?>
+        <?php require recruitment_get_plugin_path( 'components/admin/application-table.php' ); ?>
     </main>
 </div>
 <footer><span>Recruitment Plugin</span><span>Applicants</span></footer>

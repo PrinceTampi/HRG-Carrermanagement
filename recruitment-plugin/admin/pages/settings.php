@@ -25,9 +25,9 @@
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
-<?php require __DIR__ . '/../components/header.php'; ?>
+<?php require recruitment_get_plugin_path( 'components/admin/header.php' ); ?>
 <div class="admin-layout">
-    <?php require __DIR__ . '/../components/sidebar.php'; ?>
+    <?php require recruitment_get_plugin_path( 'components/admin/sidebar.php' ); ?>
     <main class="content-shell">
         <p class="eyebrow">Konfigurasi Plugin</p>
         <h1>Settings.</h1>
