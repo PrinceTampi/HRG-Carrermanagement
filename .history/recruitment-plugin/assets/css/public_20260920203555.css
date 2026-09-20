@@ -289,6 +289,7 @@
   align-items: end;
   display: flex;
   gap: 10px;
+  grid-column: 1 / -1;
 }
 .daw-recruitment__filter-actions button {
   border: 0;
@@ -774,12 +775,6 @@ body:has(.daw-recruitment) .wp-block-post-content {
   padding-top: 0 !important;
 }
 
-/* Twenty Twenty-Five wraps page content in a padded full-width group. */
-body:has(.daw-recruitment) main > .wp-block-group.alignfull {
-  padding-bottom: 0 !important;
-  padding-top: 0 !important;
-}
-
 body:has(.daw-recruitment) .entry-content {
   margin-top: 0 !important;
   padding-top: 0 !important;
@@ -788,7 +783,8 @@ body:has(.daw-recruitment) .entry-content {
    FIX: REMOVE WHITE SPACE BELOW RECRUITMENT PAGE
    ========================================================= */
 
-body:has(.daw-recruitment) {
+html,
+body {
   margin: 0 !important;
   padding: 0 !important;
 }

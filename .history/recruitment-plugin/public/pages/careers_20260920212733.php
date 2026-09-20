@@ -29,21 +29,8 @@ foreach ( $vacancies as $vacancy ) {
 }
 
 $jobs = $jobs ?: $fallback_jobs;
-$dealers = [ 'DAW Bitung', 'DAW Main Dealer Maumbi' ];
-$types = [
-    'Sales',
-    'Marketing',
-    'Administration',
-    'Human Capital / HR',
-    'Finance & Accounting',
-    'Information Technology',
-    'Parts',
-    'Technical Service',
-    'Customer Care / HC3',
-    'Warehouse / Logistics',
-    'Management Trainee',
-    'Other',
-];
+$dealers = array_values( array_unique( array_filter( array_column( $jobs, 'dealer' ) ) ) );
+$types = array_values( array_unique( array_filter( array_column( $jobs, 'type' ) ) ) );
 $search = sanitize_text_field( wp_unslash( $_GET['job_search'] ?? '' ) );
 $dealer = sanitize_text_field( wp_unslash( $_GET['job_dealer'] ?? '' ) );
 $type = sanitize_text_field( wp_unslash( $_GET['job_type'] ?? '' ) );
@@ -72,7 +59,7 @@ $jobs = array_values( array_filter( $jobs, static function ( array $job ) use ( 
     <section class="daw-recruitment__section" id="daw-vacancies"><div class="daw-recruitment__container">
         <div class="daw-recruitment__section-title"><h2>Temukan Posisi yang Tepat untukmu</h2><p>Jelajahi berbagai kesempatan kerja yang tersedia di jaringan DAW.</p></div>
         <form class="daw-recruitment__search" method="get"><input name="job_search" value="<?= esc_attr( $search ) ?>" placeholder="Cari posisi atau kata kunci..."><button class="daw-recruitment__button" type="submit">Cari</button></form>
-        <form class="daw-recruitment__filters" method="get"><div><label for="job-dealer">Kategori DAW Dealer</label><select id="job-dealer" name="job_dealer"><option value="">Semua Dealer</option><?php foreach ( $dealers as $item ) : ?><option value="<?= esc_attr( $item ) ?>" <?= selected( $dealer, $item, false ) ?>><?= esc_html( $item ) ?></option><?php endforeach; ?></select></div><div><label for="job-type">Jenis Pekerjaan</label><select id="job-type" name="job_type"><option value="">Semua Posisi</option><?php foreach ( $types as $item ) : ?><option value="<?= esc_attr( $item ) ?>" <?= selected( $type, $item, false ) ?>><?= esc_html( $item ) ?></option><?php endforeach; ?></select></div><div class="daw-recruitment__filter-actions"><button class="daw-recruitment__button" type="submit">Cari Lowongan</button><a href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>">Reset Filter</a></div></form>
+        <form class="daw-recruitment__filters" method="get"><div><label for="job-dealer">Kategori Dealer</label><select id="job-dealer" name="job_dealer"><option value="">Semua Dealer</option><?php foreach ( $dealers as $item ) : ?><option value="<?= esc_attr( $item ) ?>" <?= selected( $dealer, $item, false ) ?>><?= esc_html( $item ) ?></option><?php endforeach; ?></select></div><div><label for="job-type">Jenis Pekerjaan</label><select id="job-type" name="job_type"><option value="">Semua Posisi</option><?php foreach ( $types as $item ) : ?><option value="<?= esc_attr( $item ) ?>" <?= selected( $type, $item, false ) ?>><?= esc_html( $item ) ?></option><?php endforeach; ?></select></div><div class="daw-recruitment__filter-actions"><button class="daw-recruitment__button" type="submit">Cari Lowongan</button><a href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>">Reset Filter</a></div></form>
         <p class="daw-recruitment__result-count"><strong><?= esc_html( count( $jobs ) ) ?></strong> Lowongan tersedia</p>
         <div class="daw-recruitment__job-grid"><?php if ( ! $jobs ) : ?><div class="daw-recruitment__panel"><strong>Tidak ada lowongan yang sesuai.</strong><p>Belum ada posisi yang sesuai dengan filter yang dipilih.</p></div><?php endif; ?><?php foreach ( $jobs as $i => $job ) : require recruitment_get_plugin_path( 'components/public/job-card.php' ); endforeach; ?></div>
     </div></section>

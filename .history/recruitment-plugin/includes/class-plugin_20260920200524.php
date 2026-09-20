@@ -53,15 +53,6 @@ class Recruitment_Plugin {
         return $block_content;
     }
 
-    // Remove the empty paragraph block that WordPress appends after the shortcode.
-    if (
-        isset( $block['blockName'] ) &&
-        'core/paragraph' === $block['blockName'] &&
-        '' === trim( wp_strip_all_tags( $block_content ) )
-    ) {
-        return '';
-    }
-
     // Hapus template footer bawaan Twenty Twenty-Five
     if (
         isset( $block['blockName'] ) &&

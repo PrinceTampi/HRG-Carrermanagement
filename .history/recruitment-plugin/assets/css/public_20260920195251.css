@@ -289,6 +289,7 @@
   align-items: end;
   display: flex;
   gap: 10px;
+  grid-column: 1 / -1;
 }
 .daw-recruitment__filter-actions button {
   border: 0;
@@ -774,56 +775,49 @@ body:has(.daw-recruitment) .wp-block-post-content {
   padding-top: 0 !important;
 }
 
-/* Twenty Twenty-Five wraps page content in a padded full-width group. */
-body:has(.daw-recruitment) main > .wp-block-group.alignfull {
-  padding-bottom: 0 !important;
-  padding-top: 0 !important;
-}
-
 body:has(.daw-recruitment) .entry-content {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
-/* =========================================================
-   FIX: REMOVE WHITE SPACE BELOW RECRUITMENT PAGE
-   ========================================================= */
+/* =========================================
+   REMOVE ALL TOP SPACE FROM RECRUITMENT PAGE
+   ========================================= */
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 body:has(.daw-recruitment) {
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* Jadikan halaman recruitment memenuhi tinggi layar */
+body:has(.daw-recruitment) > * {
+  margin-top: 0 !important;
+}
+
 body:has(.daw-recruitment) .wp-site-blocks {
-  min-height: 100vh !important;
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-/* Container utama recruitment */
-body:has(.daw-recruitment) .daw-recruitment {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* Konten utama mengambil ruang yang tersedia */
-body:has(.daw-recruitment) .daw-recruitment > section {
-  flex-shrink: 0;
+body:has(.daw-recruitment) main,
+body:has(.daw-recruitment) article,
+body:has(.daw-recruitment) .wp-block-post-content,
+body:has(.daw-recruitment) .entry-content {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
-/* Footer custom DAW berada di bagian paling bawah */
-body:has(.daw-recruitment) .daw-recruitment > footer {
-  margin-top: auto !important;
-  margin-bottom: 0 !important;
+body:has(.daw-recruitment) .wp-block-group {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
-/* Hilangkan footer/theme wrapper bawaan WordPress */
-body:has(.daw-recruitment) .wp-site-blocks > footer {
-  display: none !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
+/* Jangan kasih jarak sebelum plugin */
+.daw-recruitment {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }

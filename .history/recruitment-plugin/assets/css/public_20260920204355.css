@@ -289,6 +289,7 @@
   align-items: end;
   display: flex;
   gap: 10px;
+  grid-column: 1 / -1;
 }
 .daw-recruitment__filter-actions button {
   border: 0;
@@ -788,7 +789,8 @@ body:has(.daw-recruitment) .entry-content {
    FIX: REMOVE WHITE SPACE BELOW RECRUITMENT PAGE
    ========================================================= */
 
-body:has(.daw-recruitment) {
+html,
+body {
   margin: 0 !important;
   padding: 0 !important;
 }

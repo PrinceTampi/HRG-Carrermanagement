@@ -265,7 +265,7 @@
   border-radius: 8px;
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   margin-bottom: 24px;
   padding: 16px;
 }
@@ -289,6 +289,7 @@
   align-items: end;
   display: flex;
   gap: 10px;
+  grid-column: 1 / -1;
 }
 .daw-recruitment__filter-actions button {
   border: 0;
