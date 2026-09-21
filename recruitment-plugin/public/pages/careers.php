@@ -5,30 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$fallback_jobs = [
-    [ 'id' => '1', 'title' => 'Sales Executive', 'location' => 'Airmadidi', 'dealer' => 'DAW Airmadidi', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'description' => 'Bergabunglah dengan tim penjualan DAW dan jadilah bagian dari keluarga Honda yang terus berkembang.', 'requirements' => [ 'Pendidikan minimal D3 semua jurusan', 'Memiliki kemampuan komunikasi yang baik' ] ],
-    [ 'id' => '2', 'title' => 'Service Advisor', 'location' => 'Manado', 'dealer' => 'DAW Manado', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'description' => 'Menjadi penghubung antara pelanggan dan bengkel serta memastikan setiap kendaraan mendapatkan penanganan terbaik.', 'requirements' => [ 'Pendidikan minimal D3 Teknik Otomotif atau terkait', 'Berpengalaman sebagai Service Advisor min. 2 tahun' ] ],
-    [ 'id' => '3', 'title' => 'Kepala Bengkel / Foreman', 'location' => 'Gorontalo', 'dealer' => 'AHASS Gorontalo', 'region' => 'Gorontalo', 'type' => 'Full Time', 'description' => 'Memimpin operasional bengkel AHASS dan memastikan semua pekerjaan servis berjalan sesuai standar Honda.', 'requirements' => [ 'Pendidikan minimal SMK Teknik Otomotif', 'Pengalaman sebagai mekanik min. 3 tahun' ] ],
-    [ 'id' => '4', 'title' => 'Marketing Coordinator', 'location' => 'Ternate', 'dealer' => 'DAW Ternate', 'region' => 'Maluku Utara', 'type' => 'Full Time', 'description' => 'Mengelola kegiatan marketing dan promosi untuk meningkatkan brand awareness Honda di wilayah Maluku Utara.', 'requirements' => [ 'Pendidikan minimal S1 Marketing / Komunikasi', 'Pengalaman di bidang marketing min. 2 tahun' ] ],
-    [ 'id' => '5', 'title' => 'Finance & Accounting Staff', 'location' => 'Manado', 'dealer' => 'DAW Head Office', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'description' => 'Bertanggung jawab dalam pengelolaan keuangan dan laporan akuntansi perusahaan.', 'requirements' => [ 'Pendidikan minimal S1 Akuntansi / Keuangan', 'Berpengalaman min. 1 tahun di bidang keuangan' ] ],
-    [ 'id' => '6', 'title' => 'Mekanik / Teknisi Motor', 'location' => 'Kotamobagu', 'dealer' => 'AHASS Kotamobagu', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'description' => 'Melakukan perawatan dan perbaikan kendaraan Honda sesuai standar layanan AHASS.', 'requirements' => [ 'Pendidikan minimal SMK Teknik Otomotif', 'Memiliki sertifikat pelatihan Honda' ] ],
-];
-
-$jobs = [];
-$vacancies = get_posts( [ 'post_type' => 'daw_vacancy', 'post_status' => 'publish', 'numberposts' => -1 ] );
-foreach ( $vacancies as $vacancy ) {
-    $jobs[] = [
-        'id' => (string) $vacancy->ID,
-        'title' => get_the_title( $vacancy ),
-        'location' => (string) get_post_meta( $vacancy->ID, '_daw_location', true ),
-        'dealer' => (string) get_post_meta( $vacancy->ID, '_daw_dealer', true ),
-        'type' => (string) get_post_meta( $vacancy->ID, '_daw_type', true ),
-        'description' => wp_trim_words( wp_strip_all_tags( $vacancy->post_content ), 24 ),
-        'requirements' => [ 'Lihat detail lowongan untuk persyaratan lengkap.' ],
-    ];
-}
-
-$jobs = $jobs ?: $fallback_jobs;
+$jobs = recruitment_get_public_jobs();
 $dealers = [ 'DAW Bitung', 'DAW Main Dealer Maumbi' ];
 $types = [
     'Sales',

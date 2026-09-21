@@ -2,21 +2,12 @@
 
 $job_id = absint( $_GET['job_id'] ?? 0 );
 $vacancy = $job_id ? get_post( $job_id ) : null;
-$job = [
-    'id' => '1', 'title' => 'Sales Executive', 'location' => 'Airmadidi', 'dealer' => 'DAW Airmadidi', 'region' => 'Sulawesi Utara', 'type' => 'Full Time',
-    'description' => 'Bergabunglah dengan tim penjualan DAW dan jadilah bagian dari keluarga Honda yang terus berkembang. Anda akan bertanggung jawab untuk melayani pelanggan, mencapai target penjualan, dan membangun hubungan jangka panjang dengan pelanggan.',
-    'deadline' => '30 September 2026', 'postedDate' => '1 Agustus 2026',
-    'requirements' => [ 'Pendidikan minimal D3 semua jurusan', 'Memiliki kemampuan komunikasi yang baik', 'Berpengalaman di bidang penjualan min. 1 tahun', 'Memiliki kendaraan bermotor dan SIM C', 'Mampu bekerja dalam tim' ],
-    'responsibilities' => [ 'Melayani calon pembeli kendaraan Honda', 'Mencapai target penjualan bulanan', 'Melakukan follow-up kepada prospek pelanggan', 'Membuat laporan penjualan harian' ],
-];
+$job = recruitment_get_public_job( $job_id ) ?: recruitment_get_public_job( 1 );
+$job['responsibilities'] = [ 'Melayani calon pembeli kendaraan Honda', 'Mencapai target penjualan bulanan', 'Melakukan follow-up kepada prospek pelanggan', 'Membuat laporan penjualan harian' ];
 if ( $vacancy && 'daw_vacancy' === $vacancy->post_type ) {
-    $job['id'] = (string) $vacancy->ID;
-    $job['title'] = get_the_title( $vacancy );
+    $job = recruitment_map_vacancy( $vacancy );
     $job['description'] = wpautop( wp_kses_post( $vacancy->post_content ) );
-    $job['location'] = (string) get_post_meta( $vacancy->ID, '_daw_location', true );
-    $job['dealer'] = (string) get_post_meta( $vacancy->ID, '_daw_dealer', true );
-    $job['region'] = (string) get_post_meta( $vacancy->ID, '_daw_region', true );
-    $job['type'] = (string) get_post_meta( $vacancy->ID, '_daw_type', true );
+    $job['responsibilities'] = [ 'Melayani calon pembeli kendaraan Honda', 'Mencapai target penjualan bulanan', 'Melakukan follow-up kepada prospek pelanggan', 'Membuat laporan penjualan harian' ];
 }
 ?>
 <div class="daw-recruitment">

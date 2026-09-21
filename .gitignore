@@ -12,3 +12,6 @@ Desktop.ini
 
 # Log files
 *.log
+
+# Local AI instructions and UI reference material
+/example&guide/
