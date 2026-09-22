@@ -110,11 +110,11 @@ class Recruitment_Database {
     }
 
     /** @return array<string, mixed>|null */
-    public function find_application_by_token( string $token, string $email = '' ): ?array {
+    public function find_application_by_token( string $token, string $contact = '' ): ?array {
         if ( ! $this->is_configured() || ! class_exists( 'PDO' ) || ! in_array( 'oci', PDO::getAvailableDrivers(), true ) ) {
             $applications = $this->read_sandbox_applications();
             foreach ( $applications as $application ) {
-                if ( hash_equals( (string) $application['token'], $token ) && ( '' === $email || strtolower( $application['email'] ) === strtolower( $email ) ) ) {
+                if ( hash_equals( (string) $application['token'], $token ) && ( '' === $contact || strtolower( $application['email'] ) === strtolower( $contact ) || (string) ( $application['phone'] ?? '' ) === $contact ) ) {
                     return $application;
                 }
             }
@@ -122,8 +122,8 @@ class Recruitment_Database {
         }
 
         $rows = $this->fetch_all(
-            'SELECT a.id, a.application_token AS token, a.status, a.created_at, p.name, p.email FROM daw_applications a JOIN daw_applicants p ON p.id = a.applicant_id WHERE a.application_token = :token AND (:email = \'\' OR LOWER(p.email) = LOWER(:email))',
-            [ 'token' => $token, 'email' => $email ]
+            'SELECT a.id, a.application_token AS token, a.status, a.created_at, p.name, p.email FROM daw_applications a JOIN daw_applicants p ON p.id = a.applicant_id WHERE a.application_token = :token AND (:contact_email = \'\' OR LOWER(p.email) = LOWER(:contact_email) OR p.phone = :contact_phone)',
+            [ 'token' => $token, 'contact_email' => $contact, 'contact_phone' => $contact ]
         );
         return $rows[0] ?? null;
     }
@@ -192,6 +192,7 @@ class Recruitment_Database {
                 'status'  => 'submitted',
                 'name'    => $payload['applicant']['full_name'],
                 'email'   => $payload['applicant']['email'],
+                'phone'   => $payload['applicant']['phone'],
                 'created_at' => gmdate( 'c' ),
             ];
             $path = sys_get_temp_dir() . '/daw-recruitment-applications.json';

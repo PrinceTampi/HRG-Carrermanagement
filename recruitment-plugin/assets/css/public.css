@@ -1073,6 +1073,167 @@ body:has(.daw-recruitment) .daw-recruitment > footer {
 .daw-recruitment__tracking-empty h1 { font-size: 24px; margin: 7px 0; }
 .daw-recruitment__tracking-empty p { color: var(--daw-gray); font-size: 13px; }
 .daw-recruitment__tracking-empty .daw-recruitment__button { margin-top: 10px; }
+.daw-recruitment--tracking-lookup {
+  background: #f5f5f7;
+}
+.daw-recruitment--tracking-lookup .daw-recruitment__header {
+  background: #fff;
+}
+.daw-recruitment__tracking-lookup-main {
+  min-height: 545px;
+  padding: 42px 24px 44px;
+}
+.daw-recruitment__tracking-lookup-inner {
+  margin: 0 auto;
+  max-width: 350px;
+}
+.daw-recruitment__tracking-lookup-heading {
+  text-align: center;
+}
+.daw-recruitment__tracking-lookup-icon {
+  align-items: center;
+  background: #fbe1e7;
+  border-radius: 50%;
+  color: var(--daw-red);
+  display: flex;
+  font-size: 18px;
+  height: 44px;
+  justify-content: center;
+  margin: 0 auto 12px;
+  width: 44px;
+}
+.daw-recruitment__tracking-lookup-heading h1 {
+  font-size: 21px;
+  margin: 0 0 7px;
+}
+.daw-recruitment__tracking-lookup-heading p {
+  color: var(--daw-gray);
+  font-size: 10px;
+  margin: 0;
+}
+.daw-recruitment__tracking-lookup-card {
+  background: #fff;
+  border: 1px solid var(--daw-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(28, 28, 30, 0.08);
+  margin-top: 20px;
+  padding: 17px 16px;
+}
+.daw-recruitment__tracking-lookup-card form {
+  display: grid;
+  gap: 7px;
+}
+.daw-recruitment__tracking-lookup-card label {
+  color: var(--daw-dark);
+  font-size: 9px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.daw-recruitment__tracking-lookup-card label em {
+  color: var(--daw-red);
+  font-style: normal;
+}
+.daw-recruitment__tracking-lookup-card label span {
+  color: var(--daw-gray);
+  font-weight: 400;
+}
+.daw-recruitment__tracking-lookup-card input {
+  border: 1px solid #d1d1d6;
+  border-radius: 4px;
+  color: var(--daw-dark);
+  font-size: 10px;
+  min-height: 32px;
+  padding: 7px 10px;
+}
+.daw-recruitment__tracking-lookup-card input:focus {
+  border-color: var(--daw-red);
+  box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.12);
+  outline: 0;
+}
+.daw-recruitment__tracking-lookup-card input::placeholder {
+  color: #8e8e93;
+}
+.daw-recruitment__tracking-lookup-card .daw-recruitment__button {
+  border: 0;
+  font-size: 10px;
+  margin-top: 8px;
+  min-height: 31px;
+  padding: 8px 12px;
+  width: 100%;
+}
+.daw-recruitment__tracking-lookup-card .daw-recruitment__button span {
+  font-size: 14px;
+  vertical-align: -1px;
+}
+.daw-recruitment__tracking-lookup-divider {
+  border-top: 1px solid var(--daw-border);
+  margin: 13px 0 12px;
+}
+.daw-recruitment__tracking-lookup-card > p {
+  color: var(--daw-gray);
+  font-size: 9px;
+  margin: 0 0 7px;
+  text-align: center;
+}
+.daw-recruitment__tracking-jobs-link {
+  border: 1px solid #d1d1d6;
+  border-radius: 4px;
+  display: block;
+  font-size: 10px;
+  padding: 8px;
+  text-align: center;
+}
+.daw-recruitment__tracking-jobs-link:hover {
+  border-color: var(--daw-red);
+  color: var(--daw-red);
+}
+.daw-recruitment__tracking-info {
+  background: #dbeafe;
+  border: 1px solid #93c5fd;
+  border-radius: 4px;
+  color: #2563eb;
+  font-size: 9px;
+  margin-top: 13px;
+  padding: 10px 12px;
+}
+.daw-recruitment__tracking-info p {
+  line-height: 1.45;
+  margin: 5px 0 0;
+}
+.daw-recruitment__tracking-error {
+  margin: 0 auto;
+  text-align: center;
+}
+.daw-recruitment__tracking-error-icon {
+  align-items: center;
+  background: #fee2e2;
+  border-radius: 50%;
+  color: #b91c1c;
+  display: flex;
+  height: 42px;
+  justify-content: center;
+  margin: 0 auto 10px;
+  width: 42px;
+}
+.daw-recruitment__tracking-real-result dl {
+  display: grid;
+  gap: 9px;
+  margin: 17px 0 0;
+}
+.daw-recruitment__tracking-real-result dl div {
+  border-top: 1px solid var(--daw-border);
+  display: flex;
+  justify-content: space-between;
+  padding-top: 8px;
+}
+.daw-recruitment__tracking-real-result dt,
+.daw-recruitment__tracking-real-result dd {
+  font-size: 10px;
+  margin: 0;
+}
+.daw-recruitment__tracking-real-result dt {
+  color: var(--daw-gray);
+}
 @media (max-width: 600px) {
   .daw-recruitment__tracking-summary-top,
   .daw-recruitment__tracking-current-head { align-items: flex-start; gap: 12px; }

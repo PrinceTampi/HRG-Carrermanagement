@@ -1,8 +1,30 @@
 <?php
 $token = sanitize_text_field( wp_unslash( $_GET['token'] ?? '' ) );
-$email = sanitize_email( wp_unslash( $_GET['email'] ?? '' ) );
+$email = sanitize_text_field( wp_unslash( $_GET['email'] ?? '' ) );
 ?>
-<div class="daw-recruitment"><div class="daw-recruitment__section"><div class="daw-recruitment__container daw-recruitment__form-container">
+<div class="daw-recruitment daw-recruitment--tracking-lookup">
     <?php require recruitment_get_plugin_path( 'components/public/header.php' ); ?>
-    <section class="daw-recruitment__panel"><span class="daw-recruitment__eyebrow">Cek Status Lamaran</span><h1>Status Lamaran Kamu</h1><p class="daw-recruitment__form-lede">Masukkan kode lamaran untuk melihat perkembangan proses recruitment.</p><form class="daw-recruitment__application-form" method="get" action="<?= esc_url( recruitment_get_public_url( 'tracking-detail' ) ) ?>"><label>Kode Lamaran<input name="token" required placeholder="Contoh: REC-20260908-001" value="<?= esc_attr( $token ) ?>"></label><label>Email<input name="email" type="email" required placeholder="email@example.com" value="<?= esc_attr( $email ) ?>"></label><button class="daw-recruitment__button" type="submit">Cek Status</button></form></section>
-</div></div><?php require recruitment_get_plugin_path( 'components/public/footer.php' ); ?></div>
+    <main class="daw-recruitment__tracking-lookup-main">
+        <div class="daw-recruitment__tracking-lookup-inner">
+            <div class="daw-recruitment__tracking-lookup-heading">
+                <div class="daw-recruitment__tracking-lookup-icon" aria-hidden="true">&#10003;</div>
+                <h1>Tracking Lamaran</h1>
+                <p>Pantau perkembangan proses seleksi Anda menggunakan kode lamaran.</p>
+            </div>
+            <section class="daw-recruitment__tracking-lookup-card">
+                <form method="get" action="<?= esc_url( recruitment_get_public_url( 'tracking-detail' ) ) ?>">
+                    <label for="tracking-token">Kode Lamaran <em>*</em></label>
+                    <input id="tracking-token" name="token" required placeholder="Contoh: DAW-2026-001245" value="<?= esc_attr( $token ) ?>" autocomplete="off">
+                    <label for="tracking-email">Email / Nomor Telepon <span>(opsional)</span></label>
+                    <input id="tracking-email" name="email" type="text" placeholder="Verifikasi tambahan (opsional)" value="<?= esc_attr( $email ) ?>" autocomplete="email">
+                    <button class="daw-recruitment__button" type="submit"><span aria-hidden="true">⌕</span> Cek Status</button>
+                </form>
+                <div class="daw-recruitment__tracking-lookup-divider"></div>
+                <p>Belum memiliki kode lamaran?</p>
+                <a class="daw-recruitment__tracking-jobs-link" href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>">Lihat Lowongan</a>
+            </section>
+            <div class="daw-recruitment__tracking-info"><strong>&#9432; Informasi</strong><p>Kode lamaran diterima setelah berhasil mengirim formulir lamaran. Anda juga bisa menemukan kode ini di email konfirmasi yang kami kirimkan.</p></div>
+        </div>
+    </main>
+    <?php require recruitment_get_plugin_path( 'components/public/footer.php' ); ?>
+</div>
