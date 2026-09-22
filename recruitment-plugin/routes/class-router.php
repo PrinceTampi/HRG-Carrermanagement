@@ -10,6 +10,7 @@ class Recruitment_Router {
         'careers'            => 'pages/public/careers.php',
         'job-detail'         => 'pages/public/job-detail.php',
         'application-form'   => 'pages/public/application-form.php',
+        'application-confirmation' => 'pages/public/application-confirmation.php',
         'application-status' => 'pages/public/application-status.php',
         'tracking-detail'    => 'pages/public/application-tracking.php',
         'login'              => 'pages/admin/login.php',

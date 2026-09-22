@@ -2,8 +2,12 @@
 $token = sanitize_text_field( wp_unslash( $_GET['token'] ?? '' ) );
 $email = sanitize_email( wp_unslash( $_GET['email'] ?? '' ) );
 $has_lookup = '' !== $token && is_email( $email );
-$application_code = $token ?: 'DAW-2026-001245';
-$registered_date = '5 Agustus 2026';
+$application = $has_lookup ? ( new Recruitment_Database() )->find_application_by_token( $token, $email ) : null;
+$has_lookup = null !== $application;
+$application_code = $application['token'] ?? '';
+$registered_date = ! empty( $application['created_at'] ) ? gmdate( 'd F Y', strtotime( (string) $application['created_at'] ) ) : '';
+$candidate_name = $application['name'] ?? 'Pelamar DAW';
+$application_status = $application['status'] ?? 'submitted';
 ?>
 <div class="daw-recruitment daw-recruitment--tracking">
     <?php require recruitment_get_plugin_path( 'components/public/header.php' ); ?>
@@ -18,7 +22,7 @@ $registered_date = '5 Agustus 2026';
                 </section>
             <?php else : ?>
                 <section class="daw-recruitment__tracking-card daw-recruitment__tracking-summary">
-                    <div class="daw-recruitment__tracking-summary-top"><div><span class="daw-recruitment__tracking-label">Status Lamaran</span><h1>Pelamar DAW</h1><div class="daw-recruitment__tracking-tags"><span>Sales Consultant</span><span>DAW Bitung</span></div></div><span class="daw-recruitment__tracking-status">Tes Psikologi</span></div>
+                    <div class="daw-recruitment__tracking-summary-top"><div><span class="daw-recruitment__tracking-label">Status Lamaran</span><h1><?= esc_html( $candidate_name ) ?></h1><div class="daw-recruitment__tracking-tags"><span>Lamaran diterima</span></div></div><span class="daw-recruitment__tracking-status"><?= esc_html( ucfirst( $application_status ) ) ?></span></div>
                     <div class="daw-recruitment__tracking-summary-meta"><div><span>Kode Lamaran</span><strong><?= esc_html( $application_code ) ?></strong></div><div><span>Tanggal Daftar</span><strong><?= esc_html( $registered_date ) ?></strong></div></div>
                 </section>
                 <section class="daw-recruitment__tracking-card daw-recruitment__tracking-current">

@@ -23,6 +23,32 @@ class Recruitment_Application {
             $errors[] = 'Nama lengkap dan email aktif wajib diisi dengan benar.';
         }
 
+        $required_fields = [
+            'phone'            => $payload['applicant']['phone'],
+            'birth_date'       => $payload['applicant']['birth_date'],
+            'address'          => $payload['applicant']['address'],
+            'identity_number'  => $payload['applicant']['identity_number'],
+            'marital_status'   => $payload['family']['marital_status'],
+            'family_relation'  => $payload['family']['family_relation'],
+            'personal_relation' => $payload['family']['personal_relation'],
+            'salary_expectation' => $payload['preferences']['salary_expectation'],
+            'known_employee'   => $payload['preferences']['known_employee'],
+        ];
+        foreach ( $required_fields as $field => $value ) {
+            if ( '' === $value ) {
+                $errors[] = 'Lengkapi seluruh field wajib sebelum mengirim lamaran.';
+                break;
+            }
+        }
+
+        if ( ! empty( $payload['photo']['error'] ) && UPLOAD_ERR_NO_FILE !== $payload['photo']['error'] ) {
+            $errors[] = 'Upload foto gagal. Silakan pilih file foto yang valid dan coba lagi.';
+        }
+
+        if ( ! $payload['education'] || '' === ( $payload['education'][0]['graduation_year'] ?? '' ) || '' === ( $payload['education'][0]['school'] ?? '' ) ) {
+            $errors[] = 'Riwayat pendidikan terakhir wajib diisi.';
+        }
+
         foreach ( [ 'pdp_accuracy', 'pdp_data', 'pdp_placement' ] as $consent ) {
             if ( empty( $payload['consents'][ $consent ] ) ) {
                 $errors[] = 'Centang seluruh pernyataan PDP sebelum mengirim lamaran.';
@@ -31,6 +57,37 @@ class Recruitment_Application {
         }
 
         return [ 'errors' => $errors, 'payload' => $payload ];
+    }
+
+    /**
+     * Validate, persist, and return the public token for one submission.
+     *
+     * @param array<string, mixed> $request
+     * @param array<string, mixed> $files
+     * @return array{errors: array<int, string>, payload: array<string, mixed>, token: string}
+     */
+    public function submit( array $request, array $files = [] ): array {
+        $prepared = $this->prepare_submission( $request, $files );
+        if ( $prepared['errors'] ) {
+            return [ 'errors' => $prepared['errors'], 'payload' => $prepared['payload'], 'token' => '' ];
+        }
+
+        $fingerprint = hash( 'sha256', wp_json_encode( $prepared['payload'] ) );
+        if ( isset( $_SESSION['recruitment_submission'][ $fingerprint ] ) ) {
+            return [ 'errors' => [], 'payload' => $prepared['payload'], 'token' => (string) $_SESSION['recruitment_submission'][ $fingerprint ] ];
+        }
+
+        $saved = ( new Recruitment_Database() )->save_application( $prepared['payload'] );
+        if ( empty( $saved['success'] ) || empty( $saved['token'] ) ) {
+            return [
+                'errors'  => [ (string) ( $saved['error'] ?? 'Data lamaran gagal disimpan. Silakan coba lagi.' ) ],
+                'payload' => $prepared['payload'],
+                'token'   => '',
+            ];
+        }
+
+        $_SESSION['recruitment_submission'][ $fingerprint ] = $saved['token'];
+        return [ 'errors' => [], 'payload' => $prepared['payload'], 'token' => $saved['token'] ];
     }
 
     /**

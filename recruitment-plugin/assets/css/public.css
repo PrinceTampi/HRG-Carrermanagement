@@ -566,8 +566,144 @@
 .daw-recruitment__success {
   text-align: center;
 }
+.daw-recruitment__success-icon {
+  align-items: center;
+  background: #dcfce7;
+  border-radius: 50%;
+  color: var(--daw-green);
+  display: flex;
+  font-size: 26px;
+  height: 56px;
+  justify-content: center;
+  margin: 0 auto 14px;
+  width: 56px;
+}
 .daw-recruitment__success .daw-recruitment__button {
   margin-top: 18px;
+}
+.daw-recruitment__application-code small {
+  color: var(--daw-gray);
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.daw-recruitment__success-notice {
+  background: #dbeafe;
+  border: 1px solid #93c5fd;
+  color: #1d4ed8;
+  font-size: 12px;
+  margin: 16px auto 0;
+  max-width: 420px;
+  padding: 12px 16px;
+  text-align: left;
+}
+.daw-recruitment__success-notice ol {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.daw-recruitment__success-notice li + li {
+  margin-top: 4px;
+}
+.daw-recruitment__success .daw-recruitment__form-actions {
+  justify-content: center;
+}
+.daw-recruitment--confirmation .daw-recruitment__header {
+  height: 52px;
+  padding: 0 20px;
+}
+.daw-recruitment--confirmation .daw-recruitment__application-main {
+  min-height: 572px;
+  padding: 96px 24px 50px;
+}
+.daw-recruitment--confirmation .daw-recruitment__application-main .daw-recruitment__container {
+  max-width: 376px;
+}
+.daw-recruitment--confirmation .daw-recruitment__success {
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(28, 28, 30, 0.08);
+  min-height: 480px;
+  padding: 24px;
+}
+.daw-recruitment--confirmation .daw-recruitment__success-icon {
+  font-size: 30px;
+  height: 56px;
+  margin-bottom: 13px;
+  width: 56px;
+}
+.daw-recruitment--confirmation .daw-recruitment__success h1 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+.daw-recruitment--confirmation .daw-recruitment__success > p {
+  font-size: 11px;
+  margin: 0;
+}
+.daw-recruitment--confirmation .daw-recruitment__application-code {
+  border-radius: 0;
+  font-size: 17px;
+  line-height: 1.35;
+  margin-top: 22px;
+  max-width: 328px;
+  min-height: 116px;
+  overflow-wrap: anywhere;
+  padding: 15px 18px;
+}
+.daw-recruitment--confirmation .daw-recruitment__application-code small {
+  font-size: 8px;
+  margin-bottom: 8px;
+}
+.daw-recruitment--confirmation .daw-recruitment__application-token {
+  display: inline-block;
+  vertical-align: middle;
+}
+.daw-recruitment--confirmation .daw-recruitment__copy-token {
+  background: #fff;
+  border: 1px solid var(--daw-border);
+  border-radius: 4px;
+  color: var(--daw-gray);
+  cursor: pointer;
+  font-size: 13px;
+  margin-left: 6px;
+  padding: 3px 6px;
+  vertical-align: middle;
+}
+.daw-recruitment--confirmation .daw-recruitment__copy-token:hover,
+.daw-recruitment--confirmation .daw-recruitment__copy-token.is-copied {
+  border-color: var(--daw-green);
+  color: var(--daw-green);
+}
+.daw-recruitment--confirmation .daw-recruitment__copy-feedback {
+  color: var(--daw-green);
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  min-height: 13px;
+  margin-top: 4px;
+}
+.daw-recruitment--confirmation .daw-recruitment__success-notice {
+  font-size: 9px;
+  line-height: 1.45;
+  margin-top: 14px;
+  max-width: 328px;
+  padding: 11px 13px;
+}
+.daw-recruitment--confirmation .daw-recruitment__success-notice ol {
+  margin-top: 5px;
+  padding-left: 16px;
+}
+.daw-recruitment--confirmation .daw-recruitment__success-notice li + li {
+  margin-top: 2px;
+}
+.daw-recruitment--confirmation .daw-recruitment__form-actions {
+  gap: 5px;
+  margin-top: 17px;
+}
+.daw-recruitment--confirmation .daw-recruitment__form-actions .daw-recruitment__button {
+  font-size: 10px;
+  margin-top: 0;
+  min-width: 158px;
+  padding: 10px 12px;
 }
 .daw-recruitment__application-code {
   background: var(--daw-light);
@@ -1223,6 +1359,17 @@ body:has(.daw-recruitment) .daw-recruitment {
   opacity: 1;
 }
 @media (max-width: 600px) {
+  .daw-recruitment--confirmation .daw-recruitment__application-main {
+    min-height: 0;
+    padding-top: 24px;
+  }
+  .daw-recruitment--confirmation .daw-recruitment__success {
+    min-height: 0;
+    padding: 24px 16px;
+  }
+  .daw-recruitment--confirmation .daw-recruitment__form-actions .daw-recruitment__button {
+    min-width: 0;
+  }
   .daw-recruitment__application-main {
     padding: 20px 12px 32px;
   }

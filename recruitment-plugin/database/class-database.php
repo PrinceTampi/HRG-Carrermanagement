@@ -44,7 +44,88 @@ class Recruitment_Database {
      * @return array<int, array<string, mixed>>
      */
     public function get_applications(): array {
-        return $this->fetch_all( 'SELECT id, vacancy_id, applicant_id, status, created_at FROM daw_applications ORDER BY created_at DESC' );
+        return $this->fetch_all( 'SELECT id, vacancy_id, applicant_id, application_token, status, created_at FROM daw_applications ORDER BY created_at DESC' );
+    }
+
+    /**
+     * Persist an application and its public token in one transaction.
+     *
+     * The unique index on daw_applications.application_token is the final
+     * race-safe guard; a duplicate token causes this method to retry.
+     *
+     * @param array<string, mixed> $payload
+     * @return array{success: bool, token?: string, error?: string}
+     */
+    public function save_application( array $payload ): array {
+        if ( ! $this->is_configured() || ! class_exists( 'PDO' ) || ! in_array( 'oci', PDO::getAvailableDrivers(), true ) ) {
+            return $this->save_sandbox_application( $payload );
+        }
+
+        for ( $attempt = 0; $attempt < 3; $attempt++ ) {
+            try {
+                $token = $this->generate_application_token();
+                $connection = $this->get_connection();
+                $connection->beginTransaction();
+
+                $applicant = $payload['applicant'];
+                $statement = $connection->prepare(
+                    'INSERT INTO daw_applicants (name, email, phone, created_at) VALUES (:name, :email, :phone, CURRENT_TIMESTAMP)'
+                );
+                $statement->execute(
+                    [
+                        'name'  => $applicant['full_name'],
+                        'email' => $applicant['email'],
+                        'phone' => $applicant['phone'],
+                    ]
+                );
+                $applicant_id = (int) $connection->lastInsertId();
+
+                $statement = $connection->prepare(
+                    'INSERT INTO daw_applications (vacancy_id, applicant_id, application_token, status, created_at) VALUES (:vacancy_id, :applicant_id, :application_token, :status, CURRENT_TIMESTAMP)'
+                );
+                $statement->execute(
+                    [
+                        'vacancy_id'       => $payload['application']['vacancy_id'],
+                        'applicant_id'     => $applicant_id,
+                        'application_token' => $token,
+                        'status'           => $payload['application']['status'],
+                    ]
+                );
+
+                $connection->commit();
+                return [ 'success' => true, 'token' => $token ];
+            } catch ( PDOException $exception ) {
+                if ( isset( $connection ) && $connection->inTransaction() ) {
+                    $connection->rollBack();
+                }
+                if ( $this->is_unique_violation( $exception ) ) {
+                    continue;
+                }
+                error_log( 'Recruitment application save failed: ' . $exception->getMessage() );
+                return [ 'success' => false, 'error' => 'Data lamaran gagal disimpan. Silakan coba lagi.' ];
+            }
+        }
+
+        return [ 'success' => false, 'error' => 'Token lamaran gagal dibuat unik. Silakan coba lagi.' ];
+    }
+
+    /** @return array<string, mixed>|null */
+    public function find_application_by_token( string $token, string $email = '' ): ?array {
+        if ( ! $this->is_configured() || ! class_exists( 'PDO' ) || ! in_array( 'oci', PDO::getAvailableDrivers(), true ) ) {
+            $applications = $this->read_sandbox_applications();
+            foreach ( $applications as $application ) {
+                if ( hash_equals( (string) $application['token'], $token ) && ( '' === $email || strtolower( $application['email'] ) === strtolower( $email ) ) ) {
+                    return $application;
+                }
+            }
+            return null;
+        }
+
+        $rows = $this->fetch_all(
+            'SELECT a.id, a.application_token AS token, a.status, a.created_at, p.name, p.email FROM daw_applications a JOIN daw_applicants p ON p.id = a.applicant_id WHERE a.application_token = :token AND (:email = \'\' OR LOWER(p.email) = LOWER(:email))',
+            [ 'token' => $token, 'email' => $email ]
+        );
+        return $rows[0] ?? null;
     }
 
     public function is_configured(): bool {
@@ -83,6 +164,53 @@ class Recruitment_Database {
         }
 
         return $this->connection;
+    }
+
+    private function generate_application_token(): string {
+        return 'DAW-' . gmdate( 'Y' ) . '-' . strtoupper( rtrim( strtr( base64_encode( random_bytes( 6 ) ), '+/', '-_' ), '=' ) );
+    }
+
+    private function is_unique_violation( PDOException $exception ): bool {
+        return false !== stripos( $exception->getMessage(), 'ORA-00001' ) || false !== stripos( $exception->getMessage(), 'unique constraint' );
+    }
+
+    /** @param array<string, mixed> $payload */
+    private function save_sandbox_application( array $payload ): array {
+        $applications = $this->read_sandbox_applications();
+        for ( $attempt = 0; $attempt < 3; $attempt++ ) {
+            try {
+                $token = $this->generate_application_token();
+            } catch ( Throwable $exception ) {
+                return [ 'success' => false, 'error' => 'Token lamaran gagal dibuat. Silakan coba lagi.' ];
+            }
+            $exists = array_filter( $applications, static fn ( array $item ): bool => hash_equals( (string) $item['token'], $token ) );
+            if ( $exists ) {
+                continue;
+            }
+            $applications[] = [
+                'token'   => $token,
+                'status'  => 'submitted',
+                'name'    => $payload['applicant']['full_name'],
+                'email'   => $payload['applicant']['email'],
+                'created_at' => gmdate( 'c' ),
+            ];
+            $path = sys_get_temp_dir() . '/daw-recruitment-applications.json';
+            if ( false === file_put_contents( $path, json_encode( $applications, JSON_PRETTY_PRINT ), LOCK_EX ) ) {
+                return [ 'success' => false, 'error' => 'Data lamaran gagal disimpan. Silakan coba lagi.' ];
+            }
+            return [ 'success' => true, 'token' => $token ];
+        }
+        return [ 'success' => false, 'error' => 'Token lamaran gagal dibuat unik. Silakan coba lagi.' ];
+    }
+
+    /** @return array<int, array<string, mixed>> */
+    private function read_sandbox_applications(): array {
+        $path = sys_get_temp_dir() . '/daw-recruitment-applications.json';
+        if ( ! is_readable( $path ) ) {
+            return [];
+        }
+        $data = json_decode( (string) file_get_contents( $path ), true );
+        return is_array( $data ) ? $data : [];
     }
 
     /** @return array<string, string> */

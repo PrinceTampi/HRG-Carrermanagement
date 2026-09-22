@@ -31,3 +31,9 @@ photo         uploaded file metadata for the storage layer
 
 When the database schema is finalized, add the insert transaction to the
 database gateway and pass this payload to it from the application service.
+
+## Application Token Migration
+
+Run `migrations/001_application_token.sql` once against Oracle before enabling
+production submissions. It adds `daw_applications.application_token` and a
+unique index used to protect token uniqueness during concurrent submissions.
