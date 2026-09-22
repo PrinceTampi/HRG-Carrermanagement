@@ -25,11 +25,11 @@ require_once __DIR__ . '/includes/class-router.php';
 require_once __DIR__ . '/includes/class-plugin.php';
 
 $auth   = new Recruitment_Auth();
-$page   = $_GET['page'] ?? $_GET['recruitment_page'] ?? 'careers';
-$page   = [
-    'application' => 'application-form',
-    'tracking'    => 'application-status',
-][ $page ] ?? $page;
+$requested_page = sanitize_key( $_GET['page'] ?? $_GET['recruitment_page'] ?? 'careers' );
+$page = [ 'application' => 'application-form' ][ $requested_page ] ?? $requested_page;
+if ( 'tracking' === $requested_page ) {
+    $page = '' !== sanitize_text_field( wp_unslash( $_GET['token'] ?? '' ) ) ? 'tracking-detail' : 'application-status';
+}
 
 if ( $page === 'logout' ) {
     $auth->logout();

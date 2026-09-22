@@ -7,6 +7,7 @@
 	document.documentElement.classList.add('js');
 	setupConsentButton();
 	setupTokenCopy();
+	setupScreenExplorer();
 
 	document.addEventListener('click', function handleRecruitmentClick(event) {
 		const removeButton = event.target.closest('[data-remove-section]');
@@ -116,6 +117,34 @@
 			document.execCommand('copy');
 			selection.removeAllRanges();
 			showSuccess();
+		});
+	}
+
+	function setupScreenExplorer() {
+		const explorer = document.querySelector('[data-screen-explorer]');
+		if (!explorer) {
+			return;
+		}
+
+		const toggle = explorer.querySelector('[data-screen-explorer-toggle]');
+		const close = explorer.querySelector('[data-screen-explorer-close]');
+		const panel = explorer.querySelector('.daw-screen-explorer__panel');
+		const setOpen = function setOpen(isOpen) {
+			panel.hidden = !isOpen;
+			toggle.setAttribute('aria-expanded', String(isOpen));
+			explorer.classList.toggle('is-open', isOpen);
+		};
+
+		toggle.addEventListener('click', function toggleExplorer() {
+			setOpen(panel.hidden);
+		});
+		close.addEventListener('click', function closeExplorer() {
+			setOpen(false);
+		});
+		document.addEventListener('keydown', function closeExplorerWithEscape(event) {
+			if ('Escape' === event.key) {
+				setOpen(false);
+			}
 		});
 	}
 }());

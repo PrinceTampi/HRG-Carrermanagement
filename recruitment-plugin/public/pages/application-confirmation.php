@@ -1,6 +1,10 @@
 <?php
 $token = sanitize_text_field( wp_unslash( $_GET['token'] ?? '' ) );
+$ui_preview = '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? '' ) );
 $application = '' !== $token ? ( new Recruitment_Database() )->find_application_by_token( $token ) : null;
+if ( ! $application && $ui_preview ) {
+    $application = [ 'name' => 'Kandidat Preview' ];
+}
 if ( ! $application ) {
     wp_safe_redirect( recruitment_get_public_url( 'application-status' ) );
     exit;

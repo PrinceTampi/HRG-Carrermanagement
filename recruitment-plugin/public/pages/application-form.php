@@ -6,9 +6,10 @@ $token     = '';
 $job_id    = absint( $_GET['job_id'] ?? $_POST['job_id'] ?? 0 );
 $name      = '';
 $email     = '';
+$ui_preview = '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? $_POST['daw_ui_preview'] ?? '' ) );
 
 if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
-    if ( ! isset( $_POST['recruitment_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['recruitment_nonce'] ) ), 'recruitment_apply' ) ) {
+    if ( ! $ui_preview && ( ! isset( $_POST['recruitment_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['recruitment_nonce'] ) ), 'recruitment_apply' ) ) ) {
         $errors[] = 'Sesi form tidak valid. Silakan coba lagi.';
     } else {
         $result  = ( new Recruitment_Application() )->submit( $_POST, $_FILES );
@@ -49,7 +50,7 @@ if ( $vacancy && 'daw_vacancy' === $vacancy->post_type ) {
                 <div class="daw-recruitment__alert daw-recruitment__alert--notice">Isi seluruh formulir dengan lengkap dan benar. Pastikan semua data dapat dipertanggung jawabkan.</div>
                 <?php foreach ( $errors as $error ) : ?><div class="daw-recruitment__alert"><?= esc_html( $error ) ?></div><?php endforeach; ?>
                 <form class="daw-recruitment__application-form" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="job_id" value="<?= esc_attr( $job_id ) ?>"><?php wp_nonce_field( 'recruitment_apply', 'recruitment_nonce' ); ?>
+                    <input type="hidden" name="job_id" value="<?= esc_attr( $job_id ) ?>"><input type="hidden" name="daw_ui_preview" value="<?= esc_attr( $ui_preview ? '1' : '0' ) ?>"><?php wp_nonce_field( 'recruitment_apply', 'recruitment_nonce' ); ?>
                     <section class="daw-recruitment__form-card"><div class="daw-recruitment__form-card-title"><span>A</span><div><h2>Identitas</h2><p>Informasi pribadi</p></div></div><div class="daw-recruitment__form-fields">
                         <label class="daw-recruitment__field daw-recruitment__field--full">Foto Terkini <em>*</em><span class="daw-recruitment__upload"><input type="file" name="photo" accept="image/jpeg,image/png"><strong>Upload Foto</strong><small>JPG / PNG · Maks 2MB</small></span></label>
                         <label>Nama Lengkap <em>*</em><input name="full_name" required placeholder="Nama sesuai KTP" value="<?= esc_attr( $name ) ?>"></label>

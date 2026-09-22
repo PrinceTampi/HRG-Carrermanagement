@@ -14,3 +14,4 @@
     </div>
     <div class="daw-recruitment__footer-bottom"><span>&copy; <?= esc_html( gmdate( 'Y' ) ) ?> PT. Daya Adicipta Wisesa.</span><a href="<?= esc_url( admin_url( 'admin.php?page=recruitment-dashboard' ) ) ?>">Admin Login</a></div>
 </footer>
+<?php require recruitment_get_plugin_path( 'public/components/screen-explorer.php' ); ?>

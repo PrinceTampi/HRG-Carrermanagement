@@ -965,7 +965,7 @@ body:has(.daw-recruitment) .daw-recruitment > footer {
 }
 .daw-recruitment__tracking-container {
   margin: 0 auto;
-  max-width: 680px;
+  max-width: 432px;
 }
 .daw-recruitment__tracking-card,
 .daw-recruitment__tracking-empty {
@@ -1281,6 +1281,93 @@ body:has(.daw-recruitment) .daw-recruitment {
   min-width: 0 !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+
+/* Preview-only screen explorer */
+.daw-screen-explorer {
+  bottom: 18px;
+  font-family: Inter, Arial, sans-serif;
+  position: fixed;
+  right: 18px;
+  z-index: 100;
+}
+.daw-screen-explorer__toggle {
+  align-items: center;
+  background: #1c1c1e;
+  border: 0;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(28, 28, 30, 0.24);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 8px;
+  padding: 10px 15px 10px 10px;
+}
+.daw-screen-explorer__toggle > span {
+  align-items: center;
+  background: var(--daw-red);
+  border-radius: 50%;
+  display: inline-flex;
+  font-size: 11px;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+.daw-screen-explorer__panel {
+  background: #fff;
+  border: 1px solid var(--daw-border);
+  border-radius: 10px;
+  bottom: 52px;
+  box-shadow: 0 18px 45px rgba(28, 28, 30, 0.2);
+  min-width: 270px;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+}
+.daw-screen-explorer__heading {
+  align-items: center;
+  background: #1c1c1e;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 13px 14px;
+}
+.daw-screen-explorer__heading strong,
+.daw-screen-explorer__heading small { display: block; }
+.daw-screen-explorer__heading strong { font-size: 13px; }
+.daw-screen-explorer__heading small { color: #bdbdc2; font-size: 10px; margin-top: 2px; }
+.daw-screen-explorer__heading button {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  padding: 2px 4px;
+}
+.daw-screen-explorer__group { padding: 10px 10px 4px; }
+.daw-screen-explorer__group + .daw-screen-explorer__group { border-top: 1px solid #eee; }
+.daw-screen-explorer__group h2 {
+  color: var(--daw-gray);
+  font-size: 10px;
+  letter-spacing: .08em;
+  margin: 0 5px 5px;
+  text-transform: uppercase;
+}
+.daw-screen-explorer__group a {
+  align-items: center;
+  border-radius: 5px;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  padding: 8px 6px;
+}
+.daw-screen-explorer__group a:hover { background: #fff0f2; color: var(--daw-red); }
+@media (max-width: 600px) {
+  .daw-screen-explorer { bottom: 12px; right: 12px; }
+  .daw-screen-explorer__panel { max-width: calc(100vw - 24px); min-width: 245px; }
 }
 
 /* Application form */

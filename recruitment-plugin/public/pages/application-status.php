@@ -12,7 +12,7 @@ $email = sanitize_text_field( wp_unslash( $_GET['email'] ?? '' ) );
                 <p>Pantau perkembangan proses seleksi Anda menggunakan kode lamaran.</p>
             </div>
             <section class="daw-recruitment__tracking-lookup-card">
-                <form method="get" action="<?= esc_url( recruitment_get_public_url( 'tracking-detail' ) ) ?>">
+                <form method="get" action="<?= esc_url( recruitment_get_public_url( 'tracking' ) ) ?>">
                     <label for="tracking-token">Kode Lamaran <em>*</em></label>
                     <input id="tracking-token" name="token" required placeholder="Contoh: DAW-2026-001245" value="<?= esc_attr( $token ) ?>" autocomplete="off">
                     <label for="tracking-email">Email / Nomor Telepon <span>(opsional)</span></label>

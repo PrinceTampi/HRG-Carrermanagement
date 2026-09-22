@@ -111,8 +111,10 @@ class Recruitment_Plugin {
     }
 
     public function enqueue_public_assets(): void {
-        wp_enqueue_style( 'recruitment-public', recruitment_get_plugin_url( 'assets/css/public.css' ), [], RECRUITMENT_PLUGIN_VERSION );
-        wp_enqueue_script( 'recruitment-public', recruitment_get_plugin_url( 'assets/js/public.js' ), [], RECRUITMENT_PLUGIN_VERSION, true );
+        $public_css = recruitment_get_plugin_path( 'assets/css/public.css' );
+        $public_js  = recruitment_get_plugin_path( 'assets/js/public.js' );
+        wp_enqueue_style( 'recruitment-public', recruitment_get_plugin_url( 'assets/css/public.css' ), [], file_exists( $public_css ) ? filemtime( $public_css ) : RECRUITMENT_PLUGIN_VERSION );
+        wp_enqueue_script( 'recruitment-public', recruitment_get_plugin_url( 'assets/js/public.js' ), [], file_exists( $public_js ) ? filemtime( $public_js ) : RECRUITMENT_PLUGIN_VERSION, true );
     }
 
     public function enqueue_admin_assets(): void {
@@ -126,8 +128,14 @@ class Recruitment_Plugin {
             update_option( 'recruitment_public_page_id', absint( $page_id ) );
         }
 
-        $screen = sanitize_key( $_GET['recruitment_page'] ?? 'careers' );
-        $screen = [ 'application' => 'application-form', 'tracking' => 'application-status' ][ $screen ] ?? $screen;
+        $requested_screen = sanitize_key( $_GET['recruitment_page'] ?? 'careers' );
+        $screen = [ 'application' => 'application-form' ][ $requested_screen ] ?? $requested_screen;
+        if ( 'tracking' === $requested_screen ) {
+            $screen = '' !== sanitize_text_field( wp_unslash( $_GET['token'] ?? '' ) ) ? 'tracking-detail' : 'application-status';
+        }
+        if ( 'application-form' === $screen && function_exists( 'nocache_headers' ) ) {
+            nocache_headers();
+        }
 
         ob_start();
         ( new Recruitment_Router() )->render( $screen );
