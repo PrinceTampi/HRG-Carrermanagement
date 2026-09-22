@@ -820,6 +820,132 @@ body:has(.daw-recruitment) .daw-recruitment > footer {
   margin-bottom: 0 !important;
 }
 
+.daw-recruitment--tracking {
+  background: #f4f4f6;
+}
+.daw-recruitment__tracking-main {
+  flex: 1;
+  padding: 28px 20px 48px;
+}
+.daw-recruitment__tracking-container {
+  margin: 0 auto;
+  max-width: 680px;
+}
+.daw-recruitment__tracking-card,
+.daw-recruitment__tracking-empty {
+  background: #fff;
+  border: 1px solid var(--daw-border);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 16px;
+}
+.daw-recruitment__tracking-summary-top,
+.daw-recruitment__tracking-current-head,
+.daw-recruitment__tracking-footer,
+.daw-recruitment__tracking-step {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+.daw-recruitment__tracking-label {
+  color: var(--daw-gray);
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.daw-recruitment__tracking-summary h1 {
+  font-size: 18px;
+  margin: 3px 0 5px;
+}
+.daw-recruitment__tracking-status,
+.daw-recruitment__tracking-running {
+  background: #fff0f2;
+  border: 1px solid #f6c8d0;
+  border-radius: 99px;
+  color: var(--daw-red);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 9px;
+}
+.daw-recruitment__tracking-tags {
+  display: flex;
+  gap: 6px;
+}
+.daw-recruitment__tracking-tags span {
+  background: #f3f3f5;
+  color: var(--daw-gray);
+  font-size: 10px;
+  padding: 3px 7px;
+}
+.daw-recruitment__tracking-summary-meta {
+  border-top: 1px solid #e5e5e7;
+  display: flex;
+  gap: 90px;
+  margin-top: 15px;
+  padding-top: 11px;
+}
+.daw-recruitment__tracking-summary-meta span,
+.daw-recruitment__tracking-summary-meta strong {
+  display: block;
+  font-size: 10px;
+}
+.daw-recruitment__tracking-summary-meta span { color: var(--daw-gray); }
+.daw-recruitment__tracking-summary-meta strong { font-size: 11px; }
+.daw-recruitment__tracking-current { border-top: 0; padding: 0 16px 16px; }
+.daw-recruitment__tracking-current-head {
+  background: var(--daw-red);
+  color: #fff;
+  margin: 0 -16px 13px;
+  padding: 10px 16px;
+}
+.daw-recruitment__tracking-current-head .daw-recruitment__tracking-label { color: #ffdce2; }
+.daw-recruitment__tracking-current h2,
+.daw-recruitment__tracking-next h2,
+.daw-recruitment__tracking-history h2 { font-size: 13px; margin: 2px 0 0; }
+.daw-recruitment__tracking-current h2 span { color: #ff83a0; font-size: 11px; }
+.daw-recruitment__tracking-current > p,
+.daw-recruitment__tracking-next p { color: var(--daw-gray); font-size: 11px; margin: 0 0 10px; }
+.daw-recruitment__tracking-notice { background: #f7f7f8; color: var(--daw-gray); display: inline-block; font-size: 10px; padding: 5px 8px; }
+.daw-recruitment__tracking-availability { border: 1px solid var(--daw-border); border-radius: 5px; display: grid; gap: 2px; margin: 11px 0 10px; padding: 9px; }
+.daw-recruitment__tracking-availability strong { font-size: 10px; }
+.daw-recruitment__tracking-availability span { color: var(--daw-gray); font-size: 9px; }
+.daw-recruitment__tracking-current .daw-recruitment__button { font-size: 10px; padding: 8px 12px; }
+.daw-recruitment__tracking-next { align-items: center; display: flex; gap: 11px; }
+.daw-recruitment__tracking-next-icon { align-items: center; background: #edf4ff; border-radius: 50%; color: #4384d8; display: flex; height: 27px; justify-content: center; width: 27px; }
+.daw-recruitment__tracking-next p { margin: 3px 0 0; }
+.daw-recruitment__tracking-history h2 { margin-bottom: 12px; }
+.daw-recruitment__tracking-step { gap: 8px; justify-content: flex-start; margin: 8px 0; }
+.daw-recruitment__tracking-step > span { align-items: center; border-radius: 50%; display: flex; flex: 0 0 18px; font-size: 11px; height: 18px; justify-content: center; }
+.daw-recruitment__tracking-step.is-done > span { background: #18a957; color: #fff; }
+.daw-recruitment__tracking-step.is-current > span { background: var(--daw-red); color: #fff; }
+.daw-recruitment__tracking-step.is-pending > span { border: 1px solid #d4d4d8; color: #b7b7bd; }
+.daw-recruitment__tracking-step div { display: grid; flex: 1; }
+.daw-recruitment__tracking-step strong { font-size: 10px; }
+.daw-recruitment__tracking-step small,
+.daw-recruitment__tracking-step b { color: var(--daw-gray); font-size: 9px; font-weight: 400; }
+.daw-recruitment__tracking-step.is-done b { color: #18a957; }
+.daw-recruitment__tracking-step.is-current b { background: #fff0f2; border: 1px solid #f6c8d0; color: var(--daw-red); padding: 2px 5px; }
+.daw-recruitment__tracking-divider { border-top: 1px solid #e5e5e7; margin: 13px 0 10px; }
+.daw-recruitment__tracking-note { color: var(--daw-gray); font-size: 9px; margin: 0 0 12px; }
+.daw-recruitment__tracking-footer { color: var(--daw-gray); font-size: 9px; }
+.daw-recruitment__tracking-footer small { display: block; }
+.daw-recruitment__tracking-footer a { border: 1px solid var(--daw-border); border-radius: 3px; font-size: 9px; padding: 5px 8px; }
+.daw-recruitment__tracking-back { color: var(--daw-red); display: block; font-size: 11px; margin: 18px 0; text-align: center; }
+.daw-recruitment__tracking-empty { padding: 28px; text-align: center; }
+.daw-recruitment__tracking-empty h1 { font-size: 24px; margin: 7px 0; }
+.daw-recruitment__tracking-empty p { color: var(--daw-gray); font-size: 13px; }
+.daw-recruitment__tracking-empty .daw-recruitment__button { margin-top: 10px; }
+@media (max-width: 600px) {
+  .daw-recruitment__tracking-summary-top,
+  .daw-recruitment__tracking-current-head { align-items: flex-start; gap: 12px; }
+  .daw-recruitment__tracking-status,
+  .daw-recruitment__tracking-running { white-space: nowrap; }
+  .daw-recruitment__tracking-summary-meta { gap: 35px; }
+  .daw-recruitment__tracking-footer { align-items: flex-start; gap: 12px; }
+}
+
 /* Hilangkan footer/theme wrapper bawaan WordPress */
 body:has(.daw-recruitment) .wp-site-blocks > footer {
   display: none !important;
