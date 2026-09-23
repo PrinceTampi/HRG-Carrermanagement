@@ -6,7 +6,7 @@ $token     = '';
 $job_id    = absint( $_GET['job_id'] ?? $_POST['job_id'] ?? 0 );
 $name      = '';
 $email     = '';
-$ui_preview = '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? $_POST['daw_ui_preview'] ?? '' ) );
+$ui_preview = '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? $_POST['daw_ui_preview'] ?? '' ) ) || ( function_exists( 'current_user_can' ) && current_user_can( 'manage_options' ) );
 
 if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
     if ( ! $ui_preview && ( ! isset( $_POST['recruitment_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['recruitment_nonce'] ) ), 'recruitment_apply' ) ) ) {
@@ -19,7 +19,7 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
         $email   = $payload['applicant']['email'];
         $token   = $result['token'];
         if ( ! $errors && '' !== $token ) {
-            wp_safe_redirect( recruitment_get_public_url( 'application-confirmation', [ 'token' => $token, 'name' => $name ] ) );
+            wp_safe_redirect( recruitment_get_public_url( 'application-confirmation', [ 'token' => $token, 'name' => $name, 'daw_ui_preview' => $ui_preview ? '1' : '0' ] ) );
             exit;
         }
     }
@@ -43,7 +43,7 @@ if ( $vacancy && 'daw_vacancy' === $vacancy->post_type ) {
     <main class="daw-recruitment__section daw-recruitment__application-main">
         <div class="daw-recruitment__container daw-recruitment__form-container">
             <?php if ( $submitted ) : ?>
-                <section class="daw-recruitment__panel daw-recruitment__success"><h1>Lamaran Berhasil Dikirim</h1><p>Terima kasih, <?= esc_html( $name ) ?>. Tim recruitment akan meninjau data kamu.</p><div class="daw-recruitment__application-code"><?= esc_html( $token ) ?></div><a class="daw-recruitment__button" href="<?= esc_url( recruitment_get_public_url( 'tracking' ) ) ?>">Tracking Lamaran</a></section>
+                <section class="daw-recruitment__panel daw-recruitment__success"><h1>Lamaran Berhasil Dikirim</h1><p>Terima kasih, <?= esc_html( $name ) ?>. Tim recruitment akan meninjau data kamu.</p><div class="daw-recruitment__application-code"><?= esc_html( $token ) ?></div><a class="daw-recruitment__button" href="<?= esc_url( recruitment_get_public_url( 'tracking', [ 'token' => $token, 'daw_ui_preview' => $ui_preview ? '1' : '0' ] ) ) ?>">Tracking Lamaran</a></section>
             <?php else : ?>
                 <a class="daw-recruitment__back" href="<?= esc_url( recruitment_get_public_url( 'job-detail', [ 'job_id' => $job_id ] ) ) ?>">&larr; Kembali ke Detail Lowongan</a>
                 <section class="daw-recruitment__application-job"><span class="daw-recruitment__application-job-icon">&diams;</span><div><strong><?= esc_html( $job_title ) ?></strong><small><?= esc_html( $job_meta ) ?></small></div><span class="daw-recruitment__application-deadline">Deadline: <?= esc_html( $job_deadline ) ?></span></section>

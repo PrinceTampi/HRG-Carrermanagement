@@ -21,7 +21,7 @@ $name = (string) ( $application['name'] ?? 'Kandidat' );
                 <p>Terima kasih, <?= esc_html( $name ) ?>. Tim recruitment akan meninjau data kamu.</p>
                 <div class="daw-recruitment__application-code"><small>KODE LAMARAN ANDA</small><span class="daw-recruitment__application-token" data-application-token><?= esc_html( $token ) ?></span><button class="daw-recruitment__copy-token" type="button" data-copy-token aria-label="Salin kode lamaran" title="Salin kode lamaran">&#10697;</button><span class="daw-recruitment__copy-feedback" role="status" aria-live="polite"></span></div>
                 <div class="daw-recruitment__success-notice"><strong>Langkah Selanjutnya:</strong><ol><li>Tim HR akan meninjau dokumen Anda</li><li>Notifikasi akan dikirim ke email Anda</li><li>Gunakan kode lamaran untuk tracking status</li></ol></div>
-                <div class="daw-recruitment__form-actions"><a class="daw-recruitment__button" href="<?= esc_url( recruitment_get_public_url( 'tracking', [ 'token' => $token ] ) ) ?>">Tracking Lamaran</a><a class="daw-recruitment__button daw-recruitment__button--muted" href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>">Kembali ke Career</a></div>
+                <div class="daw-recruitment__form-actions"><a class="daw-recruitment__button" href="<?= esc_url( recruitment_get_public_url( 'tracking', [ 'token' => $token, 'daw_ui_preview' => $ui_preview ? '1' : '0' ] ) ) ?>">Tracking Lamaran</a><a class="daw-recruitment__button daw-recruitment__button--muted" href="<?= esc_url( recruitment_get_public_url( 'careers', [ 'daw_ui_preview' => $ui_preview ? '1' : '0' ] ) ) ?>">Kembali ke Career</a></div>
             </section>
         </div>
     </main>

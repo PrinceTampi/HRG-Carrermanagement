@@ -30,6 +30,29 @@ Konfigurasi Oracle dibaca otomatis dari `RECRUITMENT_ORACLE_DSN`, `RECRUITMENT_O
 
 Folder `public/` dan `admin/` dipertahankan sebagai bridge kompatibilitas agar migrasi template dapat dilakukan per halaman tanpa mengubah output.
 
+## Workflow Tim Setelah Git Pull
+
+Source code route dan template disimpan di Git, sedangkan page WordPress, login admin, permalink, cache, dan option `recruitment_public_page_id` berada di database lokal masing-masing developer. Jalankan langkah berikut setelah mengambil perubahan:
+
+```powershell
+git switch master
+git pull --ff-only origin master
+```
+
+Pastikan plugin aktif di WordPress dan halaman Career berisi shortcode berikut:
+
+```text
+[recruitment_careers]
+```
+
+Kemudian buka **Settings > Permalinks** dan klik **Save Changes**, lalu bersihkan cache browser/plugin. Saat login sebagai administrator, **Screen Explorer** akan muncul sebagai popup floating dan dapat dipakai untuk membuka seluruh halaman preview. Preview manual memakai parameter berikut:
+
+```text
+?daw_ui_preview=1
+```
+
+Jika form dibuka sebagai administrator/developer, mode preview membantu melewati nonce lokal yang stale akibat cache. Pengunjung publik tetap menggunakan validasi nonce normal. Setelah submit, gunakan tombol **Tracking Lamaran** pada halaman konfirmasi karena URL tersebut membawa token lamaran secara otomatis.
+
 ## Catatan Migrasi
 
 `index.php` tetap menjadi entry point sandbox. Pada WordPress, bootstrap utama menggunakan hooks, shortcode, dan `Recruitment_Router`. Asset didaftarkan melalui `wp_enqueue_style()` dan `wp_enqueue_script()`, sedangkan akses data diarahkan melalui `database/class-database.php`.

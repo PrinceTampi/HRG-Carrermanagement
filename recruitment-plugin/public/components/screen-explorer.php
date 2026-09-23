@@ -1,5 +1,5 @@
 <?php
-$screen_explorer_preview = '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? '' ) );
+$screen_explorer_preview = '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? '' ) ) || ( function_exists( 'current_user_can' ) && current_user_can( 'manage_options' ) );
 if ( ! $screen_explorer_preview ) {
     return;
 }

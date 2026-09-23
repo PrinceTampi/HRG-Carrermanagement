@@ -212,6 +212,9 @@ function recruitment_get_application_url( string $slug = 'careers', array $args 
 
 function recruitment_get_public_url( string $screen = 'careers', array $args = [] ): string {
     $page_id = absint( get_option( 'recruitment_public_page_id', 0 ) );
+    if ( ! $page_id && function_exists( 'get_queried_object_id' ) ) {
+        $page_id = absint( get_queried_object_id() );
+    }
     $base_url = $page_id ? get_permalink( $page_id ) : home_url( '/' );
 
     return add_query_arg( array_merge( [ 'recruitment_page' => sanitize_key( $screen ) ], $args ), $base_url );
