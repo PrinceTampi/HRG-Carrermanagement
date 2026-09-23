@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/permissions/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558768,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558768,
+            "name": "Commit-0",
+            "content": "# Permissions\r\n\r\nThis area is reserved for authorization and permission rules.\r\n\r\n## Intended usage\r\n\r\n- role definitions\r\n- access policies\r\n- department access logic\r\n- user permission enforcement\r\n\r\n## Notes\r\n\r\n- User Department access must remain controlled by HR.\r\n- Public pages must remain isolated from admin-only areas.\r\n- Do not solve permission concerns by hiding menu items alone.\r\n"
+        }
+    ]
+}

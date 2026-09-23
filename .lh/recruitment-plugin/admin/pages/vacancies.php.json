@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/admin/pages/vacancies.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790166480572,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790166480572,
+            "name": "Commit-0",
+            "content": "<?php\r\n/**\r\n * admin/pages/vacancies.php\r\n *\r\n * Manajemen lowongan kerja.\r\n *\r\n * URL: /recruitment-admin/vacancies/\r\n *\r\n * Fungsi yang dapat dikembangkan:\r\n * - Create Vacancy\r\n * - Read Vacancy\r\n * - Update Vacancy\r\n * - Delete/Archive Vacancy\r\n *\r\n * TODO: Implementasi CRUD menggunakan Recruitment_Database.\r\n */\r\n?>\r\n<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n    <title>Vacancies | Recruitment Plugin</title>\r\n    <link rel=\"stylesheet\" href=\"assets/css/public.css\">\r\n    <link rel=\"stylesheet\" href=\"assets/css/admin.css\">\r\n</head>\r\n<body>\r\n<?php require recruitment_get_plugin_path( 'admin/components/header.php' ); ?>\r\n<div class=\"admin-layout\">\r\n    <?php require recruitment_get_plugin_path( 'admin/components/sidebar.php' ); ?>\r\n    <main class=\"content-shell\">\r\n        <p class=\"eyebrow\">Manajemen Lowongan</p>\r\n        <h1>Vacancies.</h1>\r\n        <p class=\"lede\">Kelola semua lowongan kerja yang tersedia.</p>\r\n        <p>TODO: Tampilkan daftar vacancies dan form Create/Edit menggunakan Recruitment_Database.</p>\r\n    </main>\r\n</div>\r\n<footer><span>Recruitment Plugin</span><span>Vacancies</span></footer>\r\n<script src=\"assets/js/admin.js\"></script>\r\n</body>\r\n</html>\r\n"
+        }
+    ]
+}

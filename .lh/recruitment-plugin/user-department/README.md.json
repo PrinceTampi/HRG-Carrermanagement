@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/user-department/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558762,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558762,
+            "name": "Commit-0",
+            "content": "# User Department Area\r\n\r\nThis area represents the department-specific review and interview workflow.\r\n\r\n## Responsibilities\r\n\r\n- department vacancy requests\r\n- access to assigned candidates only\r\n- user interview workflow\r\n- department-specific review results\r\n\r\n## Notes\r\n\r\n- User Department access is limited and controlled by HR.\r\n- Candidate visibility must follow assigned/recommended department access.\r\n- This area must stay logically separated from HR administration.\r\n- Do not bypass permission checks by hiding menu items alone.\r\n"
+        }
+    ]
+}

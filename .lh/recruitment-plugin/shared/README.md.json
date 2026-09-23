@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/shared/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558762,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558762,
+            "name": "Commit-0",
+            "content": "# Shared Layer\r\n\r\nThis directory is reserved for architecture-level reuse that genuinely spans multiple areas.\r\n\r\n## Intended usage\r\n\r\n- shared UI elements\r\n- reusable data helpers\r\n- shared validation and formatting utilities\r\n- cross-area presentation components\r\n- common logic that is not private to one role\r\n\r\n## Notes\r\n\r\n- Do not abstract or duplicate functionality unnecessarily.\r\n- Prefer reusing existing working components before creating new ones.\r\n- Keep this layer minimal and practical.\r\n"
+        }
+    ]
+}

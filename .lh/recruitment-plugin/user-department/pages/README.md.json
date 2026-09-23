@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/user-department/pages/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558772,
+            "name": "Commit-0",
+            "content": "# User Department Pages\r\n\r\nThis directory is reserved for department-specific screens and workflows.\r\n\r\n## Expected responsibilities\r\n\r\n- vacancy requests\r\n- assigned candidate review\r\n- user interview screens\r\n- interview result workflows\r\n\r\n## Notes\r\n\r\n- Preserve current behavior and role restrictions.\r\n- This area must stay separate from HR administration.\r\n- Only assigned candidate data should be visible here.\r\n"
+        }
+    ]
+}

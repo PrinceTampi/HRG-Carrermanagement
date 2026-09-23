@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/user-department/components/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558777,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558777,
+            "name": "Commit-0",
+            "content": "# User Department Components\r\n\r\nReusable user-department-specific UI should live here.\r\n\r\n## Notes\r\n\r\n- Keep components minimal and tied to department workflows.\r\n- Reuse existing components when possible.\r\n- Preserve the current design language and layout.\r\n"
+        }
+    ]
+}

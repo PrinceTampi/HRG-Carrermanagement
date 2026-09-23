@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/admin/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558754,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558754,
+            "name": "Commit-0",
+            "content": "# Admin HR Area\r\n\r\nThis area contains the internal recruitment management experience.\r\n\r\n## Responsibilities\r\n\r\n- dashboard\r\n- applicant management\r\n- vacancy management\r\n- recruitment workflow\r\n- psychotest administration\r\n- interview operations\r\n- email recruitment\r\n- configuration and account controls\r\n\r\n## Notes\r\n\r\n- This area remains the central source of HR coordination.\r\n- Role-based access must remain enforced.\r\n- User Department access must not be merged into HR logic.\r\n- Preserve the current application functionality while improving maintainability.\r\n"
+        }
+    ]
+}

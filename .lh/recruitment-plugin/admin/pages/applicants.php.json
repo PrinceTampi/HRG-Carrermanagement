@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/admin/pages/applicants.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790166480570,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790166480570,
+            "name": "Commit-0",
+            "content": "<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n    <title>Applicants | Recruitment Plugin</title>\r\n    <link rel=\"stylesheet\" href=\"assets/css/public.css\">\r\n    <link rel=\"stylesheet\" href=\"assets/css/admin.css\">\r\n</head>\r\n<body>\r\n<?php require recruitment_get_plugin_path( 'admin/components/header.php' ); ?>\r\n<div class=\"admin-layout\">\r\n    <?php require recruitment_get_plugin_path( 'admin/components/sidebar.php' ); ?>\r\n    <main class=\"content-shell\">\r\n        <p class=\"eyebrow\">Plugin overview</p>\r\n        <h1>Applicants.</h1>\r\n        <p class=\"lede\">Daftar semua pelamar yang telah mendaftar.</p>\r\n        <section class=\"status-table\">\r\n            <?php\r\n            // Tampilkan plugin info sementara.\r\n            // TODO: Ganti dengan daftar applicants dari Recruitment_Database::get_applicants()\r\n            if ( isset( $plugin_info ) ) :\r\n                foreach ( $plugin_info as $label => $value ) : ?>\r\n                    <div>\r\n                        <dt><?= htmlspecialchars( ucwords( str_replace( '_', ' ', $label ) ), ENT_QUOTES, 'UTF-8' ) ?></dt>\r\n                        <dd><?= htmlspecialchars( $value, ENT_QUOTES, 'UTF-8' ) ?></dd>\r\n                    </div>\r\n            <?php endforeach; endif; ?>\r\n        </section>\r\n        <?php require recruitment_get_plugin_path( 'admin/components/application-table.php' ); ?>\r\n    </main>\r\n</div>\r\n<footer><span>Recruitment Plugin</span><span>Applicants</span></footer>\r\n<script src=\"assets/js/admin.js\"></script>\r\n</body>\r\n</html>\r\n"
+        }
+    ]
+}

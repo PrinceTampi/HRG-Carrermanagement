@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/auth/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558766,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558766,
+            "name": "Commit-0",
+            "content": "# Auth\r\n\r\nThis area is reserved for authentication and session management concerns.\r\n\r\n## Intended usage\r\n\r\n- login/logout flows\r\n- role checks\r\n- access control helpers\r\n- authentication wrappers\r\n\r\n## Notes\r\n\r\n- Preserve the current authentication behavior.\r\n- Do not bypass permission checks during restructuring.\r\n- Keep this layer clearly separate from public page rendering.\r\n"
+        }
+    ]
+}

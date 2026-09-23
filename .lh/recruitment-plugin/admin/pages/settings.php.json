@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/admin/pages/settings.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790166480571,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790166480571,
+            "name": "Commit-0",
+            "content": "<?php\r\n/**\r\n * admin/pages/settings.php\r\n *\r\n * Konfigurasi plugin.\r\n *\r\n * URL: /recruitment-admin/settings/\r\n *\r\n * Dapat berisi:\r\n * - recruitment settings\r\n * - email settings\r\n * - notification settings\r\n * - general settings\r\n *\r\n * TODO: Implementasi settings form dengan WordPress Options API.\r\n */\r\n?>\r\n<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n    <title>Settings | Recruitment Plugin</title>\r\n    <link rel=\"stylesheet\" href=\"assets/css/public.css\">\r\n    <link rel=\"stylesheet\" href=\"assets/css/admin.css\">\r\n</head>\r\n<body>\r\n<?php require recruitment_get_plugin_path( 'admin/components/header.php' ); ?>\r\n<div class=\"admin-layout\">\r\n    <?php require recruitment_get_plugin_path( 'admin/components/sidebar.php' ); ?>\r\n    <main class=\"content-shell\">\r\n        <p class=\"eyebrow\">Konfigurasi Plugin</p>\r\n        <h1>Settings.</h1>\r\n        <p class=\"lede\">Pengaturan plugin recruitment.</p>\r\n        <p>TODO: Implementasi settings menggunakan WordPress Options API (get_option / update_option).</p>\r\n    </main>\r\n</div>\r\n<footer><span>Recruitment Plugin</span><span>Settings</span></footer>\r\n<script src=\"assets/js/admin.js\"></script>\r\n</body>\r\n</html>\r\n"
+        }
+    ]
+}

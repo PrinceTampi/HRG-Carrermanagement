@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/admin/pages/applications.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790166480570,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790166480570,
+            "name": "Commit-0",
+            "content": "<?php\r\n/**\r\n * admin/pages/applications.php\r\n *\r\n * Manajemen application / proses rekrutmen.\r\n *\r\n * URL: /recruitment-admin/applications/\r\n *\r\n * Alur status:\r\n *   Submitted → Screening → Interview → Assessment → Accepted / Rejected\r\n *\r\n * TODO: Implementasi tampilan dan manajemen status menggunakan Recruitment_Database.\r\n */\r\n?>\r\n<!doctype html>\r\n<html lang=\"id\">\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n    <title>Applications | Recruitment Plugin</title>\r\n    <link rel=\"stylesheet\" href=\"assets/css/public.css\">\r\n    <link rel=\"stylesheet\" href=\"assets/css/admin.css\">\r\n</head>\r\n<body>\r\n<?php require recruitment_get_plugin_path( 'admin/components/header.php' ); ?>\r\n<div class=\"admin-layout\">\r\n    <?php require recruitment_get_plugin_path( 'admin/components/sidebar.php' ); ?>\r\n    <main class=\"content-shell\">\r\n        <p class=\"eyebrow\">Proses Rekrutmen</p>\r\n        <h1>Applications.</h1>\r\n        <p class=\"lede\">Kelola proses rekrutmen dari Submitted hingga keputusan akhir.</p>\r\n        <?php require recruitment_get_plugin_path( 'admin/components/application-table.php' ); ?>\r\n    </main>\r\n</div>\r\n<footer><span>Recruitment Plugin</span><span>Applications</span></footer>\r\n<script src=\"assets/js/admin.js\"></script>\r\n</body>\r\n</html>\r\n"
+        }
+    ]
+}

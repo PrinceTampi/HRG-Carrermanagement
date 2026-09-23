@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/user-department/assets/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558774,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558774,
+            "name": "Commit-0",
+            "content": "# User Department Assets\r\n\r\nThis directory is reserved for department-specific static assets.\r\n\r\n## Notes\r\n\r\n- If no user-department-specific assets are required yet, keep this directory as a logical placeholder.\r\n- Do not move existing shared assets unnecessarily.\r\n- Preserve current styling and branding.\r\n"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/public/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558752,
+            "name": "Commit-0",
+            "content": "# Public Site\r\n\r\nThis area contains the applicant-facing experience for the recruitment plugin.\r\n\r\nIt is intentionally separated from HR and User Department functionality.\r\n\r\n## Responsibilities\r\n\r\n- vacancy listings\r\n- job details\r\n- application form\r\n- application tracking\r\n- confirmation screens\r\n- public recruitment workflow\r\n- public navigation and presentation components\r\n\r\n## Notes\r\n\r\n- Keep candidate-facing logic distinct from internal HR logic.\r\n- Do not expose HR-only data or private recruitment decisions in this area.\r\n- Preserve the existing UI and behavior unless a request explicitly asks for a redesign.\r\n"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/admin/pages/dashboard.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790166480569,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790166480569,
+            "name": "Commit-0",
+            "content": "<?php $user = wp_get_current_user(); ?>\r\n<div class=\"recruitment-admin\">\r\n<?php require recruitment_get_plugin_path( 'admin/components/header.php' ); ?>\r\n<div class=\"admin-layout\">\r\n    <?php require recruitment_get_plugin_path( 'admin/components/sidebar.php' ); ?>\r\n    <main class=\"content-shell\">\r\n        <p class=\"eyebrow\">Authenticated area</p>\r\n        <h1>Good to see you, <?= esc_html( $user->display_name ) ?>.</h1>\r\n        <p class=\"lede\">Ringkasan aktivitas rekrutmen.</p>\r\n        <section class=\"stats-row\">\r\n            <?php\r\n            // TODO: Ambil data dari Recruitment_Database\r\n            $stats = [\r\n                [ 'label' => 'Total Vacancies',       'value' => '—' ],\r\n                [ 'label' => 'Total Applicants',       'value' => '—' ],\r\n                [ 'label' => 'New Applications',       'value' => '—' ],\r\n                [ 'label' => 'Applications in Review', 'value' => '—' ],\r\n            ];\r\n            foreach ( $stats as $stat ) :\r\n                require recruitment_get_plugin_path( 'admin/components/stats-card.php' );\r\n            endforeach;\r\n            ?>\r\n        </section>\r\n    </main>\r\n</div>\r\n<footer><span>DAW Recruitment</span><span>HRD Dashboard</span></footer>\r\n</div>\r\n"
+        }
+    ]
+}

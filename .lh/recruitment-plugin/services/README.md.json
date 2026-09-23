@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/services/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790163558766,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790163558766,
+            "name": "Commit-0",
+            "content": "# Services\r\n\r\nThis directory is for reusable service-layer logic that supports the recruitment workflow.\r\n\r\n## Intended usage\r\n\r\n- data access helpers\r\n- workflow services\r\n- candidate/application service logic\r\n- future integrations\r\n\r\n## Notes\r\n\r\n- This layer should remain thin and focused.\r\n- Preserve existing application logic and workflow behavior.\r\n- Do not add new functionality as part of a cleanup-only task.\r\n"
+        }
+    ]
+}
