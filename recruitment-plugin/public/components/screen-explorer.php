@@ -12,6 +12,9 @@ $screen_explorer_items = [
         [ 'label' => 'Lamaran Berhasil', 'screen' => 'application-confirmation', 'args' => [ 'token' => 'DAW-PREVIEW-001' ] ],
         [ 'label' => 'Tracking (Input)', 'screen' => 'tracking' ],
         [ 'label' => 'Tracking Result', 'screen' => 'tracking', 'args' => [ 'token' => 'DAW-PREVIEW-001' ] ],
+        [ 'label' => 'Psikotes: Review & Kirim', 'screen' => 'psych-test', 'args' => [ 'state' => 'review' ] ],
+        [ 'label' => 'Psikotes: Memproses Hasil', 'screen' => 'psych-test', 'args' => [ 'state' => 'processing' ] ],
+        [ 'label' => 'Psikotes: Tes Selesai', 'screen' => 'psych-test', 'args' => [ 'state' => 'complete' ] ],
     ],
     'Admin' => [
         [ 'label' => 'Admin Login', 'screen' => 'login' ],

@@ -11,6 +11,7 @@ class Recruitment_Router {
         'job-detail'         => 'pages/public/job-detail.php',
         'application-form'   => 'pages/public/application-form.php',
         'application-confirmation' => 'pages/public/application-confirmation.php',
+        'psych-test'         => 'pages/public/psychological-test.php',
         'application-status' => 'pages/public/application-status.php',
         'tracking-detail'    => 'pages/public/application-tracking.php',
         'login'              => 'pages/admin/login.php',

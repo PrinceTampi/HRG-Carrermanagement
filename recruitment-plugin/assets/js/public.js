@@ -8,6 +8,7 @@
 	setupConsentButton();
 	setupTokenCopy();
 	setupScreenExplorer();
+	setupPsychologicalTestProcessing();
 
 	document.addEventListener('click', function handleRecruitmentClick(event) {
 		const removeButton = event.target.closest('[data-remove-section]');
@@ -146,5 +147,39 @@
 				setOpen(false);
 			}
 		});
+	}
+
+	function setupPsychologicalTestProcessing() {
+		const processingCard = document.querySelector('[data-psych-processing]');
+		if (!processingCard) {
+			return;
+		}
+
+		const nextUrl = processingCard.dataset.nextUrl;
+		const progressBar = processingCard.querySelector('[data-psych-progress-bar]');
+		const progressValue = processingCard.querySelector('[data-psych-progress-value]');
+		const progressTrack = processingCard.querySelector('[role="progressbar"]');
+		if (!nextUrl || !progressBar || !progressValue || !progressTrack) {
+			return;
+		}
+
+		let progress = 0;
+		const updateProgress = function updateProgress() {
+			progress = Math.min(progress + 1, 100);
+			progressBar.style.width = `${progress}%`;
+			progressValue.textContent = `${progress}%`;
+			progressTrack.setAttribute('aria-valuenow', String(progress));
+
+			if (progress < 100) {
+				window.setTimeout(updateProgress, 35);
+				return;
+			}
+
+			window.setTimeout(function advancePsychologicalTest() {
+				window.location.href = nextUrl;
+			}, 500);
+		}
+
+		updateProgress();
 	}
 }());

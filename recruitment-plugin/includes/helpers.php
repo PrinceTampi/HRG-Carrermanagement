@@ -67,6 +67,12 @@ if ( ! function_exists( 'wp_unslash' ) ) {
     }
 }
 
+if ( ! function_exists( 'current_time' ) ) {
+    function current_time( string $type = 'mysql' ): string {
+        return 'mysql' === $type ? date( 'Y-m-d H:i:s' ) : (string) time();
+    }
+}
+
 if ( ! function_exists( 'esc_url' ) ) {
     function esc_url( string $url ): string {
         return htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
