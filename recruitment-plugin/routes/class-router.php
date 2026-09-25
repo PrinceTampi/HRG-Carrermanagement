@@ -12,6 +12,7 @@ class Recruitment_Router {
         'application-form'   => 'public/pages/application-form.php',
         'application-confirmation' => 'public/pages/application-confirmation.php',
         'psych-test'         => 'public/pages/psychological-test.php',
+        'interview-booking'  => 'public/pages/interview-booking.php',
         'psychotest'         => 'public/pages/psychotest-home.php',
         'psychotest-preparation' => 'public/pages/psychotest-preparation.php',
         'psychotest-device'  => 'public/pages/psychotest-device.php',

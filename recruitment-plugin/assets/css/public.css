@@ -1578,6 +1578,64 @@ body:has(.daw-recruitment) .daw-recruitment {
   padding: 28px 24px 48px;
 }
 
+/* Public interview booking. */
+.daw-recruitment--interview-booking { background: #f5f5f7; min-height: 100vh; }
+.daw-recruitment__interview-main { flex: 1; padding: 30px 20px 54px; }
+.daw-recruitment__interview-container { margin: 0 auto; max-width: 580px; }
+.daw-interview-heading { margin-bottom: 20px; text-align: center; }
+.daw-interview-heading h1 { font-size: 25px; margin: 6px 0 7px; }
+.daw-interview-heading p { color: var(--daw-gray); font-size: 12px; margin: 0; }
+.daw-interview-applicant { align-items: center; background: #fff; border: 1px solid var(--daw-border); border-radius: 8px; display: flex; justify-content: space-between; margin-bottom: 12px; padding: 13px 16px; }
+.daw-interview-applicant div { display: grid; gap: 2px; }
+.daw-interview-applicant span, .daw-interview-detail span { color: var(--daw-gray); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; }
+.daw-interview-applicant strong { font-size: 13px; }
+.daw-interview-applicant small { color: var(--daw-gray); font-size: 10px; }
+.daw-interview-card, .daw-interview-state { background: #fff; border: 1px solid var(--daw-border); border-radius: 8px; margin-bottom: 12px; padding: 20px; }
+.daw-interview-card h2, .daw-interview-state h2 { font-size: 16px; margin: 0 0 15px; }
+.daw-interview-date-grid { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); }
+.daw-interview-date { border: 1px solid #f2c5ce; border-radius: 7px; color: var(--daw-charcoal); display: grid; min-height: 112px; padding: 13px; transition: border-color .15s, box-shadow .15s; }
+.daw-interview-date:hover { border-color: var(--daw-red); box-shadow: 0 4px 12px rgba(200, 16, 46, .1); }
+.daw-interview-date strong { color: var(--daw-red); font-size: 30px; line-height: 1; }
+.daw-interview-date span { font-size: 11px; font-weight: 700; }
+.daw-interview-date small { color: var(--daw-gray); font-size: 9px; }
+.daw-interview-date b { color: #16a34a; font-size: 9px; font-weight: 700; }
+.daw-interview-date.is-full { background: #f7f7f8; border-color: #e3e3e7; color: #a1a1a8; cursor: not-allowed; }
+.daw-interview-date.is-full strong, .daw-interview-date.is-full b { color: #a1a1a8; }
+.daw-interview-slot-list { display: grid; gap: 8px; }
+.daw-interview-slot { align-items: center; border: 1px solid var(--daw-border); border-radius: 6px; display: flex; justify-content: space-between; padding: 13px 14px; }
+.daw-interview-slot:hover { border-color: var(--daw-red); }
+.daw-interview-slot strong { font-size: 12px; }
+.daw-interview-slot span { color: #16a34a; font-size: 10px; font-weight: 700; }
+.daw-interview-slot.is-full { background: #f7f7f8; color: #a1a1a8; cursor: not-allowed; }
+.daw-interview-slot.is-full span { color: #a1a1a8; }
+.daw-interview-selected-date { color: var(--daw-gray); font-size: 11px; margin: -8px 0 14px; }
+.daw-interview-back { color: var(--daw-red); display: inline-block; font-size: 10px; margin-bottom: 16px; }
+.daw-interview-summary, .daw-interview-detail { border-top: 1px solid #e5e5e7; display: grid; gap: 5px 16px; grid-template-columns: 1fr 2fr; margin-bottom: 18px; padding-top: 14px; }
+.daw-interview-summary strong, .daw-interview-detail strong { font-size: 12px; }
+.daw-interview-detail { margin-top: 15px; }
+.daw-interview-status { color: #16a34a !important; }
+.daw-interview-confirm-choice { background: #fff0f2; border: 1px solid #f6c8d0; border-radius: 6px; display: grid; gap: 4px; margin: 14px 0; padding: 13px; }
+.daw-interview-actions { display: flex; gap: 8px; }
+.daw-interview-actions > * { flex: 1; }
+.daw-interview-actions button { border: 0; cursor: pointer; }
+.daw-interview-state { padding: 42px 28px; text-align: center; }
+.daw-interview-state-icon, .daw-interview-success-icon { align-items: center; background: #f3f3f5; border-radius: 50%; color: var(--daw-gray); display: flex; font-size: 20px; height: 44px; justify-content: center; margin: 0 auto 14px; width: 44px; }
+.daw-interview-state h2 { margin-bottom: 8px; }
+.daw-interview-state p { color: var(--daw-gray); font-size: 12px; line-height: 1.6; margin: 0 auto; max-width: 380px; }
+.daw-interview-confirmed { text-align: center; }
+.daw-interview-success-icon { background: #dcfce8; color: #16a34a; }
+.daw-interview-confirmed h2 { margin-bottom: 8px; }
+.daw-interview-confirmed > p { color: var(--daw-gray); font-size: 11px; }
+.daw-interview-error { background: #fff0f2; color: var(--daw-red); font-size: 11px; margin-bottom: 12px; padding: 9px; }
+@media (max-width: 600px) {
+  .daw-recruitment__interview-main { padding: 24px 12px 40px; }
+  .daw-interview-heading h1 { font-size: 21px; }
+  .daw-interview-date-grid { grid-template-columns: 1fr; }
+  .daw-interview-date { min-height: 88px; }
+  .daw-interview-applicant { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .daw-interview-applicant div + div { border-top: 1px solid #e5e5e7; padding-top: 10px; width: 100%; }
+}
+
 /* Psychological test result states. */
 .daw-recruitment--psych-test {
   background: #f5f5f7;

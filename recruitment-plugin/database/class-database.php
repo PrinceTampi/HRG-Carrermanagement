@@ -10,6 +10,7 @@
 class Recruitment_Database {
 
     private ?PDO $connection = null;
+    private ?string $last_error = null;
 
     /**
      * @param array<string, string> $config Optional configuration overrides.
@@ -128,6 +129,67 @@ class Recruitment_Database {
         return $rows[0] ?? null;
     }
 
+    /** @return array<int, array{date: string, status: string, slots: array<int, array<string, string>>}>
+     */
+    public function get_interview_availability( string $token = '' ): array {
+        $rows = $this->fetch_all(
+            'SELECT interview_date AS slot_date, start_time, end_time, status FROM daw_interview_slots WHERE status IN (:available, :full) AND interview_date >= CURRENT_DATE ORDER BY interview_date, start_time',
+            [ 'available' => 'available', 'full' => 'full' ]
+        );
+        $days = [];
+        foreach ( $rows as $row ) {
+            $date = (string) ( $row['slot_date'] ?? '' );
+            if ( '' === $date ) {
+                continue;
+            }
+            $days[ $date ]['date'] = $date;
+            $days[ $date ]['status'] = 'full';
+            $slot_status = strtolower( (string) ( $row['status'] ?? 'full' ) );
+            $days[ $date ]['slots'][] = [ 'start' => (string) $row['start_time'], 'end' => (string) $row['end_time'], 'status' => $slot_status ];
+            if ( 'available' === $slot_status ) {
+                $days[ $date ]['status'] = 'available';
+            }
+        }
+        return array_values( $days );
+    }
+
+    public function has_error(): bool {
+        return null !== $this->last_error;
+    }
+
+    /** @return array<string, string>|null */
+    public function get_interview_booking( string $token ): ?array {
+        if ( isset( $_SESSION['recruitment_interview_booking'][ $token ] ) ) {
+            return (array) $_SESSION['recruitment_interview_booking'][ $token ];
+        }
+        $rows = $this->fetch_all(
+            'SELECT interview_date AS date, start_time AS start, end_time AS end, status FROM daw_interview_bookings WHERE application_token = :token',
+            [ 'token' => $token ]
+        );
+        return $rows[0] ?? null;
+    }
+
+    /** @return array{success: bool, error?: string} */
+    public function save_interview_booking( string $token, string $date, string $start, string $end ): array {
+        if ( ! $this->is_configured() ) {
+            if ( ! isset( $_SESSION['recruitment_interview_booking'] ) ) {
+                $_SESSION['recruitment_interview_booking'] = [];
+            }
+            $_SESSION['recruitment_interview_booking'][ $token ] = [ 'date' => $date, 'start' => $start, 'end' => $end, 'status' => 'Confirmed' ];
+            return [ 'success' => true ];
+        }
+        try {
+            $statement = $this->get_connection()->prepare(
+                'INSERT INTO daw_interview_bookings (application_token, interview_date, start_time, end_time, status, created_at) VALUES (:token, :date_value, :start_time, :end_time, :status, CURRENT_TIMESTAMP)'
+            );
+            $statement->execute( [ 'token' => $token, 'date_value' => $date, 'start_time' => $start, 'end_time' => $end, 'status' => 'Confirmed' ] );
+            return [ 'success' => true ];
+        } catch ( PDOException $exception ) {
+            error_log( 'Interview booking save failed: ' . $exception->getMessage() );
+            return [ 'success' => false, 'error' => 'Booking jadwal gagal disimpan. Silakan coba lagi.' ];
+        }
+    }
+
     public function is_configured(): bool {
         return '' !== $this->config['username'] && '' !== $this->config['password'] && '' !== $this->config['dsn'];
     }
@@ -146,6 +208,7 @@ class Recruitment_Database {
             $statement->execute( $parameters );
             return $statement->fetchAll( PDO::FETCH_ASSOC );
         } catch ( PDOException $exception ) {
+            $this->last_error = $exception->getMessage();
             if ( function_exists( 'error_log' ) ) {
                 error_log( 'Recruitment Oracle query failed: ' . $exception->getMessage() );
             }

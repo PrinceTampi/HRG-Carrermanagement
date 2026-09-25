@@ -26,6 +26,10 @@ require_once __DIR__ . '/includes/class-plugin.php';
 
 $auth   = new Recruitment_Auth();
 $requested_page = sanitize_key( $_GET['page'] ?? $_GET['recruitment_page'] ?? 'careers' );
+$requested_path = parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH );
+if ( '/interview-booking' === rtrim( (string) $requested_path, '/' ) ) {
+    $requested_page = 'interview-booking';
+}
 $page = [ 'application' => 'application-form' ][ $requested_page ] ?? $requested_page;
 if ( 'tracking' === $requested_page ) {
     $page = '' !== sanitize_text_field( wp_unslash( $_GET['token'] ?? '' ) ) ? 'tracking-detail' : 'application-status';
