@@ -32,7 +32,6 @@ $screen_explorer_items = [
         [ 'label' => 'Booking Wawancara', 'screen' => 'interview-booking', 'args' => [ 'token' => 'DAW-PREVIEW-001' ] ],
     ],
     'Admin' => [
-        [ 'label' => 'Admin Login', 'screen' => 'login' ],
         [ 'label' => 'Dashboard', 'screen' => 'dashboard' ],
         [ 'label' => 'Lowongan', 'screen' => 'vacancies' ],
         [ 'label' => 'Pelamar', 'screen' => 'applicants' ],
@@ -51,25 +50,26 @@ $screen_explorer_items = [
             <button type="button" data-screen-explorer-close aria-label="Tutup Screen Explorer">&times;</button>
         </div>
         <div class="daw-screen-explorer__content">
-            <?php foreach ( $screen_explorer_items as $group => $items ) : ?>
-                <div class="daw-screen-explorer__group daw-screen-explorer__group--collapsible is-open">
-                    <button class="daw-screen-explorer__group-toggle" type="button" data-screen-explorer-group-toggle aria-expanded="true">
-                        <span><?= esc_html( $group ) ?></span>
-                        <span class="daw-screen-explorer__chevron" aria-hidden="true">▾</span>
-                    </button>
-                    <div class="daw-screen-explorer__group-body">
-                        <?php foreach ( $items as $item ) : ?>
-                            <?php
-                            $args = array_merge( [ 'daw_ui_preview' => '1' ], $item['args'] ?? [] );
-                            $url  = recruitment_get_public_url( $item['screen'], $args );
-                            ?>
-                            <a href="<?= esc_url( $url ) ?>" <?= in_array( $item['screen'], [ 'dashboard', 'vacancies', 'applicants', 'applications', 'settings' ], true ) ? 'target="_blank" rel="noopener"' : '' ?>>
-                                <span><?= esc_html( $item['label'] ) ?></span><span aria-hidden="true">&rarr;</span>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
+        <?php foreach ( $screen_explorer_items as $group => $items ) : ?>
+            <div class="daw-screen-explorer__group daw-screen-explorer__group--collapsible is-open">
+                <button class="daw-screen-explorer__group-toggle" type="button" data-screen-explorer-group-toggle aria-expanded="true">
+                    <span><?= esc_html( $group ) ?></span>
+                    <span class="daw-screen-explorer__chevron" aria-hidden="true">▾</span>
+                </button>
+                <div class="daw-screen-explorer__group-body">
+                <?php foreach ( $items as $item ) : ?>
+                    <?php
+                    $is_admin = 'Admin' === $group;
+                    $args     = array_merge( [ 'daw_ui_preview' => '1' ], $item['args'] ?? [] );
+                    $url      = $is_admin ? recruitment_get_admin_url( $item['screen'] ) : recruitment_get_public_url( $item['screen'], $args );
+                    ?>
+                    <a href="<?= esc_url( $url ) ?>" <?= $is_admin ? 'target="_blank" rel="noopener"' : '' ?>>
+                        <span><?= esc_html( $item['label'] ) ?></span><span aria-hidden="true">&rarr;</span>
+                    </a>
+                <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
         </div>
     </section>
 </aside>

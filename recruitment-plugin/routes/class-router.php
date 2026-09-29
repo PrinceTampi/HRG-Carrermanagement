@@ -27,7 +27,6 @@ class Recruitment_Router {
         'tracking-result-proses-selesai' => 'public/pages/tracking-result-proses-selesai.php',
         'tracking-result-administrasi-diperiksa' => 'public/pages/tracking-result-administrasi-diperiksa.php',
         'tracking-result-keputusan-akhir-tidak-lolos' => 'public/pages/tracking-result-keputusan-akhir-tidak-lolos.php',
-        'login'              => 'admin/pages/login.php',
         'dashboard'          => 'admin/pages/dashboard.php',
         'vacancies'          => 'admin/pages/vacancies.php',
         'applicants'         => 'admin/pages/applicants.php',
@@ -44,9 +43,15 @@ class Recruitment_Router {
     public function render( string $page, array $data = [] ): void {
         $slug = array_key_exists( $page, self::ROUTES ) ? $page : 'careers';
 
-        if ( in_array( $slug, self::PROTECTED, true ) && ! is_user_logged_in() ) {
-            wp_safe_redirect( recruitment_get_admin_url( 'login' ) );
-            exit;
+        if ( in_array( $slug, self::PROTECTED, true ) ) {
+            if ( ! is_user_logged_in() ) {
+                wp_safe_redirect( wp_login_url( recruitment_get_admin_url( $slug ) ) );
+                exit;
+            }
+
+            if ( ! current_user_can( 'manage_recruitment' ) ) {
+                wp_die( esc_html__( 'Anda tidak memiliki izin untuk mengakses halaman ini.', 'recruitment-plugin' ) );
+            }
         }
 
         if ( 'applicants' === $slug ) {

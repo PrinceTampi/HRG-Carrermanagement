@@ -293,5 +293,18 @@ function recruitment_map_vacancy( $vacancy ): array {
  * @param string $slug E.g. 'dashboard', 'vacancies', 'applicants'.
  */
 function recruitment_get_admin_url( string $slug = 'dashboard' ): string {
-    return add_query_arg( 'page', sanitize_key( $slug ), admin_url( 'admin.php' ) );
+    $slug = sanitize_key( $slug );
+
+    if ( 'vacancies' === $slug ) {
+        return admin_url( 'edit.php?post_type=daw_vacancy' );
+    }
+
+    $pages = [
+        'dashboard'    => 'recruitment-dashboard',
+        'applicants'   => 'recruitment-applicants',
+        'applications' => 'recruitment-applications',
+        'settings'     => 'recruitment-settings',
+    ];
+
+    return add_query_arg( 'page', $pages[ $slug ] ?? 'recruitment-dashboard', admin_url( 'admin.php' ) );
 }
