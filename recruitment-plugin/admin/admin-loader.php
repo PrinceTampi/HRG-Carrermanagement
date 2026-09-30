@@ -24,13 +24,14 @@ class Recruitment_Admin {
 		add_submenu_page( 'recruitment-dashboard', 'Pelamar', 'Pelamar', 'manage_recruitment', 'recruitment-applicants', [ $this, 'render_applicants' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Lamaran', 'Lamaran', 'manage_recruitment', 'recruitment-applications', [ $this, 'render_applications' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Wawancara User', 'Wawancara User', 'manage_recruitment', 'recruitment-user-interview', [ $this, 'render_user_interview' ] );
+		add_submenu_page( 'recruitment-dashboard', 'Form Lamaran', 'Form Lamaran', 'manage_recruitment', 'recruitment-form-builder', [ $this, 'render_form_builder' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Pengaturan', 'Pengaturan', 'manage_recruitment', 'recruitment-settings', [ $this, 'render_settings' ] );
 	}
 
 	public function enqueue_admin_assets(): void {
 		$page      = sanitize_key( $_GET['page'] ?? '' );
 		$post_type = sanitize_key( $_GET['post_type'] ?? '' );
-		$admin_pages = [ 'recruitment-dashboard', 'recruitment-applicants', 'recruitment-applications', 'recruitment-user-interview', 'recruitment-settings' ];
+		$admin_pages = [ 'recruitment-dashboard', 'recruitment-applicants', 'recruitment-applications', 'recruitment-user-interview', 'recruitment-form-builder', 'recruitment-settings' ];
 
 		if ( ! in_array( $page, $admin_pages, true ) && 'daw_vacancy' !== $post_type ) {
 			return;
@@ -53,7 +54,7 @@ class Recruitment_Admin {
 
 		$page      = sanitize_key( $_GET['page'] ?? '' );
 		$post_type = sanitize_key( $_GET['post_type'] ?? '' );
-		$admin_pages = [ 'recruitment-dashboard', 'recruitment-applicants', 'recruitment-applications', 'recruitment-user-interview', 'recruitment-settings' ];
+		$admin_pages = [ 'recruitment-dashboard', 'recruitment-applicants', 'recruitment-applications', 'recruitment-user-interview', 'recruitment-form-builder', 'recruitment-settings' ];
 
 		if ( ! in_array( $page, $admin_pages, true ) && 'daw_vacancy' !== $post_type ) {
 			return;
@@ -76,6 +77,10 @@ class Recruitment_Admin {
 
 	public function render_user_interview(): void {
 		$this->render_page( 'user-interview' );
+	}
+
+	public function render_form_builder(): void {
+		$this->render_page( 'application-form-builder' );
 	}
 
 	public function render_settings(): void {

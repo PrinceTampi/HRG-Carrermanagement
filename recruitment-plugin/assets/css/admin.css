@@ -421,3 +421,73 @@ body:has(.daw-user-interview) { background: #f5f5f7; margin: 0; }
 	.daw-vacancies__overview { gap: 6px; }
 	.daw-vacancies__dialog-row { grid-template-columns: 1fr; }
 }
+.recruitment-form-builder.wrap { color: #22272d; margin: 12px 20px 0 2px; max-width: none; }
+.recruitment-form-builder, .recruitment-form-builder * { box-sizing: border-box; }
+.recruitment-form-builder__topbar { align-items: center; background: #fff; border: 1px solid #dcdcde; border-radius: 8px; display: flex; gap: 24px; justify-content: space-between; margin: 0 0 14px; padding: 16px 20px; }
+.recruitment-form-builder__breadcrumb { color: #777e86; font-size: 11px; margin: 0 0 10px; }
+.recruitment-form-builder__breadcrumb span { color: #b5bac0; padding: 0 5px; }
+.recruitment-form-builder__topbar h1 { align-items: center; color: #252a30; display: flex; font-size: 19px; gap: 10px; margin: 0 0 5px; }
+.recruitment-form-builder__draft { background: #fff4d8; border: 1px solid #f4d68c; border-radius: 4px; color: #8b6500; font-size: 10px; font-weight: 600; padding: 3px 7px; }
+.recruitment-form-builder__summary { color: #727982; font-size: 11px; margin: 0; }
+.recruitment-form-builder__actions { align-items: center; display: flex; flex: 0 0 auto; flex-wrap: wrap; gap: 7px; }
+.recruitment-form-builder__actions .button { align-items: center; display: inline-flex; min-height: 32px; }
+.recruitment-form-builder__actions .button-primary { background: #c8102e; border-color: #c8102e; }
+.recruitment-form-builder__actions .button-primary:hover { background: #a90d27; border-color: #a90d27; }
+.recruitment-form-builder__sections { display: grid; gap: 12px; }
+.recruitment-form-section { background: #fff; border: 1px solid #d4d7db; border-radius: 8px; overflow: visible; }
+.recruitment-form-section__header { align-items: center; background: #f7f7f8; border-bottom: 1px solid #dedfe2; border-radius: 8px 8px 0 0; display: flex; gap: 10px; min-height: 62px; padding: 10px 14px; }
+.recruitment-form-section__number { align-items: center; background: #20252a; border-radius: 4px; color: #fff; display: inline-flex; flex: 0 0 23px; font-size: 10px; font-weight: 700; height: 23px; justify-content: center; }
+.recruitment-form-section__heading { display: grid; flex: 0 1 290px; gap: 2px; min-width: 140px; }
+.recruitment-form-section__title, .recruitment-form-section__description { background: transparent; border: 1px solid transparent; border-radius: 3px; box-shadow: none; color: #252a30; font: inherit; margin: 0; min-height: 24px; padding: 2px 5px; width: 100%; }
+.recruitment-form-section__title { font-size: 12px; font-weight: 700; }
+.recruitment-form-section__description { color: #737a83; font-size: 10px; }
+.recruitment-form-section__title:focus, .recruitment-form-section__description:focus { background: #fff; border-color: #8c8f94; box-shadow: 0 0 0 1px #8c8f94; outline: 0; }
+.recruitment-form-section__count { background: #fff; border: 1px solid #d8dade; border-radius: 4px; color: #66707a; font-size: 10px; padding: 4px 7px; white-space: nowrap; }
+.recruitment-form-section__actions { align-items: center; display: flex; gap: 4px; margin-left: auto; }
+.recruitment-form-section__actions .button, .recruitment-form-question__actions .button { min-height: 27px; }
+.recruitment-form-section__questions { display: grid; gap: 6px; padding: 10px 12px 7px; }
+.recruitment-form-question { background: #fff; border: 1px solid #d9dce0; border-radius: 6px; min-width: 0; }
+.recruitment-form-question__row { align-items: flex-start; display: flex; gap: 9px; min-height: 54px; padding: 9px 10px; }
+.recruitment-form-question__number { color: #727982; flex: 0 0 20px; font-size: 10px; padding-top: 6px; text-align: center; }
+.recruitment-form-question__icon { align-items: center; background: #f2f3f4; border: 1px solid #d8dade; border-radius: 5px; color: #626b74; display: inline-flex; flex: 0 0 23px; font-size: 15px; height: 23px; justify-content: center; }
+.recruitment-form-question__identity { flex: 1 1 auto; min-width: 0; padding-top: 2px; }
+.recruitment-form-question__identity strong { color: #29313a; display: block; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+.recruitment-form-question__meta { align-items: center; color: #777e86; display: flex; flex-wrap: wrap; font-size: 9px; gap: 7px; margin-top: 4px; }
+.recruitment-form-question__meta span:first-child { background: #f5f5f6; border: 1px solid #dedfe2; border-radius: 3px; padding: 2px 4px; }
+.recruitment-form-question__meta span:last-child { color: #c8102e; }
+.recruitment-form-question__meta span:last-child:empty { display: none; }
+.recruitment-form-question__actions { align-items: flex-start; display: flex; flex: 0 0 auto; gap: 4px; }
+.recruitment-form-question__edit { position: relative; }
+.recruitment-form-question__edit > summary { cursor: pointer; list-style: none; }
+.recruitment-form-question__edit > summary::-webkit-details-marker { display: none; }
+.recruitment-form-question__editor { background: #fff; border: 1px solid #d1d5da; border-radius: 6px; box-shadow: 0 8px 24px rgba(20, 25, 30, .12); display: grid; gap: 10px; padding: 13px; position: absolute; right: 0; top: 31px; width: min(340px, calc(100vw - 60px)); z-index: 20; }
+.recruitment-form-question__editor > label:not(.recruitment-form-question__required) { color: #4a5159; display: grid; font-size: 10px; font-weight: 600; gap: 4px; }
+.recruitment-form-question__editor input:not([type="checkbox"]), .recruitment-form-question__editor select, .recruitment-form-question__editor textarea { font-size: 12px; margin: 0; max-width: none; width: 100%; }
+.recruitment-form-question__editor textarea { min-height: 70px; }
+.recruitment-form-question__editor > .recruitment-form-question__options[hidden] { display: none; }
+.recruitment-form-question__options small { color: #727982; font-size: 10px; font-weight: 400; }
+.recruitment-form-question__required { align-items: center; color: #4a5159; display: flex; font-size: 11px; gap: 5px; }
+.recruitment-form-question__required input { margin: 0; }
+.recruitment-form-section__add-question { background: #fff; border: 1px dashed #d7dade; border-radius: 5px; color: #606972; cursor: pointer; font-size: 10px; margin: 0 12px 10px; min-height: 31px; width: calc(100% - 24px); }
+.recruitment-form-section__add-question:hover { background: #fafafa; border-color: #aeb4ba; color: #252a30; }
+.recruitment-form-preview { border: 1px solid #d1d5da; border-radius: 8px; color: #252a30; max-height: min(85vh, 900px); max-width: 760px; padding: 0; width: calc(100% - 32px); }
+.recruitment-form-preview::backdrop { background: rgba(24, 28, 32, .48); }
+.recruitment-form-preview__header { align-items: center; background: #f7f7f8; border-bottom: 1px solid #dedfe2; display: flex; justify-content: space-between; padding: 13px 17px; position: sticky; top: 0; }
+.recruitment-form-preview__header h2 { font-size: 15px; margin: 0; }
+.recruitment-form-preview__body { display: grid; gap: 16px; padding: 18px; }
+.recruitment-form-preview__body section { border-bottom: 1px solid #e2e4e7; padding-bottom: 14px; }
+.recruitment-form-preview__body h3 { font-size: 14px; margin: 0 0 3px; }
+.recruitment-form-preview__body section > p { color: #727982; font-size: 11px; margin: 0 0 12px; }
+.recruitment-form-preview__field { display: grid; font-size: 11px; gap: 5px; margin-top: 12px; }
+.recruitment-form-preview__field input, .recruitment-form-preview__field textarea, .recruitment-form-preview__field select { max-width: none; width: 100%; }
+
+@media (max-width: 782px) {
+	.recruitment-form-builder.wrap { margin: 10px 10px 0 0; }
+	.recruitment-form-builder__topbar { align-items: flex-start; flex-direction: column; gap: 13px; padding: 14px; }
+	.recruitment-form-builder__actions { width: 100%; }
+	.recruitment-form-section__header { align-items: flex-start; flex-wrap: wrap; }
+	.recruitment-form-section__heading { flex: 1 1 calc(100% - 45px); }
+	.recruitment-form-section__count { margin-left: 33px; }
+	.recruitment-form-section__actions { margin-left: auto; }
+	.recruitment-form-question__actions { flex-wrap: wrap; justify-content: flex-end; }
+}

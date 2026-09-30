@@ -219,4 +219,183 @@ document.documentElement.classList.add('js');
 			feedback.hidden = false;
 		}
 	});
+	})();
+
+(function recruitmentFormBuilder() {
+	const builder = document.querySelector('[data-form-builder]');
+	if (!builder) {
+		return;
+	}
+
+	const sectionList = builder.querySelector('[data-form-sections]');
+	const sectionTemplate = builder.parentElement.querySelector('[data-section-template]');
+	const questionTemplate = builder.parentElement.querySelector('[data-question-template]');
+	const typeLabels = {
+		short: 'Jawaban Singkat', paragraph: 'Paragraf / Jawaban Panjang', number: 'Angka',
+		date: 'Tanggal', email: 'Email', phone: 'Nomor Telepon', file: 'Upload File',
+		dropdown: 'Pilihan Dropdown', single_choice: 'Pilihan Satu Jawaban'
+	};
+
+	const refresh = function refreshBuilder() {
+		const sections = Array.from(sectionList.querySelectorAll('[data-form-section]'));
+		let questionTotal = 0;
+		sections.forEach(function updateSection(section, sectionIndex) {
+			section.querySelector('[data-section-number]').textContent = String(sectionIndex + 1).padStart(2, '0');
+			const title = section.querySelector('[data-section-title]');
+			const description = section.querySelector('[data-section-description]');
+			title.name = `form_sections[${sectionIndex}][title]`;
+			description.name = `form_sections[${sectionIndex}][description]`;
+			const questions = Array.from(section.querySelectorAll('[data-form-question]'));
+			questionTotal += questions.length;
+			section.querySelector('[data-section-question-count]').textContent = String(questions.length);
+			questions.forEach(function updateQuestion(question, questionIndex) {
+				question.querySelector('[data-question-number]').textContent = String(questionIndex + 1);
+				const fields = {
+					key: question.querySelector('[data-question-key]'),
+					title: question.querySelector('[data-question-title]'),
+					type: question.querySelector('[data-question-type]'),
+					options: question.querySelector('[data-question-options-value]'),
+					required: question.querySelector('[data-question-required-input]')
+				};
+				Object.keys(fields).forEach(function nameQuestionField(field) {
+					if (fields[field]) {
+						fields[field].name = `form_sections[${sectionIndex}][questions][${questionIndex}][${field}]`;
+					}
+				});
+			});
+		});
+		builder.querySelector('[data-section-count]').textContent = String(sections.length);
+		builder.querySelector('[data-question-count]').textContent = String(questionTotal);
+	};
+
+	const updateQuestion = function updateQuestion(question) {
+		const title = question.querySelector('[data-question-title]');
+		const type = question.querySelector('[data-question-type]');
+		const required = question.querySelector('[data-question-required-input]');
+		question.querySelector('[data-question-label]').textContent = title.value.trim() || 'Pertanyaan baru';
+		question.querySelector('[data-question-type-label]').textContent = typeLabels[type.value] || type.value;
+		question.querySelector('[data-question-required]').textContent = required.checked ? 'Wajib diisi' : 'Opsional';
+		question.querySelector('[data-question-options]').hidden = !['dropdown', 'single_choice'].includes(type.value);
+	};
+
+	const addQuestion = function addQuestion(section) {
+		const question = questionTemplate.content.firstElementChild.cloneNode(true);
+		question.querySelector('[data-question-key]').value = `field_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+		section.querySelector('[data-section-questions]').append(question);
+		refresh();
+		updateQuestion(question);
+		question.querySelector('[data-question-title]').focus();
+	};
+
+	const moveItem = function moveItem(item, direction) {
+		const sibling = 'up' === direction ? item.previousElementSibling : item.nextElementSibling;
+		if (!sibling) {
+			return;
+		}
+		if ('up' === direction) {
+			item.parentElement.insertBefore(item, sibling);
+		} else {
+			item.parentElement.insertBefore(sibling, item);
+		}
+		refresh();
+	};
+
+	builder.addEventListener('input', function updateQuestionOnInput(event) {
+		const question = event.target.closest('[data-form-question]');
+		if (question && event.target.matches('[data-question-title]')) {
+			updateQuestion(question);
+		}
+	});
+	builder.addEventListener('change', function updateQuestionOnChange(event) {
+		const question = event.target.closest('[data-form-question]');
+		if (question && event.target.matches('[data-question-type], [data-question-required-input]')) {
+			updateQuestion(question);
+		}
+	});
+
+	builder.addEventListener('click', function handleBuilderClick(event) {
+		const target = event.target.closest('button');
+		if (!target) {
+			return;
+		}
+		if (target.matches('[data-add-section]')) {
+			const section = sectionTemplate.content.firstElementChild.cloneNode(true);
+			sectionList.append(section);
+			refresh();
+			section.querySelector('[data-section-title]').focus();
+		} else if (target.matches('[data-add-question]')) {
+			addQuestion(target.closest('[data-form-section]'));
+		} else if (target.matches('[data-remove-question]')) {
+			target.closest('[data-form-question]').remove();
+			refresh();
+		} else if (target.matches('[data-remove-section]')) {
+			if (sectionList.querySelectorAll('[data-form-section]').length > 1 && window.confirm('Hapus section beserta seluruh pertanyaannya?')) {
+				target.closest('[data-form-section]').remove();
+				refresh();
+			}
+		} else if (target.matches('[data-move-section]')) {
+			moveItem(target.closest('[data-form-section]'), target.dataset.moveSection);
+		} else if (target.matches('[data-move-question]')) {
+			moveItem(target.closest('[data-form-question]'), target.dataset.moveQuestion);
+		}
+	});
+
+	const preview = builder.parentElement.querySelector('[data-form-preview]');
+	const previewContent = preview.querySelector('[data-preview-content]');
+	builder.parentElement.querySelector('[data-preview-form]').addEventListener('click', function openPreview() {
+		previewContent.replaceChildren();
+		sectionList.querySelectorAll('[data-form-section]').forEach(function renderPreviewSection(section) {
+			const previewSection = document.createElement('section');
+			const heading = document.createElement('h3');
+			heading.textContent = section.querySelector('[data-section-title]').value;
+			previewSection.append(heading);
+			const description = section.querySelector('[data-section-description]').value;
+			if (description) {
+				const text = document.createElement('p');
+				text.textContent = description;
+				previewSection.append(text);
+			}
+			section.querySelectorAll('[data-form-question]').forEach(function renderPreviewQuestion(question) {
+				const label = document.createElement('label');
+				label.className = 'recruitment-form-preview__field';
+				const title = document.createElement('span');
+				title.textContent = question.querySelector('[data-question-title]').value;
+				if (question.querySelector('[data-question-required-input]').checked) {
+					title.append(document.createTextNode(' *'));
+				}
+				label.append(title);
+				const type = question.querySelector('[data-question-type]').value;
+				let input;
+				if ('paragraph' === type) {
+					input = document.createElement('textarea');
+				} else if (['dropdown', 'single_choice'].includes(type)) {
+					input = document.createElement('select');
+					question.querySelector('[data-question-options-value]').value.split(/\r?\n/).filter(Boolean).forEach(function addPreviewOption(optionText) {
+						const option = document.createElement('option');
+						option.textContent = optionText;
+						input.append(option);
+					});
+				} else {
+					input = document.createElement('input');
+					input.type = 'file' === type ? 'file' : ['short', 'number', 'date', 'email', 'phone'].includes(type) ? ({ phone: 'tel' }[type] || type) : 'text';
+				}
+				input.disabled = true;
+				label.append(input);
+				previewSection.append(label);
+			});
+			previewContent.append(previewSection);
+		});
+		preview.showModal();
+	});
+	preview.querySelector('[data-close-preview]').addEventListener('click', function closePreview() {
+		preview.close();
+	});
+	preview.addEventListener('click', function closePreviewOnBackdrop(event) {
+		if (event.target === preview) {
+			preview.close();
+		}
+	});
+
+	sectionList.querySelectorAll('[data-form-question]').forEach(updateQuestion);
+	refresh();
 })();
