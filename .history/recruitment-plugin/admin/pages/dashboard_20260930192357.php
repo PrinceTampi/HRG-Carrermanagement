@@ -109,22 +109,22 @@ $pipeline_rows = [
 ?>
 <div class="wrap recruitment-admin recruitment-dashboard" data-recruitment-dashboard>
     <?php $admin_user = wp_get_current_user(); ?>
-    <aside class="recruitment-dashboard__sidebar" aria-label="Navigasi dashboard">
+    <aside class="recruitment-dashboard__sidebar" aria-label="Navigasi admin">
         <a class="recruitment-dashboard__brand" href="<?= esc_url( recruitment_get_admin_url( 'dashboard' ) ) ?>" aria-label="DAW Admin, Dashboard">
             <span class="recruitment-dashboard__brand-mark" aria-hidden="true">D</span>
             <span class="recruitment-dashboard__brand-name">DAW Admin</span>
         </a>
         <nav class="recruitment-dashboard__navigation">
-            <a class="is-active" href="<?= esc_url( recruitment_get_admin_url( 'dashboard' ) ) ?>" aria-current="page" title="Dashboard"><span class="dashicons dashicons-dashboard" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Dashboard</span></a>
-            <a href="#candidate-list-title" data-dashboard-stage="all" title="Recruitment"><span class="dashicons dashicons-groups" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Recruitment</span></a>
-            <a href="<?= esc_url( recruitment_get_admin_url( 'applicants' ) ) ?>" title="Database Pelamar"><span class="dashicons dashicons-database" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Database Pelamar</span></a>
-            <a href="<?= esc_url( recruitment_get_admin_url( 'vacancies' ) ) ?>" title="Lowongan"><span class="dashicons dashicons-portfolio" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Lowongan</span></a>
-            <a href="<?= esc_url( admin_url( 'admin.php?page=recruitment-form-builder' ) ) ?>" title="Form Lamaran"><span class="dashicons dashicons-forms" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Form Lamaran</span></a>
-            <a href="#candidate-list-title" data-dashboard-stage="psychological_test" title="Psikotes"><span class="dashicons dashicons-lightbulb" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Psikotes</span></a>
-            <a href="<?= esc_url( admin_url( 'admin.php?page=recruitment-user-interview' ) ) ?>" title="Jadwal Wawancara"><span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Jadwal Wawancara</span></a>
-            <a href="<?= esc_url( recruitment_get_admin_url( 'settings' ) ) ?>" title="Email Recruitment"><span class="dashicons dashicons-email" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Email Recruitment</span></a>
-            <a href="<?= esc_url( recruitment_get_admin_url( 'applications' ) ) ?>" title="Approval Pengajuan"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Approval Pengajuan</span></a>
-            <a href="<?= esc_url( admin_url( 'users.php' ) ) ?>" title="Akun User Dept"><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Akun User Dept</span></a>
+            <a class="is-active" href="<?= esc_url( recruitment_get_admin_url( 'dashboard' ) ) ?>" aria-current="page" title="Dashboard" aria-label="Dashboard"><span class="dashicons dashicons-dashboard" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Dashboard</span></a>
+            <a href="#candidate-list-title" data-dashboard-stage="all" title="Recruitment" aria-label="Recruitment"><span class="dashicons dashicons-groups" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Recruitment</span></a>
+            <a href="<?= esc_url( recruitment_get_admin_url( 'applicants' ) ) ?>" title="Database Pelamar" aria-label="Database Pelamar"><span class="dashicons dashicons-database" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Database Pelamar</span></a>
+            <a href="<?= esc_url( recruitment_get_admin_url( 'vacancies' ) ) ?>" title="Lowongan" aria-label="Lowongan"><span class="dashicons dashicons-portfolio" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Lowongan</span></a>
+            <a href="<?= esc_url( recruitment_get_public_url( 'careers' ) ) ?>" title="Form Lamaran" aria-label="Form Lamaran"><span class="dashicons dashicons-forms" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Form Lamaran</span></a>
+            <a href="#candidate-list-title" data-dashboard-stage="psychological_test" title="Psikotes" aria-label="Psikotes"><span class="dashicons dashicons-lightbulb" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Psikotes</span></a>
+            <a href="#candidate-list-title" data-dashboard-stage="hr_interview" title="Jadwal Wawancara" aria-label="Jadwal Wawancara"><span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Jadwal Wawancara</span></a>
+            <span class="recruitment-dashboard__nav-disabled" aria-disabled="true" title="Halaman email recruitment belum tersedia"><span class="dashicons dashicons-email" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Email Recruitment</span></span>
+            <a href="#candidate-list-title" data-dashboard-stage="administration" title="Approval Pengajuan" aria-label="Approval Pengajuan"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Approval Pengajuan</span></a>
+            <span class="recruitment-dashboard__nav-disabled" aria-disabled="true" title="Halaman akun user department belum tersedia"><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Akun User Dept</span></span>
         </nav>
         <div class="recruitment-dashboard__sidebar-footer">
             <button type="button" data-sidebar-collapse aria-expanded="true" title="Ciutkan navigasi"><span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Ciutkan</span></button>
