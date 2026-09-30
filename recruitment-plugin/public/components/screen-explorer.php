@@ -38,6 +38,7 @@ $screen_explorer_items = [
         [ 'label' => 'Pelamar', 'screen' => 'applicants' ],
         [ 'label' => 'Lamaran', 'screen' => 'applications' ],
         [ 'label' => 'Wawancara User', 'screen' => 'user-interview' ],
+        [ 'label' => 'Catatan Wawancara User', 'screen' => 'user-interview', 'args' => [ 'view' => 'notes' ] ],
         [ 'label' => 'Pengaturan', 'screen' => 'settings' ],
     ],
 ];
@@ -62,8 +63,15 @@ $screen_explorer_items = [
                 <?php foreach ( $items as $item ) : ?>
                     <?php
                     $is_admin = 'Admin' === $group && 'login' !== $item['screen'];
-                    $args     = array_merge( [ 'daw_ui_preview' => '1' ], $item['args'] ?? [] );
-                    $url      = $is_admin ? recruitment_get_admin_url( $item['screen'] ) : recruitment_get_public_url( $item['screen'], $args );
+                    $args = $item['args'] ?? [];
+                    if ( $is_admin ) {
+                        $url = recruitment_get_admin_url( $item['screen'] );
+                        if ( $args ) {
+                            $url = add_query_arg( $args, $url );
+                        }
+                    } else {
+                        $url = recruitment_get_public_url( $item['screen'], array_merge( [ 'daw_ui_preview' => '1' ], $args ) );
+                    }
                     ?>
                     <a href="<?= esc_url( $url ) ?>" <?= $is_admin ? 'target="_blank" rel="noopener"' : '' ?>>
                         <span><?= esc_html( $item['label'] ) ?></span><span aria-hidden="true">&rarr;</span>
