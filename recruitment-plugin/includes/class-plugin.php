@@ -104,6 +104,11 @@ class Recruitment_Plugin {
         $public_js  = recruitment_get_plugin_path( 'assets/js/public.js' );
         wp_enqueue_style( 'recruitment-public', recruitment_get_plugin_url( 'assets/css/public.css' ), [], file_exists( $public_css ) ? filemtime( $public_css ) : RECRUITMENT_PLUGIN_VERSION );
         wp_enqueue_script( 'recruitment-public', recruitment_get_plugin_url( 'assets/js/public.js' ), [], file_exists( $public_js ) ? filemtime( $public_js ) : RECRUITMENT_PLUGIN_VERSION, true );
+
+        if ( 'login' === sanitize_key( $_GET['recruitment_page'] ?? '' ) ) {
+            $admin_css = recruitment_get_plugin_path( 'assets/css/admin.css' );
+            wp_enqueue_style( 'recruitment-admin-login', recruitment_get_plugin_url( 'assets/css/admin.css' ), [ 'recruitment-public' ], file_exists( $admin_css ) ? filemtime( $admin_css ) : RECRUITMENT_PLUGIN_VERSION );
+        }
     }
 
     public function render_careers_shortcode(): string {

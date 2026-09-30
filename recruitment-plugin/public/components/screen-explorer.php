@@ -1,5 +1,5 @@
 <?php
-$screen_explorer_preview = '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? '' ) ) || ( function_exists( 'current_user_can' ) && current_user_can( 'manage_options' ) );
+$screen_explorer_preview = '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? '' ) ) || ( function_exists( 'current_user_can' ) && ( current_user_can( 'manage_options' ) || current_user_can( 'manage_recruitment' ) ) );
 if ( ! $screen_explorer_preview ) {
     return;
 }
@@ -32,6 +32,7 @@ $screen_explorer_items = [
         [ 'label' => 'Booking Wawancara', 'screen' => 'interview-booking', 'args' => [ 'token' => 'DAW-PREVIEW-001' ] ],
     ],
     'Admin' => [
+        [ 'label' => 'Login Admin', 'screen' => 'login' ],
         [ 'label' => 'Dashboard', 'screen' => 'dashboard' ],
         [ 'label' => 'Lowongan', 'screen' => 'vacancies' ],
         [ 'label' => 'Pelamar', 'screen' => 'applicants' ],
@@ -59,7 +60,7 @@ $screen_explorer_items = [
                 <div class="daw-screen-explorer__group-body">
                 <?php foreach ( $items as $item ) : ?>
                     <?php
-                    $is_admin = 'Admin' === $group;
+                    $is_admin = 'Admin' === $group && 'login' !== $item['screen'];
                     $args     = array_merge( [ 'daw_ui_preview' => '1' ], $item['args'] ?? [] );
                     $url      = $is_admin ? recruitment_get_admin_url( $item['screen'] ) : recruitment_get_public_url( $item['screen'], $args );
                     ?>

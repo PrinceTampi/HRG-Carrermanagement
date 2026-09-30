@@ -27,6 +27,7 @@ class Recruitment_Router {
         'tracking-result-proses-selesai' => 'public/pages/tracking-result-proses-selesai.php',
         'tracking-result-administrasi-diperiksa' => 'public/pages/tracking-result-administrasi-diperiksa.php',
         'tracking-result-keputusan-akhir-tidak-lolos' => 'public/pages/tracking-result-keputusan-akhir-tidak-lolos.php',
+        'login'              => 'admin/pages/login.php',
         'dashboard'          => 'admin/pages/dashboard.php',
         'vacancies'          => 'admin/pages/vacancies.php',
         'applicants'         => 'admin/pages/applicants.php',
