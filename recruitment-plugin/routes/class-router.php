@@ -32,11 +32,12 @@ class Recruitment_Router {
         'vacancies'          => 'admin/pages/vacancies.php',
         'applicants'         => 'admin/pages/applicants.php',
         'applications'       => 'admin/pages/applications.php',
+        'user-interview'     => 'admin/pages/user-interview.php',
         'settings'           => 'admin/pages/settings.php',
     ];
 
     /** @var string[] */
-    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'settings' ];
+    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'user-interview', 'settings' ];
 
     /**
      * @param array<string, mixed> $data
@@ -44,7 +45,12 @@ class Recruitment_Router {
     public function render( string $page, array $data = [] ): void {
         $slug = array_key_exists( $page, self::ROUTES ) ? $page : 'careers';
 
-        if ( in_array( $slug, self::PROTECTED, true ) ) {
+        $sandbox_preview = in_array( $slug, [ 'user-interview', 'vacancies' ], true )
+            && defined( 'RECRUITMENT_SANDBOX' )
+            && RECRUITMENT_SANDBOX
+            && '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? '' ) );
+
+        if ( in_array( $slug, self::PROTECTED, true ) && ! $sandbox_preview ) {
             if ( ! is_user_logged_in() ) {
                 wp_safe_redirect( wp_login_url( recruitment_get_admin_url( $slug ) ) );
                 exit;

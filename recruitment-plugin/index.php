@@ -13,6 +13,10 @@ if ( ! defined( 'RECRUITMENT_PLUGIN_URL' ) ) {
     define( 'RECRUITMENT_PLUGIN_URL', 'http://127.0.0.1:8000/' );
 }
 
+if ( ! defined( 'RECRUITMENT_SANDBOX' ) ) {
+    define( 'RECRUITMENT_SANDBOX', true );
+}
+
 ob_start();
 session_start();
 
@@ -58,8 +62,11 @@ if ( $page === 'login' && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     <title>DAW Recruitment</title>
     <link rel="stylesheet" href="<?= esc_url( recruitment_get_plugin_url( 'assets/css/public.css' ) ) ?>">
     <script src="<?= esc_url( recruitment_get_plugin_url( 'assets/js/public.js' ) ) ?>" defer></script>
-    <?php if ( in_array( $page, [ 'login', 'dashboard', 'vacancies', 'applicants', 'applications', 'settings' ], true ) ) : ?>
+    <?php if ( in_array( $page, [ 'login', 'dashboard', 'vacancies', 'applicants', 'applications', 'user-interview', 'settings' ], true ) ) : ?>
         <link rel="stylesheet" href="<?= esc_url( recruitment_get_plugin_url( 'assets/css/admin.css' ) ) ?>">
+    <?php endif; ?>
+    <?php if ( in_array( $page, [ 'user-interview', 'vacancies' ], true ) ) : ?>
+        <script src="<?= esc_url( recruitment_get_plugin_url( 'assets/js/admin.js' ) ) ?>" defer></script>
     <?php endif; ?>
 </head>
 <body>

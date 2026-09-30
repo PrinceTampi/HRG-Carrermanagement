@@ -295,6 +295,10 @@ function recruitment_map_vacancy( $vacancy ): array {
 function recruitment_get_admin_url( string $slug = 'dashboard' ): string {
     $slug = sanitize_key( $slug );
 
+    if ( in_array( $slug, [ 'user-interview', 'vacancies' ], true ) && defined( 'RECRUITMENT_SANDBOX' ) && RECRUITMENT_SANDBOX ) {
+        return add_query_arg( [ 'page' => $slug, 'daw_ui_preview' => '1' ], home_url( '/' ) );
+    }
+
     if ( 'vacancies' === $slug ) {
         return admin_url( 'edit.php?post_type=daw_vacancy' );
     }
@@ -303,6 +307,7 @@ function recruitment_get_admin_url( string $slug = 'dashboard' ): string {
         'dashboard'    => 'recruitment-dashboard',
         'applicants'   => 'recruitment-applicants',
         'applications' => 'recruitment-applications',
+        'user-interview' => 'recruitment-user-interview',
         'settings'     => 'recruitment-settings',
     ];
 

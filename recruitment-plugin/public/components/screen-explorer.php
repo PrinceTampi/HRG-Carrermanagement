@@ -37,6 +37,7 @@ $screen_explorer_items = [
         [ 'label' => 'Lowongan', 'screen' => 'vacancies' ],
         [ 'label' => 'Pelamar', 'screen' => 'applicants' ],
         [ 'label' => 'Lamaran', 'screen' => 'applications' ],
+        [ 'label' => 'Wawancara User', 'screen' => 'user-interview' ],
         [ 'label' => 'Pengaturan', 'screen' => 'settings' ],
     ],
 ];
