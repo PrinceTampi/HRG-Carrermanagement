@@ -1,33 +1,86 @@
 <?php
-/**
- * admin/components/sidebar.php
- *
- * Sidebar navigasi dashboard HRD.
- *
- * Navigasi:
- * - Dashboard
- * - Vacancies
- * - Applicants
- * - Applications
- * - Settings
- * - Logout
- */
-$current = sanitize_key( $_GET['page'] ?? 'recruitment-dashboard' );
-$nav_items = [
-    'recruitment-dashboard' => 'Dashboard',
-    'vacancies'    => 'Vacancies',
-    'applicants'   => 'Applicants',
-    'applications' => 'Applications',
-    'settings'     => 'Settings',
+$current_page = sanitize_key( $_GET['page'] ?? '' );
+$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+$current_screen_id = sanitize_key( $screen->id ?? '' );
+$current_post_type = sanitize_key( $_GET['post_type'] ?? ( $screen->post_type ?? '' ) );
+$current_stage = sanitize_key( $_GET['stage'] ?? '' );
+$settings_section = sanitize_key( $_GET['section'] ?? 'email' );
+$dashboard_url = recruitment_get_admin_url( 'dashboard' );
+$settings_url = recruitment_get_admin_url( 'settings' );
+$stage_url = static function ( string $stage ) use ( $dashboard_url ): string {
+    return add_query_arg( 'stage', $stage, $dashboard_url );
+};
+$stage_links = [
+    [ 'label' => 'Semua Kandidat Aktif', 'page' => 'recruitment-applicants', 'url' => recruitment_get_admin_url( 'applicants' ) ],
+    [ 'label' => 'Seleksi Administrasi', 'stage' => 'administration' ],
+    [ 'label' => 'Psikotes', 'stage' => 'psychological_test' ],
+    [ 'label' => 'Wawancara HR', 'stage' => 'hr_interview' ],
+    [ 'label' => 'Wawancara User', 'page' => 'recruitment-user-interview', 'url' => admin_url( 'admin.php?page=recruitment-user-interview' ) ],
+    [ 'label' => 'Final Decision', 'stage' => 'final' ],
 ];
+$root_links = [
+    [ 'label' => 'Database Pelamar', 'icon' => 'dashicons-database', 'page' => 'recruitment-applicants', 'url' => recruitment_get_admin_url( 'applicants' ) ],
+    [ 'label' => 'Lowongan', 'icon' => 'dashicons-portfolio', 'page' => 'recruitment-vacancies', 'post_type' => 'daw_vacancy', 'url' => recruitment_get_admin_url( 'vacancies' ) ],
+    [ 'label' => 'Form Lamaran', 'icon' => 'dashicons-forms', 'page' => 'recruitment-form-builder', 'url' => admin_url( 'admin.php?page=recruitment-form-builder' ) ],
+];
+$can_list_users = current_user_can( 'list_users' );
 ?>
-<aside class="admin-sidebar">
-    <nav aria-label="Admin menu">
-        <?php foreach ( $nav_items as $slug => $label ) : ?>
-            <a href="<?= esc_url( recruitment_get_admin_url( $slug ) ) ?>" class="<?= $current === $slug ? 'active' : '' ?>">
-                <?= esc_html( $label ) ?>
-            </a>
+<aside class="recruitment-dashboard__sidebar daw-recruitment-sidebar" data-recruitment-sidebar aria-label="Navigasi Recruitment">
+    <a class="recruitment-dashboard__brand" href="<?= esc_url( $dashboard_url ) ?>" aria-label="DAW Admin, Dashboard">
+        <span class="recruitment-dashboard__brand-mark" aria-hidden="true">D</span>
+        <span class="recruitment-dashboard__brand-name">DAW Admin</span>
+    </a>
+    <nav class="recruitment-dashboard__navigation" aria-label="Menu Recruitment">
+        <a href="<?= esc_url( $dashboard_url ) ?>" class="<?= 'recruitment-dashboard' === $current_page && '' === $current_stage ? 'is-active' : '' ?>" title="Dashboard" <?= 'recruitment-dashboard' === $current_page && '' === $current_stage ? 'aria-current="page"' : '' ?>>
+            <span class="dashicons dashicons-dashboard" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Dashboard</span>
+        </a>
+
+        <div class="recruitment-dashboard__nav-group">
+            <button type="button" class="recruitment-dashboard__nav-group-toggle" data-nav-group-toggle aria-expanded="true" aria-controls="recruitment-stage-links">
+                <span class="dashicons dashicons-groups" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Recruitment</span><span class="dashicons dashicons-arrow-down-alt2 recruitment-dashboard__nav-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="recruitment-dashboard__nav-group-items" id="recruitment-stage-links" data-nav-group-panel>
+                <?php foreach ( $stage_links as $item ) :
+                    $is_active = isset( $item['stage'] )
+                        ? 'recruitment-dashboard' === $current_page && $current_stage === $item['stage']
+                        : $current_page === $item['page'];
+                    $url = $item['url'] ?? $stage_url( $item['stage'] );
+                    ?>
+                    <a href="<?= esc_url( $url ) ?>" class="<?= $is_active ? 'is-active' : '' ?>" <?= $is_active ? 'aria-current="page"' : '' ?>><span class="recruitment-dashboard__nav-label"><?= esc_html( $item['label'] ) ?></span><?php if ( 'Semua Kandidat Aktif' === $item['label'] ) : ?><span class="recruitment-dashboard__nav-count">12</span><?php endif; ?></a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <?php foreach ( $root_links as $item ) :
+            $is_active = ( isset( $item['page'] ) && $current_page === $item['page'] )
+                || ( isset( $item['post_type'] ) && $current_post_type === $item['post_type'] );
+            ?>
+            <a href="<?= esc_url( $item['url'] ) ?>" class="<?= $is_active ? 'is-active' : '' ?>" title="<?= esc_attr( $item['label'] ) ?>" <?= $is_active ? 'aria-current="page"' : '' ?>><span class="dashicons <?= esc_attr( $item['icon'] ) ?>" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label"><?= esc_html( $item['label'] ) ?></span></a>
         <?php endforeach; ?>
-        <a href="<?= esc_url( wp_logout_url( home_url( '/' ) ) ) ?>" class="nav-action">Logout</a>
+
+        <div class="recruitment-dashboard__nav-group">
+            <button type="button" class="recruitment-dashboard__nav-group-toggle" data-nav-group-toggle aria-expanded="true" aria-controls="recruitment-psychotest-links">
+                <span class="dashicons dashicons-lightbulb" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Psikotes</span><span class="dashicons dashicons-arrow-down-alt2 recruitment-dashboard__nav-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="recruitment-dashboard__nav-group-items" id="recruitment-psychotest-links" data-nav-group-panel>
+                <a href="<?= esc_url( recruitment_get_admin_url( 'psychotest-settings' ) ) ?>" class="<?= 'recruitment-psychotest-settings' === $current_page ? 'is-active' : '' ?>" <?= 'recruitment-psychotest-settings' === $current_page ? 'aria-current="page"' : '' ?>><span class="recruitment-dashboard__nav-label">Setting Psikotes</span></a>
+                <a href="<?= esc_url( recruitment_get_admin_url( 'question-bank' ) ) ?>" class="<?= 'recruitment-question-bank' === $current_page ? 'is-active' : '' ?>" <?= 'recruitment-question-bank' === $current_page ? 'aria-current="page"' : '' ?>><span class="recruitment-dashboard__nav-label">Bank Soal</span></a>
+            </div>
+        </div>
+
+        <a href="<?= esc_url( admin_url( 'admin.php?page=recruitment-user-interview' ) ) ?>" class="<?= 'recruitment-user-interview' === $current_page ? 'is-active' : '' ?>" title="Jadwal Wawancara" <?= 'recruitment-user-interview' === $current_page ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Jadwal Wawancara</span></a>
+        <a href="<?= esc_url( add_query_arg( 'section', 'email', $settings_url ) ) ?>" class="<?= 'recruitment-settings' === $current_page && 'email' === $settings_section ? 'is-active' : '' ?>" title="Email Recruitment" <?= 'recruitment-settings' === $current_page && 'email' === $settings_section ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-email" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Email Recruitment</span></a>
+        <a href="<?= esc_url( recruitment_get_admin_url( 'applications' ) ) ?>" class="<?= 'recruitment-applications' === $current_page ? 'is-active' : '' ?>" title="Approval Pengajuan" <?= 'recruitment-applications' === $current_page ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Approval Pengajuan</span></a>
+        <?php if ( $can_list_users ) : ?>
+            <a href="<?= esc_url( admin_url( 'users.php' ) ) ?>" class="<?= in_array( $current_screen_id, [ 'users', 'users-network' ], true ) ? 'is-active' : '' ?>" title="Akun User Dept" <?= in_array( $current_screen_id, [ 'users', 'users-network' ], true ) ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Akun User Dept</span></a>
+        <?php else : ?>
+            <span class="recruitment-dashboard__nav-disabled" aria-disabled="true" title="Akun pengguna memerlukan izin WordPress yang lebih tinggi"><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Akun User Dept</span></span>
+        <?php endif; ?>
     </nav>
+    <div class="recruitment-dashboard__sidebar-footer">
+        <button type="button" data-sidebar-collapse aria-expanded="true" title="Ciutkan navigasi">
+            <span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span>
+            <span class="recruitment-dashboard__nav-label">Ciutkan</span>
+        </button>
+    </div>
 </aside>

@@ -300,7 +300,7 @@ function recruitment_get_admin_url( string $slug = 'dashboard' ): string {
     }
 
     if ( 'vacancies' === $slug ) {
-        return admin_url( 'edit.php?post_type=daw_vacancy' );
+        return add_query_arg( 'page', 'recruitment-vacancies', admin_url( 'admin.php' ) );
     }
 
     $pages = [
@@ -308,6 +308,8 @@ function recruitment_get_admin_url( string $slug = 'dashboard' ): string {
         'applicants'   => 'recruitment-applicants',
         'applications' => 'recruitment-applications',
         'user-interview' => 'recruitment-user-interview',
+        'psychotest-settings' => 'recruitment-psychotest-settings',
+        'question-bank' => 'recruitment-question-bank',
         'settings'     => 'recruitment-settings',
     ];
 

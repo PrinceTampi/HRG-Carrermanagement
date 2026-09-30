@@ -34,11 +34,13 @@ class Recruitment_Router {
         'applications'       => 'admin/pages/applications.php',
         'user-interview'     => 'admin/pages/user-interview.php',
         'application-form-builder' => 'admin/pages/application-form-builder.php',
+        'psychotest-settings' => 'admin/pages/psychotest-settings.php',
+        'question-bank'      => 'admin/pages/question-bank.php',
         'settings'           => 'admin/pages/settings.php',
     ];
 
     /** @var string[] */
-    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'user-interview', 'application-form-builder', 'settings' ];
+    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'user-interview', 'application-form-builder', 'psychotest-settings', 'question-bank', 'settings' ];
 
     /**
      * @param array<string, mixed> $data

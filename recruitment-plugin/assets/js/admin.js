@@ -112,6 +112,14 @@ document.documentElement.classList.add("js");
     });
   });
 
+	const requestedStage = new URLSearchParams(window.location.search).get("stage");
+	const requestedStageButton = stageButtons.find(function findRequestedStage(button) {
+		return button.dataset.stageFilter === requestedStage;
+	});
+	if (requestedStageButton) {
+		requestedStageButton.click();
+	}
+
   searchInput.addEventListener("input", applyFilters);
   dealerSelect.addEventListener("change", applyFilters);
   vacancySelect.addEventListener("change", applyFilters);
@@ -459,4 +467,94 @@ document.documentElement.classList.add("js");
 
 	sectionList.querySelectorAll('[data-form-question]').forEach(updateQuestion);
 	refresh();
+})();
+
+(function recruitmentSidebarCollapse() {
+	const sidebar = document.querySelector('[data-recruitment-sidebar]');
+	if (!sidebar) {
+		return;
+	}
+
+	const collapseButton = sidebar.querySelector('[data-sidebar-collapse]');
+	const isMobile = window.matchMedia('(max-width: 782px)').matches;
+	document.body.classList.toggle('daw-recruitment-sidebar-collapsed', isMobile);
+
+	const updateButton = function updateButton() {
+		const isExpanded = !document.body.classList.contains('daw-recruitment-sidebar-collapsed');
+		collapseButton.setAttribute('aria-expanded', String(isExpanded));
+		collapseButton.title = isExpanded ? 'Ciutkan navigasi' : 'Buka navigasi';
+	};
+
+	updateButton();
+	collapseButton.addEventListener('click', function toggleSidebar() {
+		document.body.classList.toggle('daw-recruitment-sidebar-collapsed');
+		updateButton();
+	});
+
+	sidebar.querySelectorAll('[data-nav-group-toggle]').forEach(function bindNavGroup(toggle) {
+		const panel = document.getElementById(toggle.getAttribute('aria-controls'));
+		if (!panel) {
+			return;
+		}
+
+		toggle.addEventListener('click', function toggleNavGroup() {
+			const isExpanded = 'true' === toggle.getAttribute('aria-expanded');
+			toggle.setAttribute('aria-expanded', String(!isExpanded));
+			panel.hidden = isExpanded;
+		});
+	});
+})();
+
+(function psychotestQuestionBank() {
+	const bank = document.querySelector('[data-question-bank]');
+	if (!bank) {
+		return;
+	}
+
+	const dialog = bank.querySelector('[data-question-dialog]');
+	const form = bank.querySelector('[data-question-form]');
+	const prompt = form.querySelector('[data-question-prompt]');
+	const choices = form.querySelector('[data-question-choices]');
+	const choicesLabel = form.querySelector('[data-question-choices-label]');
+	const answerLabel = form.querySelector('[data-question-answer-label]');
+	const updateTypeFields = function updateTypeFields() {
+		const type = form.querySelector('[data-question-type]').value;
+		choicesLabel.hidden = 'numeric' === type;
+		answerLabel.hidden = !['multiple_choice', 'numeric'].includes(type);
+	};
+	const openDialog = function openDialog(question) {
+		form.reset();
+		form.querySelector('[data-question-id]').value = question ? question.dataset.id : '';
+		form.querySelector('[data-question-test]').value = question ? question.dataset.test : 'iq';
+		form.querySelector('[data-question-type]').value = question ? question.dataset.type : 'multiple_choice';
+		form.querySelector('[data-question-status]').value = question ? question.dataset.status : 'active';
+		prompt.value = question ? question.dataset.prompt : '';
+		choices.value = question ? question.dataset.choices : '';
+		form.querySelector('[data-question-answer]').value = question ? question.dataset.answer : '';
+		bank.querySelector('#question-dialog-title').textContent = question ? 'Edit Soal' : 'Tambah Soal';
+		updateTypeFields();
+		dialog.showModal();
+		prompt.focus();
+	};
+
+	bank.querySelector('[data-open-question-dialog]').addEventListener('click', function addQuestion() {
+		openDialog(null);
+	});
+	bank.querySelectorAll('[data-edit-question]').forEach(function bindEditButton(button) {
+		button.addEventListener('click', function editQuestion() {
+			openDialog(button);
+		});
+	});
+	form.querySelector('[data-question-type]').addEventListener('change', updateTypeFields);
+	dialog.querySelectorAll('[data-close-question-dialog]').forEach(function bindClose(button) {
+		button.addEventListener('click', function closeDialog() {
+			dialog.close();
+		});
+	});
+	dialog.addEventListener('click', function closeOnBackdrop(event) {
+		if (event.target === dialog) {
+			dialog.close();
+		}
+	});
+	updateTypeFields();
 })();
