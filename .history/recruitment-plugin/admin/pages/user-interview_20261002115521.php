@@ -33,7 +33,7 @@ foreach ( $interviews as $interview ) {
 
 $stats = [ 'total' => count( $filtered_interviews ), 'good' => 0, 'accepted' => 0, 'waiting' => 0 ];
 foreach ( $filtered_interviews as $interview ) {
-	if ( in_array( $interview['result'], [ 'Sangat Baik', 'Baik', 'Dipilih' ], true ) ) {
+	if ( in_array( $interview['result'], [ 'Sangat Baik', 'Baik' ], true ) ) {
 		$stats['good']++;
 	}
 	if ( 'Diterima' === $interview['final'] ) {

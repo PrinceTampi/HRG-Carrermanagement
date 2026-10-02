@@ -16,7 +16,7 @@ $stage_links = [
     [ 'label' => 'Seleksi Administrasi', 'stage' => 'administration' ],
     [ 'label' => 'Psikotes', 'stage' => 'psychological_test' ],
     [ 'label' => 'Wawancara HR', 'stage' => 'hr_interview' ],
-    [ 'label' => 'Detail Hasil Wawancara Departemen', 'page' => 'recruitment-user-interview', 'url' => admin_url( 'admin.php?page=recruitment-user-interview' ) ],
+    [ 'label' => 'Wawancara User', 'page' => 'recruitment-user-interview', 'url' => admin_url( 'admin.php?page=recruitment-user-interview' ) ],
     [ 'label' => 'Final Decision', 'page' => 'recruitment-dashboard', 'view' => 'final-decision', 'url' => add_query_arg( 'view', 'final-decision', $dashboard_url ) ],
 ];
 $root_links = [

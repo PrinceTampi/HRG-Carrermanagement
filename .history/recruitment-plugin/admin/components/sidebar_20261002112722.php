@@ -1,6 +1,5 @@
 <?php
 $current_page = sanitize_key( $_GET['page'] ?? '' );
-$current_view = sanitize_key( $_GET['view'] ?? '' );
 $screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
 $current_screen_id = sanitize_key( $screen->id ?? '' );
 $current_post_type = sanitize_key( $_GET['post_type'] ?? ( $screen->post_type ?? '' ) );
@@ -16,8 +15,8 @@ $stage_links = [
     [ 'label' => 'Seleksi Administrasi', 'stage' => 'administration' ],
     [ 'label' => 'Psikotes', 'stage' => 'psychological_test' ],
     [ 'label' => 'Wawancara HR', 'stage' => 'hr_interview' ],
-    [ 'label' => 'Detail Hasil Wawancara Departemen', 'page' => 'recruitment-user-interview', 'url' => admin_url( 'admin.php?page=recruitment-user-interview' ) ],
-    [ 'label' => 'Final Decision', 'page' => 'recruitment-dashboard', 'view' => 'final-decision', 'url' => add_query_arg( 'view', 'final-decision', $dashboard_url ) ],
+    [ 'label' => 'Wawancara User', 'page' => 'recruitment-user-interview', 'url' => admin_url( 'admin.php?page=recruitment-user-interview' ) ],
+    [ 'label' => 'Final Decision', 'page' => 'recruitment-final-decision', 'url' => recruitment_get_admin_url( 'final-decision' ) ],
 ];
 $root_links = [
     [ 'label' => 'Database Pelamar', 'icon' => 'dashicons-database', 'page' => 'recruitment-applicants', 'url' => recruitment_get_admin_url( 'applicants' ) ],
@@ -32,7 +31,7 @@ $can_list_users = current_user_can( 'list_users' );
         <span class="recruitment-dashboard__brand-name">DAW Admin</span>
     </a>
     <nav class="recruitment-dashboard__navigation" aria-label="Menu Recruitment">
-        <a href="<?= esc_url( $dashboard_url ) ?>" class="<?= 'recruitment-dashboard' === $current_page && '' === $current_stage && 'final-decision' !== $current_view ? 'is-active' : '' ?>" title="Dashboard" <?= 'recruitment-dashboard' === $current_page && '' === $current_stage && 'final-decision' !== $current_view ? 'aria-current="page"' : '' ?>>
+        <a href="<?= esc_url( $dashboard_url ) ?>" class="<?= 'recruitment-dashboard' === $current_page && '' === $current_stage ? 'is-active' : '' ?>" title="Dashboard" <?= 'recruitment-dashboard' === $current_page && '' === $current_stage ? 'aria-current="page"' : '' ?>>
             <span class="dashicons dashicons-dashboard" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Dashboard</span>
         </a>
 
@@ -44,9 +43,7 @@ $can_list_users = current_user_can( 'list_users' );
                 <?php foreach ( $stage_links as $item ) :
                     $is_active = isset( $item['stage'] )
                         ? 'recruitment-dashboard' === $current_page && $current_stage === $item['stage']
-                        : ( isset( $item['view'] )
-                            ? $current_page === $item['page'] && $current_view === $item['view']
-                            : $current_page === $item['page'] );
+                        : $current_page === $item['page'];
                     $url = $item['url'] ?? $stage_url( $item['stage'] );
                     ?>
                     <a href="<?= esc_url( $url ) ?>" class="<?= $is_active ? 'is-active' : '' ?>" <?= $is_active ? 'aria-current="page"' : '' ?>><span class="recruitment-dashboard__nav-label"><?= esc_html( $item['label'] ) ?></span><?php if ( 'Semua Kandidat Aktif' === $item['label'] ) : ?><span class="recruitment-dashboard__nav-count">12</span><?php endif; ?></a>

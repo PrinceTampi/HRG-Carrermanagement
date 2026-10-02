@@ -75,7 +75,8 @@ class Recruitment_Admin {
 		add_submenu_page( 'recruitment-dashboard', 'Lowongan', 'Lowongan', 'manage_recruitment', 'recruitment-vacancies', [ $this, 'render_vacancies' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Pelamar', 'Pelamar', 'manage_recruitment', 'recruitment-applicants', [ $this, 'render_applicants' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Lamaran', 'Lamaran', 'manage_recruitment', 'recruitment-applications', [ $this, 'render_applications' ] );
-		add_submenu_page( 'recruitment-dashboard', 'Detail Hasil Wawancara Departemen', 'Detail Hasil Wawancara Departemen', 'manage_recruitment', 'recruitment-user-interview', [ $this, 'render_user_interview' ] );
+		add_submenu_page( 'recruitment-dashboard', 'Final Decision', 'Final Decision', 'manage_recruitment', 'recruitment-final-decision', [ $this, 'render_final_decision' ] );
+		add_submenu_page( 'recruitment-dashboard', 'Wawancara User', 'Wawancara User', 'manage_recruitment', 'recruitment-user-interview', [ $this, 'render_user_interview' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Form Lamaran', 'Form Lamaran', 'manage_recruitment', 'recruitment-form-builder', [ $this, 'render_form_builder' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Setting Psikotes', 'Setting Psikotes', 'manage_recruitment', 'recruitment-psychotest-settings', [ $this, 'render_psychotest_settings' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Bank Soal', 'Bank Soal', 'manage_recruitment', 'recruitment-question-bank', [ $this, 'render_question_bank' ] );
@@ -114,11 +115,6 @@ class Recruitment_Admin {
 	}
 
 	public function render_dashboard(): void {
-		if ( 'final-decision' === sanitize_key( $_GET['view'] ?? '' ) ) {
-			$this->render_page( 'final-decision' );
-			return;
-		}
-
 		$this->render_page( 'dashboard' );
 	}
 
@@ -132,6 +128,10 @@ class Recruitment_Admin {
 
 	public function render_applications(): void {
 		$this->render_page( 'applications' );
+	}
+
+	public function render_final_decision(): void {
+		$this->render_page( 'final-decision' );
 	}
 
 	public function render_user_interview(): void {
@@ -164,7 +164,7 @@ class Recruitment_Admin {
 
 	private function is_recruitment_screen(): bool {
 		$page = sanitize_key( $_GET['page'] ?? '' );
-		$admin_pages = [ 'recruitment-dashboard', 'recruitment-vacancies', 'recruitment-applicants', 'recruitment-applications', 'recruitment-user-interview', 'recruitment-form-builder', 'recruitment-psychotest-settings', 'recruitment-question-bank', 'recruitment-settings' ];
+		$admin_pages = [ 'recruitment-dashboard', 'recruitment-vacancies', 'recruitment-applicants', 'recruitment-applications', 'recruitment-final-decision', 'recruitment-user-interview', 'recruitment-form-builder', 'recruitment-psychotest-settings', 'recruitment-question-bank', 'recruitment-settings' ];
 
 		if ( in_array( $page, $admin_pages, true ) ) {
 			return true;

@@ -3732,12 +3732,8 @@ body:has(.daw-user-interview) {
   line-height: 1;
 }
 .daw-ui-stats article .is-good,
-.daw-ui-stats article .is-accepted {
-  color: #17a34a;
-}
-.daw-ui-stats article .is-waiting {
-  color: #df7900;
-}
+.daw-ui-stats article .is-accepted { color: #17a34a; }
+.daw-ui-stats article .is-waiting { color: #df7900; }
 .daw-ui-search {
   align-items: center;
   display: flex;
@@ -3876,22 +3872,10 @@ body:has(.daw-user-interview) {
   padding: 4px 6px;
   white-space: nowrap;
 }
-.daw-ui-badge.is-green {
-  background: #d9f8e6;
-  color: #148143;
-}
-.daw-ui-badge.is-blue {
-  background: #e0ebff;
-  color: #316bc1;
-}
-.daw-ui-badge.is-amber {
-  background: #fff0c2;
-  color: #b56a00;
-}
-.daw-ui-badge.is-red {
-  background: #ffe0e0;
-  color: #c93232;
-}
+.daw-ui-badge.is-green { background: #d9f8e6; color: #148143; }
+.daw-ui-badge.is-blue { background: #e0ebff; color: #316bc1; }
+.daw-ui-badge.is-amber { background: #fff0c2; color: #b56a00; }
+.daw-ui-badge.is-red { background: #ffe0e0; color: #c93232; }
 .daw-ui-interviewer {
   display: grid;
   gap: 2px;

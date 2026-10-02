@@ -1,61 +1,8 @@
 <?php
-if ( ! function_exists( 'recruitment_demo_candidates' ) ) {
-    function recruitment_demo_candidates(): array {
-        $candidates = [
-            [ 'id' => 1, 'name' => 'Rafi Kurniawan', 'email' => 'rafi.kurniawan@example.com', 'phone' => '081234560001', 'created_at' => '2026-01-15 09:00:00', 'position' => 'Sales Consultant', 'dealer' => 'DAW Bandung', 'region' => 'Jawa Barat', 'status' => 'diterima', 'year' => '2026' ],
-            [ 'id' => 2, 'name' => 'Sari Dewi Lestari', 'email' => 'sari.dewi@example.com', 'phone' => '081234560002', 'created_at' => '2026-01-21 10:30:00', 'position' => 'Staff Administrasi', 'dealer' => 'DAW Jakarta Selatan', 'region' => 'DKI Jakarta', 'status' => 'dalam_proses', 'year' => '2026' ],
-            [ 'id' => 3, 'name' => 'Budi Santoso', 'email' => 'budi.santoso@example.com', 'phone' => '081234560003', 'created_at' => '2026-02-03 08:15:00', 'position' => 'Mekanik / Teknisi', 'dealer' => 'DAW Surabaya', 'region' => 'Jawa Timur', 'status' => 'tidak_diterima', 'year' => '2026' ],
-            [ 'id' => 4, 'name' => 'Anisa Putri Rahma', 'email' => 'anisa.putri@example.com', 'phone' => '081234560004', 'created_at' => '2026-02-12 14:10:00', 'position' => 'Marketing Coordinator', 'dealer' => 'DAW Medan', 'region' => 'Sumatera Utara', 'status' => 'dipertimbangkan_kembali', 'year' => '2026' ],
-            [ 'id' => 5, 'name' => 'Kevin Alexander', 'email' => 'kevin.alexander@example.com', 'phone' => '081234560005', 'created_at' => '2026-02-18 11:00:00', 'position' => 'Sales Executive', 'dealer' => 'DAW Airmadidi', 'region' => 'Sulawesi Utara', 'status' => 'dalam_proses', 'year' => '2026' ],
-            [ 'id' => 6, 'name' => 'Maria Natalia', 'email' => 'maria.natalia@example.com', 'phone' => '081234560006', 'created_at' => '2026-03-02 15:45:00', 'position' => 'Finance & Accounting Staff', 'dealer' => 'DAW Manado', 'region' => 'Sulawesi Utara', 'status' => 'diterima', 'year' => '2026' ],
-            [ 'id' => 7, 'name' => 'Daniel Pratama', 'email' => 'daniel.pratama@example.com', 'phone' => '081234560007', 'created_at' => '2026-03-11 09:35:00', 'position' => 'Service Advisor', 'dealer' => 'DAW Bitung', 'region' => 'Sulawesi Utara', 'status' => 'dalam_proses', 'year' => '2026' ],
-            [ 'id' => 8, 'name' => 'Jessica Amanda', 'email' => 'jessica.amanda@example.com', 'phone' => '081234560008', 'created_at' => '2025-01-16 10:15:00', 'position' => 'Staff Administrasi', 'dealer' => 'DAW Ternate', 'region' => 'Maluku Utara', 'status' => 'diterima', 'year' => '2025' ],
-            [ 'id' => 9, 'name' => 'Michael Christian', 'email' => 'michael.christian@example.com', 'phone' => '081234560009', 'created_at' => '2025-01-27 12:00:00', 'position' => 'Sales Executive', 'dealer' => 'DAW Bandung', 'region' => 'Jawa Barat', 'status' => 'tidak_diterima', 'year' => '2025' ],
-            [ 'id' => 10, 'name' => 'Grace Olivia', 'email' => 'grace.olivia@example.com', 'phone' => '081234560010', 'created_at' => '2025-02-09 13:25:00', 'position' => 'Marketing Coordinator', 'dealer' => 'DAW Manado', 'region' => 'Sulawesi Utara', 'status' => 'dalam_proses', 'year' => '2025' ],
-            [ 'id' => 11, 'name' => 'Jonathan Wijaya', 'email' => 'jonathan.wijaya@example.com', 'phone' => '081234560011', 'created_at' => '2025-02-20 08:50:00', 'position' => 'Mekanik / Teknisi', 'dealer' => 'DAW Surabaya', 'region' => 'Jawa Timur', 'status' => 'dalam_proses', 'year' => '2025' ],
-            [ 'id' => 12, 'name' => 'Felicia Putri', 'email' => 'felicia.putri@example.com', 'phone' => '081234560012', 'created_at' => '2025-03-10 11:05:00', 'position' => 'Sales Consultant', 'dealer' => 'DAW Airmadidi', 'region' => 'Sulawesi Utara', 'status' => 'diterima', 'year' => '2025' ],
-            [ 'id' => 13, 'name' => 'Andreas Samuel', 'email' => 'andreas.samuel@example.com', 'phone' => '081234560013', 'created_at' => '2024-02-01 09:30:00', 'position' => 'Service Advisor', 'dealer' => 'DAW Bitung', 'region' => 'Sulawesi Utara', 'status' => 'tidak_diterima', 'year' => '2024' ],
-            [ 'id' => 14, 'name' => 'Claudia Angelica', 'email' => 'claudia.angelica@example.com', 'phone' => '081234560014', 'created_at' => '2024-02-12 14:00:00', 'position' => 'Staff Administrasi', 'dealer' => 'DAW Ternate', 'region' => 'Maluku Utara', 'status' => 'diterima', 'year' => '2024' ],
-            [ 'id' => 15, 'name' => 'Reza Mahendra', 'email' => 'reza.mahendra@example.com', 'phone' => '081234560015', 'created_at' => '2024-03-08 07:45:00', 'position' => 'Sales Executive', 'dealer' => 'DAW Jakarta Selatan', 'region' => 'DKI Jakarta', 'status' => 'dalam_proses', 'year' => '2024' ],
-            [ 'id' => 16, 'name' => 'Nathania Grace', 'email' => 'nathania.grace@example.com', 'phone' => '081234560016', 'created_at' => '2024-03-19 16:10:00', 'position' => 'Finance & Accounting Staff', 'dealer' => 'DAW Bandung', 'region' => 'Jawa Barat', 'status' => 'dipertimbangkan_kembali', 'year' => '2024' ],
-        ];
-
-        $vacancies = [
-            [ 'id' => 1, 'title' => 'Sales Executive', 'location' => 'DAW Airmadidi', 'dealer' => 'DAW Airmadidi', 'region' => 'Sulawesi Utara' ],
-            [ 'id' => 2, 'title' => 'Sales Consultant', 'location' => 'DAW Bandung', 'dealer' => 'DAW Bandung', 'region' => 'Jawa Barat' ],
-            [ 'id' => 3, 'title' => 'Marketing Coordinator', 'location' => 'DAW Medan', 'dealer' => 'DAW Medan', 'region' => 'Sumatera Utara' ],
-            [ 'id' => 4, 'title' => 'Staff Administrasi', 'location' => 'DAW Jakarta Selatan', 'dealer' => 'DAW Jakarta Selatan', 'region' => 'DKI Jakarta' ],
-            [ 'id' => 5, 'title' => 'Finance & Accounting Staff', 'location' => 'DAW Manado', 'dealer' => 'DAW Manado', 'region' => 'Sulawesi Utara' ],
-            [ 'id' => 6, 'title' => 'Mekanik / Teknisi', 'location' => 'DAW Surabaya', 'dealer' => 'DAW Surabaya', 'region' => 'Jawa Timur' ],
-            [ 'id' => 7, 'title' => 'Service Advisor', 'location' => 'DAW Bitung', 'dealer' => 'DAW Bitung', 'region' => 'Sulawesi Utara' ],
-        ];
-
-        $applications = [];
-        foreach ( $candidates as $index => $candidate ) {
-            $applications[] = [
-                'id' => $index + 1,
-                'applicant_id' => $candidate['id'],
-                'vacancy_id' => ( $index % 7 ) + 1,
-                'status' => $candidate['status'],
-                'created_at' => $candidate['created_at'],
-            ];
-        }
-
-        return [ 'applicants' => $candidates, 'applications' => $applications, 'vacancies' => $vacancies ];
-    }
-}
-
 $database = new Recruitment_Database();
 $applications = $database->get_applications();
 $applicants = $database->get_applicants();
 $vacancies = $database->get_vacancies();
-
-if ( empty( $applications ) && empty( $applicants ) ) {
-    $demo_data = recruitment_demo_candidates();
-    $applications = $demo_data['applications'];
-    $applicants = $demo_data['applicants'];
-    $vacancies = $demo_data['vacancies'];
-}
 
 $search = trim( (string) ( $_GET['search'] ?? '' ) );
 $year_filter = sanitize_text_field( (string) ( $_GET['year'] ?? '' ) );
@@ -65,59 +12,27 @@ $status_filter = sanitize_text_field( (string) ( $_GET['status'] ?? '' ) );
 $selected_candidate_id = absint( $_GET['candidate_id'] ?? 0 );
 
 $all_statuses = [
-    'all' => 'Semua Status',
+    'all' => 'Semua',
     'diterima' => 'Diterima',
     'dalam_proses' => 'Dalam Proses',
     'tidak_diterima' => 'Tidak Diterima',
     'dipertimbangkan_kembali' => 'Dipertimbangkan Kembali',
 ];
 
-$normalize_stage = static function ( $raw_status ): string {
+$normalize_status = static function ( $raw_status ): string {
     $status_key = strtolower( (string) $raw_status );
     $status_key = str_replace( [ ' ', '-', '/', '_' ], '_', $status_key );
     $status_key = preg_replace( '/_+/', '_', $status_key );
 
-    if ( in_array( $status_key, [ 'accepted', 'diterima', 'lolos', 'final', 'completed' ], true ) ) {
-        return 'final';
-    }
-
-    if ( in_array( $status_key, [ 'rejected', 'tidak_diterima', 'tidak_lolos', 'tolak' ], true ) ) {
-        return 'final';
-    }
-
-    if ( in_array( $status_key, [ 'administrasi', 'administration', 'screening', 'submitted', 'dalam_proses' ], true ) ) {
-        return 'administration';
-    }
-
-    if ( in_array( $status_key, [ 'psychological_test', 'psych_test', 'psikotes' ], true ) ) {
-        return 'psychological_test';
-    }
-
-    if ( in_array( $status_key, [ 'interview', 'interview_hr', 'wawancara_hr', 'hr_interview' ], true ) ) {
-        return 'hr_interview';
-    }
-
-    if ( in_array( $status_key, [ 'interview_user', 'wawancara_user', 'user_interview' ], true ) ) {
-        return 'user_interview';
-    }
-
-    return 'administration';
-};
-
-$normalize_status_bucket = static function ( $raw_status ): string {
-    $status_key = strtolower( (string) $raw_status );
-    $status_key = str_replace( [ ' ', '-', '/', '_' ], '_', $status_key );
-    $status_key = preg_replace( '/_+/', '_', $status_key );
-
-    if ( in_array( $status_key, [ 'accepted', 'diterima', 'lolos', 'final', 'completed' ], true ) ) {
+    if ( false !== strpos( $status_key, 'accepted' ) || 'diterima' === $status_key || 'accepted' === $status_key || 'lolos' === $status_key ) {
         return 'diterima';
     }
 
-    if ( in_array( $status_key, [ 'rejected', 'tidak_diterima', 'tidak_lolos', 'tolak' ], true ) ) {
+    if ( false !== strpos( $status_key, 'reject' ) || false !== strpos( $status_key, 'tolak' ) || 'tidak_diterima' === $status_key || 'rejected' === $status_key ) {
         return 'tidak_diterima';
     }
 
-    if ( in_array( $status_key, [ 'considered_again', 'dipertimbangkan_kembali', 'reconsider', 'reconsideration' ], true ) ) {
+    if ( false !== strpos( $status_key, 'consider' ) || false !== strpos( $status_key, 'pertimbangkan' ) || 'dipertimbangkan_kembali' === $status_key ) {
         return 'dipertimbangkan_kembali';
     }
 
@@ -149,18 +64,14 @@ foreach ( $applications as $application ) {
 
     $created_at = (string) ( $application['created_at'] ?? $candidate['created_at'] ?? current_time( 'mysql' ) );
     $year = (string) date_i18n( 'Y', strtotime( $created_at ) );
-    $position = (string) ( $vacancy['title'] ?? $vacancy['job_title'] ?? $candidate['position'] ?? 'Posisi belum ditentukan' );
-    $dealer = (string) ( $vacancy['dealer'] ?? $vacancy['location'] ?? $candidate['dealer'] ?? '-' );
-    $region = (string) ( $vacancy['region'] ?? $vacancy['location'] ?? $candidate['region'] ?? '' );
-    $status_bucket = $normalize_status_bucket( $application['status'] ?? $candidate['status'] ?? 'submitted' );
-    $stage_key = $normalize_stage( $application['status'] ?? $candidate['status'] ?? 'submitted' );
-    $stage_label = [
-        'administration' => 'Seleksi Administrasi',
-        'psychological_test' => 'Psikotes',
-        'hr_interview' => 'Wawancara HR',
-        'user_interview' => 'Wawancara User',
-        'final' => 'Keputusan Akhir',
-    ][ $stage_key ] ?? 'Seleksi Administrasi';
+    $position = (string) ( $vacancy['title'] ?? $vacancy['job_title'] ?? 'Posisi belum ditentukan' );
+    $dealer = (string) ( $vacancy['dealer'] ?? $vacancy['location'] ?? '-' );
+    $region = (string) ( $vacancy['region'] ?? $vacancy['location'] ?? '' );
+    $status_key = $normalize_status( $application['status'] ?? 'submitted' );
+    $stage_label = 'Seleksi Administrasi';
+    if ( 'diterima' === $status_key || 'tidak_diterima' === $status_key || 'dipertimbangkan_kembali' === $status_key ) {
+        $stage_label = 'Keputusan Akhir';
+    }
 
     $code = 'DAW-' . $year . '-' . str_pad( (string) $applicant_id, 3, '0', STR_PAD_LEFT );
     $search_text = strtolower( trim( (string) ( $candidate['name'] ?? '' ) . ' ' . $code . ' ' . $position . ' ' . $dealer . ' ' . ( $candidate['email'] ?? '' ) ) );
@@ -175,8 +86,8 @@ foreach ( $applications as $application ) {
         'region' => $region,
         'year' => $year,
         'stage' => $stage_label,
-        'status_key' => $status_bucket,
-        'status_label' => $all_statuses[ $status_bucket ] ?? 'Dalam Proses',
+        'status_key' => $status_key,
+        'status_label' => $all_statuses[ $status_key ] ?? 'Dalam Proses',
         'created_at' => $created_at,
         'search' => $search_text,
         'notes' => 'Kandidat memiliki komunikasi yang baik dan pengalaman kerja yang relevan.',
@@ -194,7 +105,7 @@ foreach ( $all_candidates as $candidate ) {
     $matches_year = '' === $year_filter || (string) $candidate['year'] === $year_filter;
     $matches_position = '' === $position_filter || strtolower( $candidate['position'] ) === strtolower( $position_filter );
     $matches_dealer = '' === $dealer_filter || strtolower( $candidate['dealer'] ) === strtolower( $dealer_filter );
-    $matches_status = '' === $status_filter || 'all' === $status_filter || $candidate['status_key'] === $status_filter;
+    $matches_status = '' === $status_filter || $candidate['status_key'] === $status_filter;
 
     if ( $matches_search && $matches_year && $matches_position && $matches_dealer && $matches_status ) {
         $filtered_candidates[] = $candidate;
@@ -299,24 +210,17 @@ if ( 'diterima' === ( $selected_candidate['status_key'] ?? '' ) ) {
     $timeline_steps[3]['status'] = 'Selesai';
     $timeline_steps[4]['status'] = 'Selesai';
     $timeline_steps[5]['status'] = 'Selesai';
-} elseif ( 'dalam_proses' === ( $selected_candidate['status_key'] ?? '' ) ) {
-    $timeline_steps[0]['status'] = 'Selesai';
-    $timeline_steps[1]['status'] = 'Sedang Berlangsung';
-    $timeline_steps[2]['status'] = 'Belum Dimulai';
-    $timeline_steps[3]['status'] = 'Belum Dimulai';
-    $timeline_steps[4]['status'] = 'Belum Dimulai';
-    $timeline_steps[5]['status'] = 'Belum Dimulai';
 } elseif ( 'tidak_diterima' === ( $selected_candidate['status_key'] ?? '' ) ) {
     $timeline_steps[0]['status'] = 'Selesai';
     $timeline_steps[1]['status'] = 'Selesai';
-    $timeline_steps[2]['status'] = 'Selesai';
-    $timeline_steps[3]['status'] = 'Selesai';
-    $timeline_steps[4]['status'] = 'Selesai';
+    $timeline_steps[2]['status'] = 'Tidak Lolos';
+    $timeline_steps[3]['status'] = 'Belum Dimulai';
+    $timeline_steps[4]['status'] = 'Belum Dimulai';
     $timeline_steps[5]['status'] = 'Tidak Lolos';
-} elseif ( 'dipertimbangkan_kembali' === ( $selected_candidate['status_key'] ?? '' ) ) {
+} elseif ( 'dalam_proses' === ( $selected_candidate['status_key'] ?? '' ) ) {
     $timeline_steps[0]['status'] = 'Selesai';
-    $timeline_steps[1]['status'] = 'Selesai';
-    $timeline_steps[2]['status'] = 'Menunggu Review';
+    $timeline_steps[1]['status'] = 'Sedang Berlangsung';
+    $timeline_steps[2]['status'] = 'Sedang Berlangsung';
     $timeline_steps[3]['status'] = 'Belum Dimulai';
     $timeline_steps[4]['status'] = 'Belum Dimulai';
     $timeline_steps[5]['status'] = 'Belum Dimulai';
@@ -345,7 +249,7 @@ $view_mode = $selected_candidate ? 'detail' : 'list';
                 </div>
             </div>
             <div class="daw-applicant-profile-card__stage">
-                <span class="daw-stage-badge daw-stage-badge--<?= esc_attr( strtolower( str_replace( [ ' ', '/' ], '-', $selected_candidate['stage'] ) ) ) ?>"><?= esc_html( $selected_candidate['stage'] ) ?></span>
+                <span class="daw-stage-badge daw-stage-badge--<?= esc_attr( strtolower( str_replace( ' ', '-', $selected_candidate['stage'] ) ) ) ?>"><?= esc_html( $selected_candidate['stage'] ) ?></span>
             </div>
         </section>
 

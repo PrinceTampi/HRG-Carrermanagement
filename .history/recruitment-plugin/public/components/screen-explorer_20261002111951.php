@@ -37,8 +37,9 @@ $screen_explorer_items = [
         [ 'label' => 'Lowongan', 'screen' => 'vacancies' ],
         [ 'label' => 'Pelamar', 'screen' => 'applicants' ],
         [ 'label' => 'Lamaran', 'screen' => 'applications' ],
-        [ 'label' => 'Final Decision', 'screen' => 'final-decision', 'args' => [ 'view' => 'final-decision' ] ],
-        [ 'label' => 'Detail Hasil Wawancara Departemen', 'screen' => 'user-interview' ],
+        [ 'label' => 'Final Decision', 'screen' => 'final-decision' ],
+        [ 'label' => 'Wawancara User', 'screen' => 'user-interview' ],
+        [ 'label' => 'Catatan Wawancara User', 'screen' => 'user-interview', 'args' => [ 'view' => 'notes' ] ],
         [ 'label' => 'Pengaturan', 'screen' => 'settings' ],
     ],
 ];
