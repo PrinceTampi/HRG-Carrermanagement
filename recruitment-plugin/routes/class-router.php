@@ -34,6 +34,8 @@ class Recruitment_Router {
         'applications'       => 'admin/pages/applications.php',
         'final-decision'     => 'admin/pages/final-decision.php',
         'user-interview'     => 'admin/pages/user-interview.php',
+        'interview-schedule' => 'admin/pages/interview-schedule.php',
+        'user-management'    => 'admin/pages/user-management.php',
         'application-form-builder' => 'admin/pages/application-form-builder.php',
         'psychotest-settings' => 'admin/pages/psychotest-settings.php',
         'question-bank'      => 'admin/pages/question-bank.php',
@@ -41,7 +43,7 @@ class Recruitment_Router {
     ];
 
     /** @var string[] */
-    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'final-decision', 'user-interview', 'application-form-builder', 'psychotest-settings', 'question-bank', 'settings' ];
+    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'final-decision', 'user-interview', 'interview-schedule', 'user-management', 'application-form-builder', 'psychotest-settings', 'question-bank', 'settings' ];
 
     /**
      * @param array<string, mixed> $data
@@ -49,7 +51,7 @@ class Recruitment_Router {
     public function render( string $page, array $data = [] ): void {
         $slug = array_key_exists( $page, self::ROUTES ) ? $page : 'careers';
 
-        $sandbox_preview = in_array( $slug, [ 'user-interview', 'vacancies' ], true )
+        $sandbox_preview = in_array( $slug, [ 'user-interview', 'interview-schedule', 'vacancies' ], true )
             && defined( 'RECRUITMENT_SANDBOX' )
             && RECRUITMENT_SANDBOX
             && '1' === sanitize_text_field( wp_unslash( $_GET['daw_ui_preview'] ?? '' ) );

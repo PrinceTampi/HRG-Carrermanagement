@@ -2,7 +2,6 @@
 $current_page = sanitize_key( $_GET['page'] ?? '' );
 $current_view = sanitize_key( $_GET['view'] ?? '' );
 $screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-$current_screen_id = sanitize_key( $screen->id ?? '' );
 $current_post_type = sanitize_key( $_GET['post_type'] ?? ( $screen->post_type ?? '' ) );
 $current_stage = sanitize_key( $_GET['stage'] ?? '' );
 $settings_section = sanitize_key( $_GET['section'] ?? 'email' );
@@ -24,7 +23,6 @@ $root_links = [
     [ 'label' => 'Lowongan', 'icon' => 'dashicons-portfolio', 'page' => 'recruitment-vacancies', 'post_type' => 'daw_vacancy', 'url' => recruitment_get_admin_url( 'vacancies' ) ],
     [ 'label' => 'Form Lamaran', 'icon' => 'dashicons-forms', 'page' => 'recruitment-form-builder', 'url' => admin_url( 'admin.php?page=recruitment-form-builder' ) ],
 ];
-$can_list_users = current_user_can( 'list_users' );
 ?>
 <aside class="recruitment-dashboard__sidebar daw-recruitment-sidebar" data-recruitment-sidebar aria-label="Navigasi Recruitment">
     <a class="recruitment-dashboard__brand" href="<?= esc_url( $dashboard_url ) ?>" aria-label="DAW Admin, Dashboard">
@@ -71,13 +69,9 @@ $can_list_users = current_user_can( 'list_users' );
             </div>
         </div>
 
-        <a href="<?= esc_url( admin_url( 'admin.php?page=recruitment-user-interview' ) ) ?>" class="<?= 'recruitment-user-interview' === $current_page ? 'is-active' : '' ?>" title="Jadwal Wawancara" <?= 'recruitment-user-interview' === $current_page ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Jadwal Wawancara</span></a>
+        <a href="<?= esc_url( admin_url( 'admin.php?page=recruitment-interview-schedule' ) ) ?>" class="<?= 'recruitment-interview-schedule' === $current_page ? 'is-active' : '' ?>" title="Jadwal Wawancara" <?= 'recruitment-interview-schedule' === $current_page ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Jadwal Wawancara</span></a>
         <a href="<?= esc_url( recruitment_get_admin_url( 'applications' ) ) ?>" class="<?= 'recruitment-applications' === $current_page ? 'is-active' : '' ?>" title="Approval Pengajuan" <?= 'recruitment-applications' === $current_page ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Approval Pengajuan</span></a>
-        <?php if ( $can_list_users ) : ?>
-            <a href="<?= esc_url( admin_url( 'users.php' ) ) ?>" class="<?= in_array( $current_screen_id, [ 'users', 'users-network' ], true ) ? 'is-active' : '' ?>" title="Akun User Dept" <?= in_array( $current_screen_id, [ 'users', 'users-network' ], true ) ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Akun User Dept</span></a>
-        <?php else : ?>
-            <span class="recruitment-dashboard__nav-disabled" aria-disabled="true" title="Akun pengguna memerlukan izin WordPress yang lebih tinggi"><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Akun User Dept</span></span>
-        <?php endif; ?>
+        <a href="<?= esc_url( admin_url( 'admin.php?page=recruitment-user-management' ) ) ?>" class="<?= 'recruitment-user-management' === $current_page ? 'is-active' : '' ?>" title="Pengaturan" <?= 'recruitment-user-management' === $current_page ? 'aria-current="page"' : '' ?>><span class="dashicons dashicons-admin-users" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label">Pengaturan</span></a>
     </nav>
     <div class="recruitment-dashboard__sidebar-footer">
         <button type="button" data-sidebar-collapse aria-expanded="true" title="Ciutkan navigasi">

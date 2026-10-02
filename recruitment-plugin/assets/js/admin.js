@@ -215,6 +215,30 @@ document.documentElement.classList.add("js");
     });
 })();
 
+(function recruitmentInterviewSchedule() {
+  const schedule = document.querySelector(".daw-interview-schedule");
+  if (!schedule) {
+    return;
+  }
+
+  const dates = Array.from(schedule.querySelectorAll("[data-schedule-date]"));
+  const entries = Array.from(schedule.querySelectorAll(".daw-schedule__entry"));
+
+  dates.forEach(function bindScheduleDate(button) {
+    button.addEventListener("click", function selectScheduleDate() {
+      dates.forEach(function updateDate(item) {
+        const selected = item === button;
+        item.classList.toggle("is-selected", selected);
+        item.setAttribute("aria-pressed", String(selected));
+      });
+
+      entries.forEach(function showSelectedEntry(entry) {
+        entry.open = entry.id === "schedule-day-" + button.dataset.scheduleDate;
+      });
+    });
+  });
+})();
+
 (function vacancyPreview() {
   const screen = document.querySelector(".daw-vacancies");
   if (!screen) {
@@ -740,4 +764,83 @@ document.documentElement.classList.add("js");
     }
   });
   updateTypeFields();
+})();
+
+(function recruitmentDepartmentAccounts() {
+  const screen = document.querySelector(".daw-account-settings");
+  if (!screen) {
+    return;
+  }
+
+  const dialog = screen.querySelector("[data-account-dialog]");
+  const form = screen.querySelector("[data-account-form]");
+  const title = screen.querySelector("[data-account-dialog-title]");
+  const userId = form.querySelector("[data-account-id]");
+  const username = form.querySelector("[data-account-login]");
+  const displayName = form.querySelector("[data-account-name]");
+  const email = form.querySelector("[data-account-email]");
+  const department = form.querySelector("[data-account-department]");
+  const password = form.querySelector("[data-account-password]");
+  const passwordConfirmation = form.querySelector(
+    "[data-account-password-confirm]",
+  );
+  const passwordHelp = form.querySelector("[data-password-help]");
+
+  const openDialog = function openDialog(account) {
+    form.reset();
+    userId.value = account ? account.dataset.accountId : "";
+    username.value = account ? account.dataset.accountLogin : "";
+    username.readOnly = Boolean(account);
+    displayName.value = account ? account.dataset.accountName : "";
+    email.value = account ? account.dataset.accountEmail : "";
+    department.value = account ? account.dataset.accountDepartment : "";
+    password.required = !account;
+    passwordConfirmation.required = !account;
+    passwordHelp.textContent = account
+      ? "Kosongkan jika tidak ingin mengganti password."
+      : "Wajib diisi, minimal 8 karakter.";
+    title.textContent = account ? "Edit Akun" : "Tambah Akun";
+    dialog.showModal();
+    displayName.focus();
+  };
+
+  screen
+    .querySelector("[data-open-account-dialog]")
+    .addEventListener("click", function addAccount() {
+      openDialog(null);
+    });
+
+  screen.querySelectorAll("[data-edit-account]").forEach(function bindEdit(button) {
+    button.addEventListener("click", function editAccount() {
+      openDialog(button);
+    });
+  });
+
+  screen
+    .querySelectorAll("[data-close-account-dialog]")
+    .forEach(function bindClose(button) {
+      button.addEventListener("click", function closeDialog() {
+        dialog.close();
+      });
+    });
+
+  form.addEventListener("submit", function validatePasswordConfirmation(event) {
+    passwordConfirmation.setCustomValidity(
+      password.value === passwordConfirmation.value
+        ? ""
+        : "Konfirmasi password tidak cocok.",
+    );
+    if (!form.reportValidity()) {
+      event.preventDefault();
+    }
+  });
+  passwordConfirmation.addEventListener("input", function clearPasswordError() {
+    passwordConfirmation.setCustomValidity("");
+  });
+
+  dialog.addEventListener("click", function closeOnBackdrop(event) {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
 })();
