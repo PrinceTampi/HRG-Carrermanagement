@@ -152,5 +152,10 @@ $notes_url = add_query_arg( 'view', 'notes', $list_url );
     </main>
 </div>
 <?php if ( defined( 'RECRUITMENT_SANDBOX' ) ) : ?>
+<<<<<<< HEAD
     <?php require recruitment_get_plugin_path( 'public/components/screen-explorer.php' ); ?>
 <?php endif; ?>
+=======
+	<?php require recruitment_get_plugin_path( 'public/components/screen-explorer.php' ); ?>
+<?php endif; ?>
+>>>>>>> origin/master

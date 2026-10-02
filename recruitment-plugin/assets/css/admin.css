@@ -5846,9 +5846,1157 @@ body:has(.daw-user-interview) {
     grid-template-columns: 1fr;
   }
 }
+<<<<<<< HEAD
+=======
+.daw-user-interview__main {
+  margin: 0 auto;
+  max-width: 1020px;
+  padding: 18px 16px 30px;
+}
+.daw-ui-heading h1 {
+  color: #252a31;
+  font-size: 16px;
+  line-height: 1.35;
+  margin: 0 0 5px;
+}
+.daw-ui-heading p {
+  color: #7b828d;
+  font-size: 10px;
+  line-height: 1.5;
+  margin: 0 0 13px;
+  max-width: 800px;
+}
+.daw-ui-stats {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 12px;
+  max-width: 725px;
+}
+.daw-ui-stats article {
+  background: #fff;
+  border: 1px solid #d9dce1;
+  border-radius: 9px;
+  min-height: 62px;
+  padding: 10px 12px;
+}
+.daw-ui-stats article span {
+  color: #7a818b;
+  display: block;
+  font-size: 8px;
+  margin-bottom: 4px;
+}
+.daw-ui-stats article strong {
+  color: #252a31;
+  display: block;
+  font-size: 18px;
+  line-height: 1;
+}
+.daw-ui-stats article .is-good,
+.daw-ui-stats article .is-accepted {
+  color: #17a34a;
+}
+.daw-ui-stats article .is-waiting {
+  color: #df7900;
+}
+.daw-ui-search {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 9px;
+  max-width: 725px;
+}
+.daw-ui-search label {
+  flex: 1;
+  min-width: 0;
+}
+.daw-ui-search input {
+  background: #fff;
+  border: 1px solid #d9dce1;
+  border-radius: 6px;
+  box-shadow: none;
+  font-size: 9px;
+  height: 29px;
+  padding: 0 9px;
+  width: 100%;
+}
+.daw-user-interview .daw-ui-search .button {
+  align-items: center;
+  border: 1px solid #d5d8de;
+  border-radius: 5px;
+  color: #4d535c;
+  display: inline-flex;
+  font-size: 9px;
+  height: 29px;
+  justify-content: center;
+  line-height: 1;
+  padding: 0 9px;
+  text-decoration: none;
+}
+.daw-ui-filters {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 11px;
+}
+.daw-ui-filter-group {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.daw-ui-filter-group a {
+  background: #fff;
+  border: 1px solid #d9dce1;
+  border-radius: 6px;
+  color: #545b65;
+  font-size: 8px;
+  line-height: 1.2;
+  padding: 5px 9px;
+  text-decoration: none;
+}
+.daw-ui-filter-group a:hover {
+  border-color: #a9adb5;
+}
+.daw-ui-filter-group:first-child a.is-active {
+  background: #22262c;
+  border-color: #22262c;
+  color: #fff;
+}
+.daw-ui-filter-group:last-child a.is-active {
+  background: #c8102e;
+  border-color: #c8102e;
+  color: #fff;
+}
+.daw-ui-list {
+  display: grid;
+  gap: 6px;
+  max-width: 725px;
+}
+.daw-ui-candidate {
+  background: #fff;
+  border: 1px solid #d9dce1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.daw-ui-candidate summary {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  gap: 9px;
+  grid-template-columns: 28px minmax(130px, 1fr) auto minmax(72px, 95px) 12px;
+  list-style: none;
+  min-height: 51px;
+  padding: 8px 10px;
+}
+.daw-ui-candidate summary::-webkit-details-marker {
+  display: none;
+}
+.daw-ui-avatar {
+  align-items: center;
+  background: #eeeef0;
+  border-radius: 50%;
+  color: #636871;
+  display: inline-flex;
+  font-size: 8px;
+  font-weight: 700;
+  height: 26px;
+  justify-content: center;
+  width: 26px;
+}
+.daw-ui-candidate__identity {
+  min-width: 0;
+}
+.daw-ui-candidate__identity strong,
+.daw-ui-candidate__identity small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.daw-ui-candidate__identity strong {
+  color: #30353c;
+  font-size: 9px;
+  margin-bottom: 3px;
+}
+.daw-ui-candidate__identity small {
+  color: #858b95;
+  font-size: 7px;
+}
+.daw-ui-candidate__badges {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.daw-ui-badge {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 7px;
+  font-weight: 650;
+  line-height: 1.2;
+  padding: 4px 6px;
+  white-space: nowrap;
+}
+.daw-ui-badge.is-green {
+  background: #d9f8e6;
+  color: #148143;
+}
+.daw-ui-badge.is-blue {
+  background: #e0ebff;
+  color: #316bc1;
+}
+.daw-ui-badge.is-amber {
+  background: #fff0c2;
+  color: #b56a00;
+}
+.daw-ui-badge.is-red {
+  background: #ffe0e0;
+  color: #c93232;
+}
+.daw-ui-interviewer {
+  display: grid;
+  gap: 2px;
+  justify-items: end;
+  min-width: 0;
+}
+.daw-ui-interviewer small {
+  color: #858b95;
+  font-size: 7px;
+  line-height: 1.1;
+}
+.daw-ui-interviewer strong {
+  color: #505660;
+  font-size: 7px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.daw-ui-chevron {
+  border-bottom: 1px solid #7a8089;
+  border-right: 1px solid #7a8089;
+  height: 6px;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 120ms ease;
+  width: 6px;
+}
+.daw-ui-candidate[open] .daw-ui-chevron {
+  transform: rotate(225deg) translate(-1px, -1px);
+}
+.daw-ui-candidate__details {
+  border-top: 1px solid #eceef1;
+  padding: 9px 10px 10px 42px;
+}
+.daw-ui-facts {
+  display: grid;
+  gap: 7px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 8px;
+}
+.daw-ui-facts > div {
+  background: #fafafb;
+  border-radius: 6px;
+  min-width: 0;
+  padding: 7px 8px;
+}
+.daw-ui-facts > div > span:first-child {
+  color: #858b95;
+  display: block;
+  font-size: 7px;
+  margin-bottom: 3px;
+}
+.daw-ui-facts strong {
+  color: #4c525b;
+  display: block;
+  font-size: 8px;
+  overflow-wrap: anywhere;
+}
+.daw-ui-note {
+  background: #fafafb;
+  border-radius: 6px;
+  padding: 8px;
+}
+.daw-ui-note > span {
+  color: #858b95;
+  display: block;
+  font-size: 7px;
+  margin-bottom: 4px;
+}
+.daw-ui-note p {
+  color: #575d66;
+  font-size: 9px;
+  font-style: italic;
+  line-height: 1.45;
+  margin: 0;
+}
+.daw-ui-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+.daw-ui-decision-link {
+  align-items: center;
+  background: #c8102e;
+  border: 1px solid #c8102e;
+  border-radius: 5px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 8px;
+  font-weight: 650;
+  gap: 5px;
+  min-height: 27px;
+  padding: 5px 9px;
+  text-decoration: none;
+}
+.daw-ui-decision-link:hover,
+.daw-ui-decision-link:focus-visible {
+  background: #a90d27;
+  border-color: #a90d27;
+  color: #fff;
+}
+.daw-ui-decision-link .dashicons {
+  font-size: 13px;
+  height: 13px;
+  width: 13px;
+}
+.daw-ui-empty {
+  background: #fff;
+  border: 1px solid #d9dce1;
+  border-radius: 8px;
+  color: #717783;
+  font-size: 10px;
+  margin: 0;
+  padding: 18px;
+  text-align: center;
+}
+@media (max-width: 760px) {
+  .daw-user-interview__main {
+    padding: 14px 10px 24px;
+  }
+  .daw-ui-candidate summary {
+    gap: 7px;
+    grid-template-columns: 28px minmax(0, 1fr) 12px;
+  }
+  .daw-ui-candidate__badges,
+  .daw-ui-interviewer {
+    grid-column: 2;
+    justify-items: start;
+  }
+  .daw-ui-interviewer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .daw-ui-chevron {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .daw-ui-candidate__details {
+    padding-left: 10px;
+  }
+}
+@media (max-width: 480px) {
+  .daw-ui-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .daw-ui-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .daw-ui-candidate__identity small {
+    white-space: normal;
+  }
+}
+.daw-interview-schedule {
+  --schedule-green: #2dbd79;
+  --schedule-amber: #eea000;
+  --schedule-red: #e24b55;
+  --schedule-purple: #8e63d9;
+}
+.daw-schedule__main {
+  margin: 0;
+  padding: 12px 14px 18px;
+}
+.daw-schedule__intro {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 12px;
+}
+.daw-schedule__intro h1 {
+  color: #252a31;
+  font-size: 16px;
+  line-height: 1.3;
+  margin: 0 0 3px;
+}
+.daw-schedule__intro p {
+  color: #7b828d;
+  font-size: 9px;
+  line-height: 1.45;
+  margin: 0;
+}
+.daw-schedule__legend {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.daw-schedule__legend span {
+  align-items: center;
+  color: #59616d;
+  display: inline-flex;
+  font-size: 8px;
+  gap: 4px;
+  white-space: nowrap;
+}
+.daw-schedule__legend i {
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+}
+.daw-schedule__legend .is-available {
+  background: #e9fbf1;
+  color: var(--schedule-green);
+}
+.daw-schedule__legend .is-partial {
+  background: #fff4cf;
+  color: var(--schedule-amber);
+}
+.daw-schedule__legend .is-full {
+  background: #fff0f0;
+  color: var(--schedule-red);
+}
+.daw-schedule__legend .is-selected {
+  background: #f2eaff;
+  color: var(--schedule-purple);
+}
+.daw-schedule__layout {
+  align-items: start;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 2fr) minmax(250px, 1fr);
+}
+.daw-schedule__calendar,
+.daw-schedule__saved {
+  background: #fff;
+  border: 1px solid #d5d8df;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.daw-schedule__calendar {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 110px);
+  min-height: 520px;
+}
+.daw-schedule__weekdays,
+.daw-schedule__days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.daw-schedule__weekdays {
+  align-items: center;
+  color: #616875;
+  flex: 0 0 42px;
+  font-size: 8px;
+  font-weight: 600;
+  text-align: center;
+}
+.daw-schedule__days {
+  flex: 1;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  padding: 0 7px 7px;
+}
+.daw-schedule__cell {
+  min-height: 0;
+  padding: 1px;
+}
+.daw-schedule__date,
+.daw-schedule__blank {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #252a31;
+  display: flex;
+  font: inherit;
+  font-size: 9px;
+  height: 100%;
+  justify-content: center;
+  padding: 0;
+  width: 100%;
+}
+.daw-schedule__date {
+  background: transparent;
+  cursor: pointer;
+}
+.daw-schedule__date:hover {
+  background: #f7f7f9;
+  border-color: #e4e5e9;
+}
+.daw-schedule__date.is-partial {
+  background: #fff3c9;
+  border-color: #ffd66b;
+  color: #e28a00;
+}
+.daw-schedule__date.is-full {
+  background: #fff0f0;
+  border-color: #ffc7c9;
+  color: #dc555d;
+}
+.daw-schedule__date.is-selected,
+.daw-schedule__date.is-selected:hover {
+  background: #f2eaff;
+  border-color: #c7a9f4;
+  color: #7143b5;
+}
+.daw-schedule__date:focus-visible {
+  outline: 2px solid #3c78c5;
+  outline-offset: -3px;
+}
+.daw-schedule__saved-heading {
+  align-items: center;
+  border-bottom: 1px solid #d5d8df;
+  display: flex;
+  justify-content: space-between;
+  min-height: 34px;
+  padding: 0 10px;
+}
+.daw-schedule__saved-heading h2 {
+  color: #343a43;
+  font-size: 9px;
+  font-weight: 650;
+  margin: 0;
+}
+.daw-schedule__saved-heading > span {
+  color: #7b828d;
+  font-size: 8px;
+}
+.daw-schedule__entry {
+  border-bottom: 1px solid #d5d8df;
+}
+.daw-schedule__entry:last-child {
+  border-bottom: 0;
+}
+.daw-schedule__entry summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  list-style: none;
+  min-height: 36px;
+  padding: 5px 10px;
+}
+.daw-schedule__entry summary::-webkit-details-marker {
+  display: none;
+}
+.daw-schedule__entry-date {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.daw-schedule__entry-date strong {
+  color: #343a43;
+  font-size: 8px;
+  font-weight: 650;
+}
+.daw-schedule__entry-date small {
+  color: #7b828d;
+  font-size: 7px;
+}
+.daw-schedule__entry-status {
+  font-size: 7px;
+  font-weight: 650;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.daw-schedule__entry-status.is-full {
+  color: #d9434e;
+}
+.daw-schedule__entry-status.is-partial {
+  color: #dc8100;
+}
+.daw-schedule__chevron {
+  border-bottom: 1px solid #858b95;
+  border-right: 1px solid #858b95;
+  flex: 0 0 5px;
+  height: 5px;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 120ms ease;
+  width: 5px;
+}
+.daw-schedule__entry[open] .daw-schedule__chevron {
+  transform: rotate(225deg) translate(-1px, -1px);
+}
+.daw-schedule__entry > p {
+  border-top: 1px solid #eceef1;
+  color: #626a75;
+  font-size: 8px;
+  margin: 0;
+  padding: 8px 10px;
+}
+@media (max-width: 900px) {
+  .daw-schedule__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .daw-schedule__calendar {
+    height: 560px;
+    min-height: 0;
+  }
+}
+@media (max-width: 600px) {
+  .daw-schedule__main {
+    padding: 12px 9px 18px;
+  }
+  .daw-schedule__intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .daw-schedule__legend {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .daw-schedule__calendar {
+    height: 470px;
+  }
+  .daw-schedule__days {
+    padding: 0 3px 3px;
+  }
+  .daw-schedule__cell {
+    padding: 1px;
+  }
+}
+>>>>>>> origin/master
 .daw-vacancies,
 .daw-vacancies * {
   box-sizing: border-box;
+}
+.daw-account-settings,
+.daw-account-settings * {
+  box-sizing: border-box;
+}
+.daw-account-settings {
+  --account-accent: #c8102e;
+  --account-ink: #282d34;
+  --account-muted: #78808b;
+  --account-border: #d9dce1;
+  color: var(--account-ink);
+  margin: 20px 20px 0 12px;
+  max-width: none;
+  padding-bottom: 30px;
+}
+.daw-account-settings__heading {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.daw-account-settings__breadcrumb {
+  color: var(--account-muted);
+  font-size: 11px;
+  margin: 0 0 5px;
+}
+.daw-account-settings__breadcrumb span {
+  color: #b0b4bb;
+  padding: 0 5px;
+}
+.daw-account-settings__heading h1 {
+  color: var(--account-ink);
+  font-size: 22px;
+  line-height: 1.25;
+  margin: 0 0 4px;
+}
+.daw-account-settings__heading p:last-child {
+  color: var(--account-muted);
+  font-size: 12px;
+  margin: 0;
+}
+.daw-account-settings__add,
+.daw-account-settings__filter-button,
+.daw-account-settings__save {
+  align-items: center;
+  background: var(--account-accent);
+  border: 1px solid var(--account-accent);
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  gap: 7px;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 12px;
+  text-decoration: none;
+}
+.daw-account-settings__add:hover,
+.daw-account-settings__filter-button:hover,
+.daw-account-settings__save:hover {
+  background: #a90d27;
+  border-color: #a90d27;
+  color: #fff;
+}
+.daw-account-settings__add .dashicons,
+.daw-account-settings__save .dashicons {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
+.daw-account-settings__notice {
+  border: 1px solid;
+  border-radius: 5px;
+  font-size: 12px;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+}
+.daw-account-settings__notice.is-success {
+  background: #edf8f1;
+  border-color: #b9e1c7;
+  color: #21673a;
+}
+.daw-account-settings__notice.is-error {
+  background: #fff1f1;
+  border-color: #f1c2c5;
+  color: #a92732;
+}
+.daw-account-settings__stats {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 14px;
+}
+.daw-account-settings__stats article {
+  background: #fff;
+  border: 1px solid var(--account-border);
+  border-radius: 6px;
+  min-height: 74px;
+  padding: 12px 14px;
+}
+.daw-account-settings__stats article span {
+  color: var(--account-muted);
+  display: block;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+.daw-account-settings__stats article strong {
+  color: var(--account-ink);
+  font-size: 21px;
+  line-height: 1;
+}
+.daw-account-settings__panel {
+  background: #fff;
+  border: 1px solid var(--account-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.daw-account-settings__filters {
+  align-items: center;
+  border-bottom: 1px solid var(--account-border);
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+}
+.daw-account-settings__search {
+  align-items: center;
+  border: 1px solid var(--account-border);
+  border-radius: 5px;
+  color: #878e98;
+  display: flex;
+  gap: 7px;
+  max-width: 340px;
+  min-width: 160px;
+  padding: 0 9px;
+  width: 100%;
+}
+.daw-account-settings__search .dashicons {
+  font-size: 15px;
+  height: 15px;
+  width: 15px;
+}
+.daw-account-settings__search input {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--account-ink);
+  font-size: 12px;
+  height: 34px;
+  min-width: 0;
+  outline: 0;
+  padding: 0;
+  width: 100%;
+}
+.daw-account-settings__filters select {
+  background: #fff;
+  border: 1px solid var(--account-border);
+  border-radius: 5px;
+  color: var(--account-ink);
+  font-size: 12px;
+  height: 36px;
+  max-width: 190px;
+  padding: 0 28px 0 9px;
+}
+.daw-account-settings__filter-button {
+  font-size: 11px;
+  min-height: 36px;
+}
+.daw-account-settings__reset {
+  color: #565f6a;
+  font-size: 11px;
+  padding: 8px 4px;
+  text-decoration: none;
+}
+.daw-account-settings__reset:hover {
+  color: var(--account-accent);
+}
+.daw-account-settings__table-wrap {
+  overflow-x: auto;
+}
+.daw-account-settings__table {
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 100%;
+}
+.daw-account-settings__table th {
+  background: #f7f8fa;
+  color: #69717c;
+  font-size: 10px;
+  font-weight: 650;
+  padding: 11px 13px;
+  text-align: left;
+  white-space: nowrap;
+}
+.daw-account-settings__table td {
+  border-top: 1px solid #eceef1;
+  color: #4b535e;
+  font-size: 11px;
+  padding: 11px 13px;
+  vertical-align: middle;
+}
+.daw-account-settings__table td:first-child {
+  min-width: 150px;
+}
+.daw-account-settings__table td:first-child strong,
+.daw-account-settings__table td:first-child small {
+  display: block;
+}
+.daw-account-settings__table td:first-child strong {
+  color: var(--account-ink);
+  font-size: 11px;
+  font-weight: 600;
+}
+.daw-account-settings__table td:first-child small {
+  color: #9299a2;
+  font-size: 9px;
+  margin-top: 3px;
+}
+.daw-account-settings__table td a {
+  color: #4f6e97;
+  text-decoration: none;
+}
+.daw-account-settings__role {
+  background: #f0f1f3;
+  border-radius: 999px;
+  color: #59616b;
+  display: inline-block;
+  font-size: 9px;
+  padding: 4px 7px;
+  white-space: nowrap;
+}
+.daw-account-settings__role.is-department {
+  background: #e9f5ee;
+  color: #27734a;
+}
+.daw-account-settings__actions {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+}
+.daw-account-settings__actions form {
+  margin: 0;
+}
+.daw-account-settings__icon-button {
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--account-border);
+  border-radius: 4px;
+  color: #59616b;
+  cursor: pointer;
+  display: inline-flex;
+  height: 29px;
+  justify-content: center;
+  padding: 0;
+  width: 29px;
+}
+.daw-account-settings__icon-button:hover {
+  background: #f3f5f7;
+  border-color: #b8bec7;
+  color: #313841;
+}
+.daw-account-settings__icon-button.is-danger {
+  color: #bd3843;
+}
+.daw-account-settings__icon-button.is-danger:hover {
+  background: #fff0f0;
+  border-color: #e9b8bc;
+  color: #a91f2b;
+}
+.daw-account-settings__icon-button .dashicons {
+  font-size: 15px;
+  height: 15px;
+  width: 15px;
+}
+.daw-account-settings__protected {
+  color: #9aa0a8;
+  font-size: 9px;
+}
+.daw-account-settings__empty {
+  color: var(--account-muted) !important;
+  padding: 28px 14px !important;
+  text-align: center;
+}
+.daw-account-settings__table-footer {
+  align-items: center;
+  border-top: 1px solid var(--account-border);
+  color: #858d97;
+  display: flex;
+  font-size: 9px;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 13px;
+}
+.daw-account-settings__dialog {
+  border: 1px solid #d8dce2;
+  border-radius: 7px;
+  box-shadow: 0 18px 60px rgba(24, 30, 39, 0.22);
+  color: var(--account-ink);
+  max-height: min(90vh, 720px);
+  max-width: 590px;
+  padding: 0;
+  width: calc(100% - 32px);
+}
+.daw-account-settings__dialog::backdrop {
+  background: rgba(22, 28, 36, 0.42);
+}
+.daw-account-settings__dialog > form > header,
+.daw-account-settings__dialog > form > footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 18px;
+}
+.daw-account-settings__dialog > form > header {
+  border-bottom: 1px solid #e6e8ec;
+}
+.daw-account-settings__dialog-eyebrow {
+  color: var(--account-accent);
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.daw-account-settings__dialog h2 {
+  color: var(--account-ink);
+  font-size: 17px;
+  margin: 0;
+}
+.daw-account-settings__dialog > form > header > button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #737b86;
+  cursor: pointer;
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  padding: 0;
+  width: 30px;
+}
+.daw-account-settings__form-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 17px 18px;
+}
+.daw-account-settings__form-grid label {
+  color: #454d57;
+  display: grid;
+  font-size: 10px;
+  font-weight: 600;
+  gap: 5px;
+  min-width: 0;
+}
+.daw-account-settings__form-grid input,
+.daw-account-settings__form-grid select {
+  background: #fff;
+  border: 1px solid #d4d8de;
+  border-radius: 4px;
+  box-shadow: none;
+  color: var(--account-ink);
+  font-size: 12px;
+  height: 36px;
+  margin: 0;
+  max-width: none;
+  padding: 0 9px;
+  width: 100%;
+}
+.daw-account-settings__form-grid input:focus,
+.daw-account-settings__form-grid select:focus {
+  border-color: #7a9dc6;
+  box-shadow: 0 0 0 2px rgba(69, 120, 180, 0.14);
+  outline: 0;
+}
+.daw-account-settings__form-grid input[readonly] {
+  background: #f4f5f7;
+  color: #7d858f;
+}
+.daw-account-settings__form-grid small {
+  color: #858d97;
+  font-size: 9px;
+  font-weight: 400;
+}
+.daw-account-settings__dialog > form > footer {
+  border-top: 1px solid #e6e8ec;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.daw-account-settings__cancel {
+  background: #fff;
+  border: 1px solid var(--account-border);
+  border-radius: 4px;
+  color: #4b535e;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  min-height: 34px;
+  padding: 0 12px;
+}
+.daw-account-settings__save {
+  font-size: 11px;
+  min-height: 34px;
+}
+@media (max-width: 900px) {
+  .daw-account-settings__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .daw-account-settings__table {
+    min-width: 760px;
+  }
+}
+@media (max-width: 600px) {
+  .daw-account-settings {
+    margin: 12px 9px 0 8px;
+  }
+  .daw-account-settings__heading {
+    align-items: flex-start;
+  }
+  .daw-account-settings__heading h1 {
+    font-size: 19px;
+  }
+  .daw-account-settings__heading p:last-child {
+    font-size: 10px;
+  }
+  .daw-account-settings__add {
+    flex: 0 0 auto;
+    font-size: 10px;
+    min-height: 33px;
+    padding: 0 8px;
+  }
+  .daw-account-settings__stats {
+    gap: 7px;
+  }
+  .daw-account-settings__stats article {
+    min-height: 63px;
+    padding: 9px;
+  }
+  .daw-account-settings__stats article span {
+    font-size: 9px;
+  }
+  .daw-account-settings__filters {
+    flex-wrap: wrap;
+  }
+  .daw-account-settings__search {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .daw-account-settings__filters select {
+    flex: 1;
+    max-width: none;
+  }
+  .daw-account-settings__table {
+    min-width: 0;
+  }
+  .daw-account-settings__table thead {
+    display: none;
+  }
+  .daw-account-settings__table tbody,
+  .daw-account-settings__table tr,
+  .daw-account-settings__table td {
+    display: block;
+    width: 100%;
+  }
+  .daw-account-settings__table tr {
+    border-top: 1px solid #eceef1;
+    padding: 8px 10px;
+  }
+  .daw-account-settings__table tbody tr:first-child {
+    border-top: 0;
+  }
+  .daw-account-settings__table td,
+  .daw-account-settings__table td:first-child {
+    align-items: baseline;
+    border: 0;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    min-width: 0;
+    padding: 4px 0;
+    text-align: right;
+  }
+  .daw-account-settings__table td::before {
+    color: #858d97;
+    content: attr(data-label);
+    flex: 0 0 82px;
+    font-size: 9px;
+    text-align: left;
+  }
+  .daw-account-settings__table td:first-child strong,
+  .daw-account-settings__table td:first-child small {
+    text-align: right;
+  }
+  .daw-account-settings__table td:first-child strong {
+    margin-left: auto;
+  }
+  .daw-account-settings__table td[data-label="Aksi"] {
+    align-items: center;
+  }
+  .daw-account-settings__table td[data-label="Aksi"] > * {
+    margin-left: auto;
+  }
+  .daw-account-settings__table .daw-account-settings__empty {
+    display: block;
+    padding: 20px 8px !important;
+    text-align: center;
+  }
+  .daw-account-settings__table .daw-account-settings__empty::before {
+    content: none;
+  }
+  .daw-account-settings__table-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .daw-account-settings__form-grid {
+    grid-template-columns: 1fr;
+    max-height: calc(90vh - 130px);
+    overflow-y: auto;
+  }
 }
 .daw-vacancies {
   background: #f5f5f7;

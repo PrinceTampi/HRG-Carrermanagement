@@ -90,8 +90,14 @@ class Recruitment_Admin {
 		add_submenu_page( 'recruitment-dashboard', 'Lowongan', 'Lowongan', 'manage_recruitment', 'recruitment-vacancies', [ $this, 'render_vacancies' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Pelamar', 'Pelamar', 'manage_recruitment', 'recruitment-applicants', [ $this, 'render_applicants' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Lamaran', 'Lamaran', 'manage_recruitment', 'recruitment-applications', [ $this, 'render_applications' ] );
+<<<<<<< HEAD
 		add_submenu_page( 'recruitment-dashboard', 'Final Decision', 'Final Decision', 'manage_recruitment', 'recruitment-final-decision', [ $this, 'render_final_decision' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Wawancara User', 'Wawancara User', 'manage_recruitment', 'recruitment-user-interview', [ $this, 'render_user_interview' ] );
+=======
+		add_submenu_page( 'recruitment-dashboard', 'Detail Hasil Wawancara Departemen', 'Detail Hasil Wawancara Departemen', 'manage_recruitment', 'recruitment-user-interview', [ $this, 'render_user_interview' ] );
+		add_submenu_page( 'recruitment-dashboard', 'Jadwal Wawancara', 'Jadwal Wawancara', 'manage_recruitment', 'recruitment-interview-schedule', [ $this, 'render_interview_schedule' ] );
+		add_submenu_page( 'recruitment-dashboard', 'Pengaturan', 'Pengaturan', 'manage_recruitment', 'recruitment-user-management', [ $this, 'render_user_management' ] );
+>>>>>>> origin/master
 		add_submenu_page( 'recruitment-dashboard', 'Form Lamaran', 'Form Lamaran', 'manage_recruitment', 'recruitment-form-builder', [ $this, 'render_form_builder' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Setting Psikotes', 'Setting Psikotes', 'manage_recruitment', 'recruitment-psychotest-settings', [ $this, 'render_psychotest_settings' ] );
 		add_submenu_page( 'recruitment-dashboard', 'Bank Soal', 'Bank Soal', 'manage_recruitment', 'recruitment-question-bank', [ $this, 'render_question_bank' ] );
@@ -165,6 +171,14 @@ class Recruitment_Admin {
 		$this->render_page( 'user-interview' );
 	}
 
+	public function render_interview_schedule(): void {
+		$this->render_page( 'interview-schedule' );
+	}
+
+	public function render_user_management(): void {
+		$this->render_page( 'user-management' );
+	}
+
 	public function render_form_builder(): void {
 		$this->render_page( 'application-form-builder' );
 	}
@@ -192,7 +206,11 @@ class Recruitment_Admin {
 
 	private function is_recruitment_screen(): bool {
 		$page = sanitize_key( $_GET['page'] ?? '' );
+<<<<<<< HEAD
 		$admin_pages = [ 'recruitment-dashboard', 'recruitment-vacancies', 'recruitment-applicants', 'recruitment-applications', 'recruitment-final-decision', 'recruitment-user-interview', 'recruitment-form-builder', 'recruitment-psychotest-settings', 'recruitment-question-bank', 'recruitment-settings', 'daw-user-department' ];
+=======
+		$admin_pages = [ 'recruitment-dashboard', 'recruitment-vacancies', 'recruitment-applicants', 'recruitment-applications', 'recruitment-user-interview', 'recruitment-interview-schedule', 'recruitment-user-management', 'recruitment-form-builder', 'recruitment-psychotest-settings', 'recruitment-question-bank', 'recruitment-settings' ];
+>>>>>>> origin/master
 
 		if ( in_array( $page, $admin_pages, true ) ) {
 			return true;
