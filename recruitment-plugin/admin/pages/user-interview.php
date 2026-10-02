@@ -3,133 +3,154 @@ $user = function_exists( 'wp_get_current_user' ) ? wp_get_current_user() : null;
 $display_name = $user && ! empty( $user->display_name ) ? $user->display_name : 'Admin HR';
 $user_email = $user && ! empty( $user->user_email ) ? $user->user_email : 'hr@daw.co.id';
 $logout_url = function_exists( 'wp_logout_url' ) ? wp_logout_url( home_url( '/' ) ) : '?page=login';
+$show_notes = 'notes' === sanitize_key( $_GET['view'] ?? '' );
 $list_url = recruitment_get_admin_url( 'user-interview' );
-$department_filter = sanitize_text_field( wp_unslash( $_GET['department'] ?? '' ) );
-$result_filter = sanitize_text_field( wp_unslash( $_GET['result'] ?? '' ) );
-$search = sanitize_text_field( wp_unslash( $_GET['search'] ?? '' ) );
-
-$interviews = [
-	[ 'id' => 1, 'name' => 'Sari Dewi Putri', 'code' => 'DW-2026-0761', 'position' => 'Customer Service', 'department' => 'Sales', 'dealer' => 'DAW Airmadidi', 'result' => 'Sangat Baik', 'final' => 'Diterima', 'date' => '20 Sep 2026', 'interviewer' => 'Andi Wirawan', 'note' => 'Komunikasi sangat baik, pengalaman relevan, antusias dan target-oriented.' ],
-	[ 'id' => 2, 'name' => 'Rizal Fauzy', 'code' => 'DW-2026-0755', 'position' => 'Customer Service', 'department' => 'Sales', 'dealer' => 'DAW Manado', 'result' => 'Dipertimbangkan', 'final' => 'Tidak Diterima', 'date' => '19 Sep 2026', 'interviewer' => 'Andi Wirawan', 'note' => 'Perlu penguatan pada pemahaman kebutuhan pelanggan dan konsistensi komunikasi.' ],
-	[ 'id' => 3, 'name' => 'Mega Lestari', 'code' => 'DW-2026-0749', 'position' => 'Sales Supervisor', 'department' => 'Sales', 'dealer' => 'DAW Kotamobagu', 'result' => 'Baik', 'final' => 'Menunggu Keputusan', 'date' => '18 Sep 2026', 'interviewer' => 'Andi Wirawan', 'note' => 'Memiliki pengalaman memimpin tim. Perlu pembahasan akhir terkait penempatan.' ],
-	[ 'id' => 4, 'name' => 'Doni Prasetyo', 'code' => 'DW-2026-0731', 'position' => 'Sales Executive', 'department' => 'Sales', 'dealer' => 'DAW Airmadidi', 'result' => 'Dipilih', 'final' => 'Diterima', 'date' => '12 Sep 2026', 'interviewer' => 'Andi Wirawan', 'note' => 'Menunjukkan kesiapan kerja dan pemahaman target penjualan.' ],
-	[ 'id' => 5, 'name' => 'Benny Kurniawan', 'code' => 'DW-2026-0718', 'position' => 'Service Advisor', 'department' => 'After Sales', 'dealer' => 'DAW Manado', 'result' => 'Tidak Dilanjutkan', 'final' => 'Tidak Diterima', 'date' => '10 Sep 2026', 'interviewer' => 'Benny Kurnia', 'note' => 'Kompetensi teknis belum sesuai dengan kebutuhan posisi saat ini.' ],
-	[ 'id' => 6, 'name' => 'Nabila Yusuf', 'code' => 'DW-2026-0788', 'position' => 'Finance Staff', 'department' => 'Finance', 'dealer' => 'DAW Manado', 'result' => 'Baik', 'final' => 'Menunggu Keputusan', 'date' => '21 Sep 2026', 'interviewer' => 'Meity Rondonuwu', 'note' => 'Teliti dan memahami proses administrasi keuangan. Menunggu keputusan akhir departemen.' ],
-	[ 'id' => 7, 'name' => 'Yosefin Langi', 'code' => 'DW-2025-0612', 'position' => 'Finance Staff', 'department' => 'Finance', 'dealer' => 'DAW Manado', 'result' => 'Baik', 'final' => 'Diterima', 'date' => '24 Nov 2025', 'interviewer' => 'Meity Rondonuwu', 'note' => 'Menunjukkan ketelitian, integritas, dan kecocokan yang baik dengan tim Finance.' ],
-];
-
-$departments = [ 'Sales', 'After Sales', 'Finance' ];
-$results = [ 'Sangat Baik', 'Baik', 'Dipertimbangkan', 'Tidak Dilanjutkan' ];
-$filtered_interviews = [];
-foreach ( $interviews as $interview ) {
-	$matches_department = '' === $department_filter || $interview['department'] === $department_filter;
-	$matches_result = '' === $result_filter || $interview['result'] === $result_filter;
-	$searchable = strtolower( $interview['name'] . ' ' . $interview['code'] . ' ' . $interview['position'] . ' ' . $interview['dealer'] );
-	$matches_search = '' === $search || false !== strpos( $searchable, strtolower( $search ) );
-	if ( $matches_department && $matches_result && $matches_search ) {
-		$filtered_interviews[] = $interview;
-	}
-}
-
-$stats = [ 'total' => count( $filtered_interviews ), 'good' => 0, 'accepted' => 0, 'waiting' => 0 ];
-foreach ( $filtered_interviews as $interview ) {
-	if ( in_array( $interview['result'], [ 'Sangat Baik', 'Baik', 'Dipilih' ], true ) ) {
-		$stats['good']++;
-	}
-	if ( 'Diterima' === $interview['final'] ) {
-		$stats['accepted']++;
-	}
-	if ( 'Menunggu Keputusan' === $interview['final'] ) {
-		$stats['waiting']++;
-	}
-}
-
-$filter_url = static function ( string $department, string $result ) use ( $list_url, $search ): string {
-	return add_query_arg( [ 'department' => $department, 'result' => $result, 'search' => $search ], $list_url );
-};
+$notes_url = add_query_arg( 'view', 'notes', $list_url );
 ?>
-<div class="daw-user-interview">
-	<header class="daw-user-interview__header">
-		<nav class="daw-user-interview__breadcrumb" aria-label="Breadcrumb">
-			<span class="daw-user-interview__breadcrumb-root">DAW Admin</span>
-			<span aria-hidden="true">/</span>
-			<strong>Detail Hasil Wawancara Departemen</strong>
-		</nav>
-		<div class="daw-user-interview__account">
-			<span class="daw-user-interview__avatar" aria-hidden="true">HR</span>
-			<span class="daw-user-interview__account-name"><strong><?= esc_html( $display_name ) ?></strong><small><?= esc_html( $user_email ) ?></small></span>
-			<a class="daw-user-interview__logout" href="<?= esc_url( $logout_url ) ?>">Keluar</a>
-		</div>
-	</header>
+<div class="daw-user-interview<?= $show_notes ? ' daw-user-interview--notes' : '' ?>">
+    <?php if ( $show_notes ) : ?>
+        <aside class="daw-user-interview__sidebar">
+            <a class="daw-user-interview__brand" href="<?= esc_url( $list_url ) ?>"><span>DAW</span><strong>Admin</strong></a>
+            <nav aria-label="Navigasi admin">
+                <span class="daw-user-interview__nav-item">Dashboard</span>
+                <span class="daw-user-interview__nav-heading">Recruitment</span>
+                <span class="daw-user-interview__nav-item">Semua Kandidat Aktif <b>12</b></span>
+                <span class="daw-user-interview__nav-item">Seleksi Administrasi</span>
+                <span class="daw-user-interview__nav-item">Psikotes</span>
+                <span class="daw-user-interview__nav-item">Wawancara HR</span>
+                <a class="daw-user-interview__nav-item is-active" href="<?= esc_url( $list_url ) ?>">Wawancara User</a>
+                <span class="daw-user-interview__nav-item">Final Decision</span>
+                <span class="daw-user-interview__nav-item">Database Pelamar</span>
+                <span class="daw-user-interview__nav-item">Lowongan</span>
+                <span class="daw-user-interview__nav-item">Form Lamaran</span>
+                <span class="daw-user-interview__nav-item">Jadwal Wawancara</span>
+                <span class="daw-user-interview__nav-item">Email Recruitment</span>
+                <span class="daw-user-interview__nav-item">Approval Pengajuan</span>
+                <span class="daw-user-interview__nav-item">Akun User Dept</span>
+            </nav>
+        </aside>
+    <?php endif; ?>
+    <header class="daw-user-interview__header">
+        <nav class="daw-user-interview__breadcrumb" aria-label="Breadcrumb">
+            <span class="daw-user-interview__breadcrumb-root">DAW Admin</span>
+            <span aria-hidden="true">/</span>
+            <strong><?= $show_notes ? 'Catatan Wawancara User' : 'Wawancara User' ?></strong>
+        </nav>
+        <div class="daw-user-interview__account">
+            <span class="daw-user-interview__avatar" aria-hidden="true">HR</span>
+            <span class="daw-user-interview__account-name">
+                <strong><?= esc_html( $display_name ) ?></strong>
+                <small><?= esc_html( $user_email ) ?></small>
+            </span>
+            <a class="daw-user-interview__logout" href="<?= esc_url( $logout_url ) ?>">Keluar</a>
+        </div>
+    </header>
 
-	<main class="daw-user-interview__main">
-		<section class="daw-ui-heading">
-			<h1>Detail Hasil Wawancara Departemen</h1>
-			<p>Rekap hasil wawancara user yang telah disampaikan oleh Kepala Departemen. Data ini hanya untuk review HR — bukan tempat HR melakukan wawancara user.</p>
-		</section>
+    <main class="daw-user-interview__main">
+        <?php if ( $show_notes ) : ?>
+            <a class="daw-user-interview__back" href="<?= esc_url( $list_url ) ?>"><span aria-hidden="true">&#8249;</span> Kembali ke Daftar Wawancara</a>
+            <div class="daw-user-interview__detail-grid">
+                <section class="daw-user-interview__card daw-user-interview__candidate-card" aria-labelledby="candidate-card-title">
+                    <h1 id="candidate-card-title">Kandidat</h1>
+                    <div class="daw-user-interview__candidate-profile">
+                        <span class="daw-user-interview__candidate-avatar" aria-hidden="true">BS</span>
+                        <span><strong>Budi Santoso</strong><small>DAW-2026-601245</small></span>
+                    </div>
+                    <dl class="daw-user-interview__candidate-facts">
+                        <div><dt>Posisi</dt><dd>Sales Executive</dd></div>
+                        <div><dt>Dealer</dt><dd>DAW Airmadidi</dd></div>
+                        <div><dt>Tgl Wawancara</dt><dd>3 September 2026</dd></div>
+                        <div><dt>Waktu</dt><dd>09:00 WITA</dd></div>
+                    </dl>
+                    <details class="daw-user-interview__profile-details">
+                        <summary>Lihat Profil Lengkap</summary>
+                        <p>Budi Santoso · Sales Executive · DAW Airmadidi</p>
+                    </details>
+                </section>
 
-		<section class="daw-ui-stats" aria-label="Ringkasan wawancara departemen">
-			<article><span>Total Diwawancarai</span><strong><?= esc_html( number_format_i18n( $stats['total'] ) ) ?></strong></article>
-			<article><span>Sangat Baik / Baik</span><strong class="is-good"><?= esc_html( number_format_i18n( $stats['good'] ) ) ?></strong></article>
-			<article><span>Diterima</span><strong class="is-accepted"><?= esc_html( number_format_i18n( $stats['accepted'] ) ) ?></strong></article>
-			<article><span>Menunggu Keputusan</span><strong class="is-waiting"><?= esc_html( number_format_i18n( $stats['waiting'] ) ) ?></strong></article>
-		</section>
+                <section class="daw-user-interview__card daw-user-interview__notes-card" aria-labelledby="notes-title">
+                    <h1 id="notes-title">Catatan Wawancara User</h1>
+                    <form data-user-interview-form>
+                        <div class="daw-user-interview__field-row">
+                            <label class="daw-user-interview__field">Interviewer<input name="interviewer" type="text" value="Kepala Cabang"></label>
+                            <label class="daw-user-interview__field">Tanggal Wawancara<input name="interview_date" type="date" value="2026-09-03"></label>
+                        </div>
+                        <label class="daw-user-interview__field daw-user-interview__field--notes">Catatan Wawancara<textarea name="notes" rows="3" placeholder="Catat observasi, poin diskusi, dan kesan umum kandidat..."></textarea></label>
 
-		<form method="get" class="daw-ui-search" action="<?= esc_url( admin_url( 'admin.php' ) ) ?>">
-			<input type="hidden" name="page" value="recruitment-user-interview" />
-			<input type="hidden" name="department" value="<?= esc_attr( $department_filter ) ?>" />
-			<input type="hidden" name="result" value="<?= esc_attr( $result_filter ) ?>" />
-			<label><span class="screen-reader-text">Cari kandidat</span><input type="search" name="search" value="<?= esc_attr( $search ) ?>" placeholder="Cari nama atau kode lamaran..." /></label>
-			<button class="button" type="submit">Cari</button>
-			<a class="button" href="<?= esc_url( $list_url ) ?>">Reset</a>
-		</form>
+                        <fieldset class="daw-user-interview__choice-field">
+                            <legend>Penilaian</legend>
+                            <div class="daw-user-interview__choice-grid daw-user-interview__choice-grid--rating" data-choice-group>
+                                <button type="button" aria-pressed="false">Sangat Baik</button>
+                                <button type="button" aria-pressed="false">Baik</button>
+                                <button type="button" aria-pressed="false">Cukup</button>
+                                <button type="button" aria-pressed="false">Kurang</button>
+                            </div>
+                        </fieldset>
 
-		<div class="daw-ui-filters" aria-label="Filter kandidat">
-			<div class="daw-ui-filter-group" aria-label="Filter departemen">
-				<?php foreach ( array_merge( [ 'Semua' => '' ], array_combine( $departments, $departments ) ) as $label => $value ) : ?>
-					<a href="<?= esc_url( $filter_url( $value, $result_filter ) ) ?>" class="<?= $department_filter === $value ? 'is-active' : '' ?>"><?= esc_html( $label ) ?></a>
-				<?php endforeach; ?>
-			</div>
-			<div class="daw-ui-filter-group" aria-label="Filter hasil wawancara">
-				<?php foreach ( array_merge( [ 'Semua' => '' ], array_combine( $results, $results ) ) as $label => $value ) : ?>
-					<a href="<?= esc_url( $filter_url( $department_filter, $value ) ) ?>" class="<?= $result_filter === $value ? 'is-active' : '' ?>"><?= esc_html( $label ) ?></a>
-				<?php endforeach; ?>
-			</div>
-		</div>
+                        <fieldset class="daw-user-interview__choice-field">
+                            <legend>Rekomendasi</legend>
+                            <div class="daw-user-interview__choice-grid daw-user-interview__choice-grid--recommendation" data-choice-group>
+                                <button type="button" aria-pressed="false">Lanjut ke Tahap Berikutnya</button>
+                                <button type="button" aria-pressed="false">Tidak Dilanjutkan</button>
+                            </div>
+                        </fieldset>
 
-		<section class="daw-ui-list" aria-label="Hasil wawancara kandidat">
-			<?php if ( empty( $filtered_interviews ) ) : ?>
-				<p class="daw-ui-empty">Tidak ada hasil wawancara yang cocok dengan filter.</p>
-			<?php endif; ?>
-			<?php foreach ( $filtered_interviews as $index => $interview ) :
-				$result_class = 'Tidak Dilanjutkan' === $interview['result'] ? 'is-red' : ( 'Dipertimbangkan' === $interview['result'] ? 'is-amber' : ( 'Baik' === $interview['result'] ? 'is-blue' : 'is-green' ) );
-				$final_class = 'Diterima' === $interview['final'] ? 'is-green' : ( 'Tidak Diterima' === $interview['final'] ? 'is-red' : 'is-amber' );
-				$initials = strtoupper( substr( preg_replace( '/[^A-Za-z]/', '', $interview['name'] ), 0, 2 ) );
-				$final_decision_url = add_query_arg( [ 'page' => 'recruitment-dashboard', 'view' => 'final-decision', 'section' => 'decision', 'candidate_id' => $interview['id'] ], admin_url( 'admin.php' ) );
-				?>
-				<details class="daw-ui-candidate" <?= 0 === $index ? 'open' : '' ?>>
-					<summary>
-						<span class="daw-ui-avatar" aria-hidden="true"><?= esc_html( $initials ) ?></span>
-						<span class="daw-ui-candidate__identity"><strong><?= esc_html( $interview['name'] ) ?></strong><small><?= esc_html( $interview['code'] ) ?> · <?= esc_html( $interview['position'] ) ?> · <?= esc_html( $interview['department'] ) ?> · <?= esc_html( $interview['dealer'] ) ?></small></span>
-						<span class="daw-ui-candidate__badges"><span class="daw-ui-badge <?= esc_attr( $result_class ) ?>"><?= esc_html( $interview['result'] ) ?></span><span class="daw-ui-badge <?= esc_attr( $final_class ) ?>">Final: <?= esc_html( 'Menunggu Keputusan' === $interview['final'] ? 'Pending' : ( 'Diterima' === $interview['final'] ? 'Diterima' : 'Ditolak' ) ) ?></span></span>
-						<span class="daw-ui-interviewer"><small>Interviewer</small><strong><?= esc_html( $interview['interviewer'] ) ?></strong><small><?= esc_html( $interview['date'] ) ?></small></span>
-						<span class="daw-ui-chevron" aria-hidden="true"></span>
-					</summary>
-					<div class="daw-ui-candidate__details">
-						<div class="daw-ui-facts">
-							<div><span>Departemen</span><strong><?= esc_html( $interview['department'] ) ?></strong></div>
-							<div><span>Interviewer</span><strong><?= esc_html( $interview['interviewer'] ) ?></strong></div>
-							<div><span>Tanggal Wawancara</span><strong><?= esc_html( $interview['date'] ) ?></strong></div>
-							<div><span>Hasil</span><strong><span class="daw-ui-badge <?= esc_attr( $result_class ) ?>"><?= esc_html( $interview['result'] ) ?></span></strong></div>
-						</div>
-						<div class="daw-ui-note"><span>Catatan Wawancara Departemen</span><p>“<?= esc_html( $interview['note'] ) ?>”</p></div>
-						<div class="daw-ui-detail-actions"><a class="daw-ui-decision-link" href="<?= esc_url( $final_decision_url ) ?>"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>Buat Keputusan Final</a></div>
-					</div>
-				</details>
-			<?php endforeach; ?>
-		</section>
-	</main>
+                        <button class="daw-user-interview__save" type="submit">Simpan Catatan</button>
+                        <p class="daw-user-interview__feedback" role="status" aria-live="polite" data-interview-feedback hidden></p>
+                    </form>
+
+                    <section class="daw-user-interview__decision" aria-labelledby="decision-title">
+                        <h2 id="decision-title">Keputusan Wawancara User</h2>
+                        <div class="daw-user-interview__decision-grid" data-choice-group>
+                            <button class="is-success" type="button" aria-pressed="false" data-final-decision>✓ &nbsp; ACC / Lolos</button>
+                            <button class="is-reject" type="button" aria-pressed="false" data-final-decision>× &nbsp; Tidak Lolos</button>
+                        </div>
+                        <p class="daw-user-interview__feedback" role="status" aria-live="polite" data-decision-feedback hidden></p>
+                    </section>
+
+                    <section class="daw-user-interview__history" aria-labelledby="history-title">
+                        <h2 id="history-title">Riwayat Catatan Sebelumnya</h2>
+                        <blockquote>“Kandidat menunjukkan antusiasme yang tinggi dan pengalaman relevan di bidang sales.”<small>2 Sep 2026 · Screening awal</small></blockquote>
+                    </section>
+                </section>
+            </div>
+        <?php else : ?>
+            <section class="daw-user-interview__panel" aria-labelledby="user-interview-title">
+                <h1 id="user-interview-title">Kandidat — Wawancara User</h1>
+                <div class="daw-user-interview__table-wrap">
+                    <table>
+                        <caption class="screen-reader-text">Daftar kandidat wawancara user</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Kandidat</th>
+                                <th scope="col">Posisi</th>
+                                <th scope="col">Dealer</th>
+                                <th scope="col">Rekomendasi HR</th>
+                                <th scope="col">Tgl Wawancara</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="daw-user-interview__candidate">Budi Santoso</span>
+                                    <small class="daw-user-interview__code">DAW-2026-601245</small>
+                                </td>
+                                <td>Sales Executive</td>
+                                <td>DAW Airmadidi</td>
+                                <td><span class="daw-user-interview__badge daw-user-interview__badge--recommendation">Lanjut</span></td>
+                                <td>3 Sep 2026</td>
+                                <td><span class="daw-user-interview__badge daw-user-interview__badge--complete">Selesai</span></td>
+                                <td><a class="daw-user-interview__details-link" href="<?= esc_url( $notes_url ) ?>">Detail / Catatan</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        <?php endif; ?>
+    </main>
 </div>
 <?php if ( defined( 'RECRUITMENT_SANDBOX' ) ) : ?>
-	<?php require recruitment_get_plugin_path( 'public/components/screen-explorer.php' ); ?>
+    <?php require recruitment_get_plugin_path( 'public/components/screen-explorer.php' ); ?>
 <?php endif; ?>

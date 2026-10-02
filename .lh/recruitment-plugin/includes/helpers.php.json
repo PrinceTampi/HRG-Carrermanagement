@@ -3,11 +3,23 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1790907771111,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1790921609004,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -220,9 +220,10 @@\n     return add_query_arg( $args, $url );\r\n }\r\n \r\n function recruitment_get_public_url( string $screen = 'careers', array $args = [] ): string {\r\n-    $page_id = absint( get_option( 'recruitment_public_page_id', 0 ) );\r\n+    $page_option = 'portal' === sanitize_key( $screen ) ? 'recruitment_admin_page_id' : 'recruitment_public_page_id';\r\n+    $page_id = absint( get_option( $page_option, 0 ) );\r\n     if ( ! $page_id && function_exists( 'get_queried_object_id' ) ) {\r\n         $page_id = absint( get_queried_object_id() );\r\n     }\r\n     $base_url = $page_id ? get_permalink( $page_id ) : home_url( '/' );\r\n"
+                },
+                {
+                    "date": 1790922186846,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -220,10 +220,9 @@\n     return add_query_arg( $args, $url );\r\n }\r\n \r\n function recruitment_get_public_url( string $screen = 'careers', array $args = [] ): string {\r\n-    $page_option = 'portal' === sanitize_key( $screen ) ? 'recruitment_admin_page_id' : 'recruitment_public_page_id';\r\n-    $page_id = absint( get_option( $page_option, 0 ) );\r\n+    $page_id = absint( get_option( 'recruitment_public_page_id', 0 ) );\r\n     if ( ! $page_id && function_exists( 'get_queried_object_id' ) ) {\r\n         $page_id = absint( get_queried_object_id() );\r\n     }\r\n     $base_url = $page_id ? get_permalink( $page_id ) : home_url( '/' );\r\n"
+                },
+                {
+                    "date": 1790931127146,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -102,9 +102,9 @@\n         echo '<input type=\"hidden\" name=\"' . esc_attr( $name ) . '\" value=\"sandbox-nonce\">';\r\n     }\r\n }\r\n \r\n-if ( ! function_exists( 'wp_verify_nonce' ) ) {\r\n+if ( ! function_exists( 'wp_verify_nonce' ) && ! defined( 'WPINC' ) ) {\r\n     function wp_verify_nonce( $nonce, string $action = '-1' ): bool {\r\n         return (string) $nonce === 'sandbox-nonce';\r\n     }\r\n }\r\n"
                 }
             ],
             "date": 1790907771111,

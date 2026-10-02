@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 8,
             "patches": [
                 {
                     "date": 1790169720014,
@@ -36,6 +36,10 @@
                 {
                     "date": 1790913407248,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,10 +37,9 @@\n         [ 'label' => 'Lowongan', 'screen' => 'vacancies' ],\r\n         [ 'label' => 'Pelamar', 'screen' => 'applicants' ],\r\n         [ 'label' => 'Lamaran', 'screen' => 'applications' ],\r\n         [ 'label' => 'Final Decision', 'screen' => 'final-decision', 'args' => [ 'view' => 'final-decision' ] ],\r\n-        [ 'label' => 'Wawancara User', 'screen' => 'user-interview' ],\r\n-        [ 'label' => 'Catatan Wawancara User', 'screen' => 'user-interview', 'args' => [ 'view' => 'notes' ] ],\r\n+        [ 'label' => 'Detail Hasil Wawancara Departemen', 'screen' => 'user-interview' ],\r\n         [ 'label' => 'Pengaturan', 'screen' => 'settings' ],\r\n     ],\r\n ];\r\n ?>\r\n"
+                },
+                {
+                    "date": 1790922196138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,10 +36,11 @@\n         [ 'label' => 'Dashboard', 'screen' => 'dashboard' ],\r\n         [ 'label' => 'Lowongan', 'screen' => 'vacancies' ],\r\n         [ 'label' => 'Pelamar', 'screen' => 'applicants' ],\r\n         [ 'label' => 'Lamaran', 'screen' => 'applications' ],\r\n-        [ 'label' => 'Final Decision', 'screen' => 'final-decision', 'args' => [ 'view' => 'final-decision' ] ],\r\n-        [ 'label' => 'Detail Hasil Wawancara Departemen', 'screen' => 'user-interview' ],\r\n+        [ 'label' => 'Final Decision', 'screen' => 'final-decision' ],\r\n+        [ 'label' => 'Wawancara User', 'screen' => 'user-interview' ],\r\n+        [ 'label' => 'Catatan Wawancara User', 'screen' => 'user-interview', 'args' => [ 'view' => 'notes' ] ],\r\n         [ 'label' => 'Pengaturan', 'screen' => 'settings' ],\r\n     ],\r\n ];\r\n ?>\r\n"
                 }
             ],
             "date": 1790169720014,

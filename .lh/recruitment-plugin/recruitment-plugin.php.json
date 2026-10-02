@@ -1,0 +1,18 @@
+{
+    "sourceFile": "recruitment-plugin/recruitment-plugin.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1790921147160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1790921147160,
+            "name": "Commit-0",
+            "content": "<?php\r\n/**\r\n * Plugin Name: Recruitment Plugin\r\n * Plugin URI:  https://example.com/recruitment-plugin\r\n * Description: Plugin rekrutmen untuk mengelola lowongan kerja, data pelamar, proses lamaran, dan halaman karier publik melalui dashboard HRD.\r\n * Version:     1.0.0\r\n * Author:      PT. Daya Adicipta Wisesa\r\n * License:     GPL-2.0-or-later\r\n */\r\n\r\nif ( ! defined( 'ABSPATH' ) ) {\r\n    exit;\r\n}\r\n\r\ndefine( 'RECRUITMENT_PLUGIN_VERSION', '1.0.7' );\r\ndefine( 'RECRUITMENT_PLUGIN_FILE', __FILE__ );\r\ndefine( 'RECRUITMENT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );\r\ndefine( 'RECRUITMENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );\r\n\r\n// Load shared helpers and modular services.\r\nrequire_once __DIR__ . '/includes/helpers.php';\r\nrequire_once __DIR__ . '/database/class-database.php';\r\nrequire_once __DIR__ . '/includes/class-application.php';\r\nrequire_once __DIR__ . '/includes/class-auth.php';\r\nrequire_once __DIR__ . '/routes/class-router.php';\r\nrequire_once __DIR__ . '/includes/class-plugin.php';\r\n\r\nrequire_once __DIR__ . '/public/public-loader.php';\r\nrequire_once __DIR__ . '/admin/admin-loader.php';\r\n\r\n// Initialize the plugin.\r\n( new Recruitment_Plugin() )->init();\r\n\r\nregister_activation_hook(\r\n    __FILE__,\r\n    static function (): void {\r\n        $role = get_role( 'administrator' );\r\n        if ( $role ) {\r\n            $role->add_cap( 'manage_recruitment' );\r\n            $role->add_cap( 'manage_user_department' );\r\n        }\r\n        $department_role = get_role( 'daw_user_department' );\r\n        if ( ! $department_role ) {\r\n            $department_role = add_role( 'daw_user_department', 'User Department', [ 'read' => true ] );\r\n        }\r\n        if ( $department_role ) {\r\n            $department_role->add_cap( 'manage_user_department' );\r\n        }\r\n        flush_rewrite_rules();\r\n    }\r\n);\r\n\r\nregister_deactivation_hook( __FILE__, 'flush_rewrite_rules' );\r\n"
+        }
+    ]
+}
