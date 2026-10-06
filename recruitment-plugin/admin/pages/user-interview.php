@@ -115,18 +115,28 @@ $notes_url = add_query_arg( 'view', 'notes', $list_url );
                 </section>
             </div>
         <?php else : ?>
-            <section class="daw-user-interview__panel" aria-labelledby="user-interview-title">
-                <h1 id="user-interview-title">Kandidat — Wawancara User</h1>
+            <div class="daw-interview-screen__heading">
+                <div><h1>Wawancara User</h1><p>Kelola wawancara user (hiring manager) untuk kandidat yang lolos wawancara HR.</p></div>
+            </div>
+            <section class="daw-interview-screen__stats" aria-label="Ringkasan wawancara user">
+                <article class="is-waiting"><strong>1</strong><span>Menunggu Wawancara</span></article>
+                <article class="is-scheduled"><strong>0</strong><span>Sudah Diwawancarai</span></article>
+                <article class="is-passed"><strong>0</strong><span>Lolos</span></article>
+                <article class="is-failed"><strong>0</strong><span>Tidak Lolos</span></article>
+            </section>
+            <section class="daw-user-interview__panel daw-interview-screen__panel" aria-labelledby="user-interview-title">
+                <div class="daw-interview-screen__panel-heading"><h2 id="user-interview-title">Daftar Kandidat</h2><label for="user-interview-status">Filter status</label><select id="user-interview-status"><option>Semua Status</option><option>Menunggu</option><option>Selesai</option></select></div>
                 <div class="daw-user-interview__table-wrap">
-                    <table>
+                    <table class="daw-interview-screen__table daw-interview-screen__table--user">
                         <caption class="screen-reader-text">Daftar kandidat wawancara user</caption>
                         <thead>
                             <tr>
                                 <th scope="col">Kandidat</th>
                                 <th scope="col">Posisi</th>
                                 <th scope="col">Dealer</th>
-                                <th scope="col">Rekomendasi HR</th>
-                                <th scope="col">Tgl Wawancara</th>
+                                <th scope="col">Wilayah</th>
+                                <th scope="col">Hasil Wawancara HR</th>
+                                <th scope="col">Tgl Wawancara User</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Aksi</th>
                             </tr>
@@ -134,15 +144,13 @@ $notes_url = add_query_arg( 'view', 'notes', $list_url );
                         <tbody>
                             <tr>
                                 <td>
-                                    <span class="daw-user-interview__candidate">Budi Santoso</span>
-                                    <small class="daw-user-interview__code">DAW-2026-601245</small>
+                                    <span class="daw-user-interview__candidate">Doni Pratama</span>
+                                    <small class="daw-user-interview__code">DAW-2026-001215</small>
                                 </td>
-                                <td>Sales Executive</td>
-                                <td>DAW Airmadidi</td>
-                                <td><span class="daw-user-interview__badge daw-user-interview__badge--recommendation">Lanjut</span></td>
-                                <td>3 Sep 2026</td>
-                                <td><span class="daw-user-interview__badge daw-user-interview__badge--complete">Selesai</span></td>
-                                <td><a class="daw-user-interview__details-link" href="<?= esc_url( $notes_url ) ?>">Detail / Catatan</a></td>
+                                <td>Sales Executive</td><td>AHASS Ternate</td><td>Maluku Utara</td>
+                                <td><span class="daw-interview-screen__result is-passed">Lolos</span><small class="daw-interview-screen__result-note">Sangat Baik</small></td>
+                                <td>—</td><td><span class="daw-interview-screen__status is-waiting">Menunggu</span></td>
+                                <td><a class="daw-interview-screen__action" href="<?= esc_url( $notes_url ) ?>">Catat Wawancara</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -152,10 +160,5 @@ $notes_url = add_query_arg( 'view', 'notes', $list_url );
     </main>
 </div>
 <?php if ( defined( 'RECRUITMENT_SANDBOX' ) ) : ?>
-<<<<<<< HEAD
     <?php require recruitment_get_plugin_path( 'public/components/screen-explorer.php' ); ?>
 <?php endif; ?>
-=======
-	<?php require recruitment_get_plugin_path( 'public/components/screen-explorer.php' ); ?>
-<?php endif; ?>
->>>>>>> origin/master

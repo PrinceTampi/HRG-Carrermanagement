@@ -214,9 +214,9 @@ $filter_form = static function ( string $tab, array $fields, string $search_plac
 ?>
 <div class="wrap recruitment-admin daw-final-decision-page">
 	<header class="daw-fd-heading">
-		<p class="daw-fd-heading__breadcrumb">DAW Admin <span>/</span> Recruitment — Final Decision</p>
-		<h1>Final Decision</h1>
-		<p>Kelola keputusan akhir, pemberitahuan kandidat, dan statistik rekrutmen dalam satu alur.</p>
+		<p class="daw-fd-heading__breadcrumb">Recruitment <span>/</span> Keputusan Akhir</p>
+		<h1>Keputusan Akhir</h1>
+		<p>Buat keputusan rekrutmen final untuk kandidat yang telah menyelesaikan seluruh tahap seleksi.</p>
 	</header>
 
 	<nav class="daw-fd-tabs" aria-label="Final Decision">
@@ -226,42 +226,19 @@ $filter_form = static function ( string $tab, array $fields, string $search_plac
 	</nav>
 
 	<?php if ( 'decision' === $section ) : ?>
-		<section class="daw-fd-stats" aria-label="Ringkasan keputusan akhir">
-			<article><span>Total Kandidat Tahap Akhir</span><strong><?= esc_html( number_format_i18n( $decision_stats['total'] ) ) ?></strong></article>
-			<article><span>Menunggu Keputusan</span><strong class="is-amber"><?= esc_html( number_format_i18n( $decision_stats['waiting'] ) ) ?></strong></article>
-			<article><span>Diterima</span><strong class="is-green"><?= esc_html( number_format_i18n( $decision_stats['accepted'] ) ) ?></strong></article>
-			<article><span>Tidak Diterima</span><strong class="is-red"><?= esc_html( number_format_i18n( $decision_stats['rejected'] ) ) ?></strong></article>
-		</section>
 		<?php if ( '' !== $decision_notice ) : ?><p class="daw-fd-notice"><?= esc_html( $decision_notice ) ?></p><?php endif; ?>
-
-		<?php $filter_form( 'decision', [ 'batch' => 'Batch Rekrutmen', 'year' => 'Tahun', 'dealer' => 'Dealer', 'department' => 'Departemen', 'position' => 'Posisi', 'user_result' => 'Hasil Wawancara User', 'decision' => 'Status Keputusan' ] ); ?>
-
-		<?php if ( $selected_candidate && 'decision' === $section ) : ?>
-			<section class="daw-fd-detail" aria-label="Detail kandidat">
-				<div><p class="daw-fd-eyebrow">Detail Kandidat</p><h2><?= esc_html( $selected_candidate['name'] ) ?></h2><p><?= esc_html( $selected_candidate['code'] ) ?> · <?= esc_html( $selected_candidate['position'] ) ?> · <?= esc_html( $selected_candidate['dealer'] ) ?></p></div>
-				<dl><div><dt>Departemen</dt><dd><?= esc_html( $selected_candidate['department'] ) ?></dd></div><div><dt>Hasil User</dt><dd><?= esc_html( $selected_candidate['user_result'] ) ?></dd></div><div><dt>Keputusan</dt><dd><span class="daw-fd-badge <?= esc_attr( 'Diterima' === $selected_candidate['decision'] ? 'is-green' : ( 'Tidak Diterima' === $selected_candidate['decision'] ? 'is-red' : 'is-amber' ) ) ?>"><?= esc_html( $selected_candidate['decision'] ) ?></span></dd></div></dl>
-				<a class="button" href="<?= esc_url( $tab_url( 'decision' ) ) ?>">Tutup Detail</a>
-			</section>
-		<?php endif; ?>
-
-		<div class="daw-fd-table-card">
-			<div class="daw-fd-table-scroll"><table class="daw-fd-table">
-				<thead><tr><th>No.</th><th>Nama Pelamar</th><th>Posisi</th><th>Dealer / Departemen</th><th>Hasil User</th><th>Tanggal</th><th>Status Keputusan</th><th>Aksi</th></tr></thead>
-				<tbody>
-				<?php if ( empty( $filtered_candidates ) ) : ?><tr><td class="daw-fd-empty" colspan="8">Tidak ada kandidat yang sesuai dengan filter.</td></tr><?php endif; ?>
-				<?php foreach ( $filtered_candidates as $index => $candidate ) : ?>
-					<tr>
-						<td><?= esc_html( (string) ( $index + 1 ) ) ?></td>
-						<td><strong><?= esc_html( $candidate['name'] ) ?></strong><small><?= esc_html( $candidate['code'] ) ?></small></td>
-						<td><?= esc_html( $candidate['position'] ) ?></td>
-						<td><?= esc_html( $candidate['dealer'] ) ?><small><?= esc_html( $candidate['department'] ) ?></small></td>
-						<td><span class="daw-fd-badge <?= esc_attr( 'Tidak Dilanjutkan' === $candidate['user_result'] ? 'is-red' : ( 'Dipertimbangkan' === $candidate['user_result'] ? 'is-amber' : ( 'Baik' === $candidate['user_result'] ? 'is-blue' : 'is-green' ) ) ) ?>"><?= esc_html( $candidate['user_result'] ) ?></span></td>
-						<td><?= esc_html( date_i18n( 'd M Y', strtotime( $candidate['decision_date'] ) ) ) ?></td>
-						<td><span class="daw-fd-badge <?= esc_attr( 'Diterima' === $candidate['decision'] ? 'is-green' : ( 'Tidak Diterima' === $candidate['decision'] ? 'is-red' : 'is-amber' ) ) ?>"><?= esc_html( $candidate['decision'] ) ?></span></td>
-						<td class="daw-fd-decision-actions"><a class="button button-small" href="<?= esc_url( add_query_arg( [ 'page' => 'recruitment-final-decision', 'section' => 'decision', 'candidate_id' => $candidate['id'] ], $page_url ) ) ?>">Lihat Detail</a><?php if ( 'Menunggu Keputusan' === $candidate['decision'] ) : ?><a class="button button-small button-primary" href="<?= esc_url( add_query_arg( [ 'page' => 'recruitment-final-decision', 'section' => 'decision', 'candidate_id' => $candidate['id'], 'decision_action' => 'accept' ], $page_url ) ) ?>">Diterima</a><a class="button button-small daw-fd-reject-button" href="<?= esc_url( add_query_arg( [ 'page' => 'recruitment-final-decision', 'section' => 'decision', 'candidate_id' => $candidate['id'], 'decision_action' => 'reject' ], $page_url ) ) ?>">Tidak Diterima</a><?php endif; ?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
+		<div class="daw-fd-table-card daw-fd-ready-card">
+			<div class="daw-fd-ready-card__heading"><h2>Kandidat Siap Keputusan</h2></div>
+			<div class="daw-fd-table-scroll"><table class="daw-fd-table daw-fd-ready-table">
+				<thead><tr><th>Kandidat</th><th>Posisi</th><th>Dealer</th><th>Wilayah</th><th>Wawancara HR</th><th>Wawancara User</th><th>Status Akhir</th><th>Aksi</th></tr></thead>
+				<tbody><tr>
+					<td><strong>Rizky Firmansyah</strong><small>DAW-2026-001190</small></td>
+					<td>Teknisi</td><td>AHASS Gorontalo Utara</td><td>Gorontalo</td>
+					<td><span class="daw-fd-badge is-green">Lolos</span><small>Baik</small></td>
+					<td><span class="daw-fd-badge is-green">Lolos</span><small>Sangat Baik</small></td>
+					<td><span class="daw-fd-badge is-amber">Menunggu</span></td>
+					<td><button class="button button-primary daw-fd-create-decision" type="button">Buat Keputusan</button></td>
+				</tr></tbody>
 			</table></div>
 		</div>
 

@@ -1652,6 +1652,10 @@ body:has(.recruitment-dashboard) {
   color: #fff;
   outline: 0;
 }
+.recruitment-dashboard__nav-group-toggle.is-active {
+  background: #c8102e;
+  color: #fff;
+}
 .recruitment-dashboard__nav-group-toggle .recruitment-dashboard__nav-label {
   flex: 1 1 auto;
 }
@@ -2819,6 +2823,35 @@ body:has(.daw-admin-login) main {
   margin-bottom: 14px;
   min-width: 0;
   overflow: hidden;
+}
+.daw-fd-ready-card__heading {
+  align-items: center;
+  border-bottom: 1px solid #e1e3e7;
+  display: flex;
+  min-height: 35px;
+  padding: 8px 11px;
+}
+.daw-fd-ready-card__heading h2 {
+  color: #292e35;
+  font-size: 10px;
+  font-weight: 650;
+  margin: 0;
+}
+.daw-fd-ready-table {
+  min-width: 920px;
+}
+.daw-fd-ready-table td:nth-child(5) small,
+.daw-fd-ready-table td:nth-child(6) small {
+  color: #858b95;
+}
+.daw-fd-create-decision.button.button-primary {
+  background: #c8102e;
+  border-color: #c8102e;
+  border-radius: 4px;
+  font-size: 9px;
+  min-height: 28px;
+  padding: 0 10px;
+  white-space: nowrap;
 }
 .daw-fd-table-scroll {
   overflow-x: auto;
@@ -5455,6 +5488,202 @@ body:has(.daw-user-interview) {
   color: #8f263b;
   text-decoration: underline;
 }
+.daw-interview-screen__heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 2px 0 14px;
+}
+.daw-interview-screen__heading h1 {
+  color: #303036;
+  font-size: 16px;
+  line-height: 1.25;
+  margin: 0 0 4px;
+}
+.daw-interview-screen__heading p {
+  color: #73737a;
+  font-size: 10px;
+  margin: 0;
+}
+.daw-interview-screen__stats {
+  display: grid;
+  gap: 9px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 14px;
+}
+.daw-interview-screen__stats article {
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid #dedee2;
+  border-left: 3px solid #f0ad17;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  min-height: 50px;
+  padding: 9px 11px;
+}
+.daw-interview-screen__stats article.is-scheduled {
+  border-left-color: #4285f4;
+}
+.daw-interview-screen__stats article.is-passed {
+  border-left-color: #00b980;
+}
+.daw-interview-screen__stats article.is-failed {
+  border-left-color: #e84a5f;
+}
+.daw-interview-screen__stats strong {
+  color: #29292e;
+  font-size: 17px;
+  line-height: 1;
+}
+.daw-interview-screen__stats span {
+  color: #73737a;
+  font-size: 8px;
+}
+.daw-interview-screen__panel {
+  border-radius: 7px;
+}
+.daw-interview-screen__panel-heading {
+  align-items: center;
+  display: flex;
+  gap: 7px;
+  min-height: 34px;
+  padding: 7px 10px;
+}
+.daw-interview-screen__panel-heading h2 {
+  color: #303036;
+  flex: 1 1 auto;
+  font-size: 10px;
+  font-weight: 650;
+  margin: 0;
+}
+.daw-interview-screen__panel-heading label {
+  color: #73737a;
+  font-size: 8px;
+}
+.daw-interview-screen__panel-heading select {
+  background: #fff;
+  border: 1px solid #dedee2;
+  border-radius: 4px;
+  color: #56565d;
+  font: inherit;
+  font-size: 8px;
+  min-height: 23px;
+  padding: 2px 6px;
+}
+.daw-interview-screen__table {
+  min-width: 900px;
+}
+.daw-interview-screen__table th:nth-child(1) {
+  width: 15%;
+}
+.daw-interview-screen__table th:nth-child(2) {
+  width: 13%;
+}
+.daw-interview-screen__table th:nth-child(3) {
+  width: 15%;
+}
+.daw-interview-screen__table th:nth-child(4) {
+  width: 10%;
+}
+.daw-interview-screen__table th:nth-child(5) {
+  width: 9%;
+}
+.daw-interview-screen__table th:nth-child(6) {
+  width: 14%;
+}
+.daw-interview-screen__table th:nth-child(7) {
+  width: 10%;
+}
+.daw-interview-screen__table th:nth-child(8) {
+  width: 14%;
+}
+.daw-interview-screen__table--user {
+  min-width: 920px;
+}
+.daw-interview-screen__table--user th:nth-child(1) {
+  width: 12%;
+}
+.daw-interview-screen__table--user th:nth-child(2) {
+  width: 15%;
+}
+.daw-interview-screen__table--user th:nth-child(3) {
+  width: 12%;
+}
+.daw-interview-screen__table--user th:nth-child(4) {
+  width: 11%;
+}
+.daw-interview-screen__table--user th:nth-child(5) {
+  width: 16%;
+}
+.daw-interview-screen__table--user th:nth-child(6) {
+  width: 14%;
+}
+.daw-interview-screen__table--user th:nth-child(7) {
+  width: 9%;
+}
+.daw-interview-screen__table--user th:nth-child(8) {
+  width: 11%;
+}
+.daw-interview-screen__table td {
+  padding: 8px 9px;
+}
+.daw-interview-screen__score {
+  color: #009e68;
+  font-weight: 700;
+}
+.daw-interview-screen__result-note {
+  color: #85858c;
+  display: block;
+  font-size: 8px;
+  margin-top: 2px;
+}
+.daw-interview-screen__result,
+.daw-interview-screen__status {
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 650;
+  line-height: 1.2;
+  padding: 3px 6px;
+  white-space: nowrap;
+}
+.daw-interview-screen__result.is-passed {
+  background: #def4e8;
+  color: #168252;
+}
+.daw-interview-screen__status.is-waiting {
+  background: #fff2db;
+  color: #a86700;
+}
+.daw-interview-screen__action {
+  align-items: center;
+  background: #c8102e;
+  border-radius: 4px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 8px;
+  font-weight: 650;
+  justify-content: center;
+  min-height: 25px;
+  padding: 0 9px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.daw-interview-screen__action:hover {
+  background: #a80d27;
+  color: #fff;
+}
+@media (max-width: 640px) {
+  .daw-interview-screen__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .daw-interview-screen__panel-heading {
+    flex-wrap: wrap;
+  }
+}
 .daw-user-interview--notes {
   min-height: 100vh;
   padding-left: 116px;
@@ -7070,6 +7299,55 @@ body:has(.daw-user-interview) {
   background: #c8102e;
   color: #fff;
 }
+.daw-vacancies__nav-item {
+  text-decoration: none;
+}
+.daw-vacancies__nav-group {
+  margin: 0;
+}
+.daw-vacancies__nav-parent {
+  align-items: center;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 8px;
+  font-weight: 600;
+  justify-content: space-between;
+  list-style: none;
+  min-height: 22px;
+  padding: 4px 5px;
+}
+.daw-vacancies__nav-parent::-webkit-details-marker {
+  display: none;
+}
+.daw-vacancies__nav-parent::after {
+  border-bottom: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  content: "";
+  height: 5px;
+  margin-right: 2px;
+  transform: rotate(45deg) translateY(-2px);
+  width: 5px;
+}
+.daw-vacancies__nav-group:not([open]) .daw-vacancies__nav-parent::after {
+  transform: rotate(-45deg);
+}
+.daw-vacancies__nav-children {
+  border-left: 1px solid #38383c;
+  display: grid;
+  gap: 2px;
+  margin: 1px 0 3px 12px;
+  padding-left: 4px;
+}
+.daw-vacancies__nav-subitem {
+  margin-left: 0;
+  min-height: 18px;
+}
+.daw-vacancies__nav-subitem.is-active {
+  background: #c8102e;
+  color: #fff;
+}
 .daw-vacancies__collapse {
   border-top: 1px solid #333337;
   color: #8b8b91;
@@ -7104,6 +7382,10 @@ body:has(.daw-user-interview) {
 .daw-vacancies__header nav strong {
   color: #303036;
   font-size: 9px;
+}
+.daw-vacancies__header nav a {
+  color: #626269;
+  text-decoration: none;
 }
 .daw-vacancies__account {
   align-items: center;
@@ -7146,7 +7428,67 @@ body:has(.daw-user-interview) {
   text-decoration: none;
 }
 .daw-vacancies__main {
-  padding: 10px 13px 24px;
+  margin: 0 auto;
+  max-width: 940px;
+  padding: 18px 24px 30px;
+}
+.daw-vacancies__list-heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.daw-vacancies__list-heading h1,
+.daw-vacancies__page-heading h1 {
+  color: #27272c;
+  font-size: 16px;
+  line-height: 1.25;
+  margin: 0 0 4px;
+}
+.daw-vacancies__list-heading p,
+.daw-vacancies__page-heading p {
+  color: #73737a;
+  font-size: 10px;
+  margin: 0;
+}
+.daw-vacancies__tabs {
+  align-items: center;
+  border-bottom: 1px solid #e2e2e5;
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.daw-vacancies__tabs button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: #707078;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 9px;
+  gap: 5px;
+  min-height: 31px;
+  padding: 0 9px;
+}
+.daw-vacancies__tabs button.is-active {
+  border-bottom-color: #c8102e;
+  color: #c8102e;
+  font-weight: 650;
+}
+.daw-vacancies__tabs span {
+  background: #eeeeef;
+  border-radius: 8px;
+  color: #66666e;
+  font-size: 8px;
+  min-width: 15px;
+  padding: 1px 4px;
+  text-align: center;
+}
+.daw-vacancies__tabs .is-active span {
+  background: #c8102e;
+  color: #fff;
 }
 .daw-vacancies__overview {
   align-items: stretch;
@@ -7232,12 +7574,12 @@ body:has(.daw-user-interview) {
 }
 .daw-vacancies__table {
   border-collapse: collapse;
-  min-width: 850px;
+  min-width: 780px;
   table-layout: fixed;
   width: 100%;
 }
 .daw-vacancies__table th {
-  background: #f2f2f4;
+  background: #fafafb;
   border-bottom: 1px solid #dedee2;
   color: #73737a;
   font-size: 7px;
@@ -7334,6 +7676,177 @@ body:has(.daw-user-interview) {
 .daw-vacancies__actions button:hover {
   color: #8f263b;
   text-decoration: underline;
+}
+.daw-vacancies__actions a {
+  color: #5d5d65;
+  font-size: 8px;
+  padding: 2px 4px;
+  text-decoration: none;
+}
+.daw-vacancies__actions a:hover {
+  color: #c8102e;
+  text-decoration: underline;
+}
+.daw-vacancies__badge--archived {
+  background: #f0f0f2;
+  color: #66666e;
+}
+.daw-vacancies__back {
+  color: #74747b;
+  display: inline-block;
+  font-size: 9px;
+  margin: 0 0 13px;
+  text-decoration: none;
+}
+.daw-vacancies__back:hover {
+  color: #c8102e;
+}
+.daw-vacancies__main--create {
+  max-width: 455px;
+  padding-top: 16px;
+}
+.daw-vacancies__page-heading {
+  margin-bottom: 14px;
+}
+.daw-vacancies__create-form {
+  background: #fff;
+  border: 1px solid #e1e1e4;
+  border-radius: 6px;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+.daw-vacancies__create-form > label,
+.daw-vacancies__form-row > label {
+  color: #55555c;
+  display: grid;
+  font-size: 9px;
+  font-weight: 600;
+  gap: 4px;
+  min-width: 0;
+}
+.daw-vacancies__create-form label > span {
+  color: #c8102e;
+  display: inline;
+}
+.daw-vacancies__create-form input:not([type="radio"]),
+.daw-vacancies__create-form select,
+.daw-vacancies__create-form textarea {
+  background: #fff;
+  border: 1px solid #dedee2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #424249;
+  font: inherit;
+  font-size: 9px;
+  min-height: 28px;
+  padding: 6px 8px;
+  width: 100%;
+}
+.daw-vacancies__create-form textarea {
+  min-height: 61px;
+  resize: vertical;
+}
+.daw-vacancies__create-form textarea[name="responsibilities"],
+.daw-vacancies__create-form textarea[name="requirements"] {
+  min-height: 50px;
+}
+.daw-vacancies__create-form input:focus,
+.daw-vacancies__create-form select:focus,
+.daw-vacancies__create-form textarea:focus {
+  border-color: #c8102e;
+  box-shadow: 0 0 0 1px #c8102e;
+  outline: 0;
+}
+.daw-vacancies__form-row {
+  display: grid;
+  gap: 9px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.daw-vacancies__form-row fieldset {
+  align-items: center;
+  border: 0;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+.daw-vacancies__form-row legend {
+  color: #55555c;
+  font-size: 9px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.daw-vacancies__form-row fieldset label {
+  align-items: center;
+  color: #55555c;
+  display: inline-flex;
+  font-size: 9px;
+  gap: 4px;
+}
+.daw-vacancies__form-row input[type="radio"] {
+  accent-color: #c8102e;
+  margin: 0;
+}
+.daw-vacancies__form-actions {
+  align-items: center;
+  border-top: 1px solid #eeeeef;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  margin-top: 1px;
+  padding-top: 9px;
+}
+.daw-vacancies__form-actions a,
+.daw-vacancies__form-actions button {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #dedee2;
+  border-radius: 4px;
+  color: #5c5c63;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 9px;
+  min-height: 28px;
+  padding: 0 10px;
+  text-decoration: none;
+}
+.daw-vacancies__form-actions button[type="submit"] {
+  background: #c8102e;
+  border-color: #c8102e;
+  color: #fff;
+}
+.daw-vacancies__form-actions button:hover,
+.daw-vacancies__form-actions a:hover {
+  border-color: #c8102e;
+  color: #c8102e;
+}
+.daw-vacancies__form-actions button[type="submit"]:hover {
+  background: #a80d27;
+  color: #fff;
+}
+@media (max-width: 640px) {
+  .daw-vacancies__main {
+    padding: 16px 12px 24px;
+  }
+  .daw-vacancies__list-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .daw-vacancies__tabs {
+    overflow-x: auto;
+  }
+  .daw-vacancies__tabs button {
+    flex: 0 0 auto;
+  }
+}
+@media (max-width: 420px) {
+  .daw-vacancies__form-row {
+    grid-template-columns: 1fr;
+  }
 }
 .daw-vacancies__dialog {
   border: 1px solid #dedee2;

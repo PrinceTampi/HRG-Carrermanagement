@@ -6,6 +6,7 @@ $current_stage = sanitize_key( $_GET['stage'] ?? '' );
 $settings_section = sanitize_key( $_GET['section'] ?? 'email' );
 $dashboard_url = recruitment_get_admin_url( 'dashboard' );
 $settings_url = recruitment_get_admin_url( 'settings' );
+$vacancy_view = 'create' === sanitize_key( $_GET['view'] ?? '' ) ? 'create' : 'list';
 $stage_url = static function ( string $stage ) use ( $dashboard_url ): string {
     return add_query_arg( 'stage', $stage, $dashboard_url );
 };
@@ -13,13 +14,16 @@ $stage_links = [
     [ 'label' => 'Semua Kandidat Aktif', 'page' => 'recruitment-applicants', 'url' => recruitment_get_admin_url( 'applicants' ) ],
     [ 'label' => 'Seleksi Administrasi', 'stage' => 'administration' ],
     [ 'label' => 'Psikotes', 'stage' => 'psychological_test' ],
-    [ 'label' => 'Wawancara HR', 'stage' => 'hr_interview' ],
+    [ 'label' => 'Wawancara HR', 'page' => 'recruitment-hr-interview', 'url' => admin_url( 'admin.php?page=recruitment-hr-interview' ) ],
     [ 'label' => 'Wawancara User', 'page' => 'recruitment-user-interview', 'url' => admin_url( 'admin.php?page=recruitment-user-interview' ) ],
-    [ 'label' => 'Final Decision', 'page' => 'recruitment-final-decision', 'url' => recruitment_get_admin_url( 'final-decision' ) ],
+    [ 'label' => 'Keputusan Akhir', 'page' => 'recruitment-final-decision', 'url' => admin_url( 'admin.php?page=recruitment-final-decision' ) ],
 ];
 $root_links = [
     [ 'label' => 'Database Pelamar', 'icon' => 'dashicons-database', 'page' => 'recruitment-applicants', 'url' => recruitment_get_admin_url( 'applicants' ) ],
-    [ 'label' => 'Lowongan', 'icon' => 'dashicons-portfolio', 'page' => 'recruitment-vacancies', 'post_type' => 'daw_vacancy', 'url' => recruitment_get_admin_url( 'vacancies' ) ],
+    [ 'label' => 'Lowongan', 'icon' => 'dashicons-portfolio', 'page' => 'recruitment-vacancies', 'post_type' => 'daw_vacancy', 'url' => recruitment_get_admin_url( 'vacancies' ), 'children' => [
+        [ 'label' => 'Semua Lowongan', 'view' => 'list', 'url' => recruitment_get_admin_url( 'vacancies' ) ],
+        [ 'label' => 'Tambah Lowongan', 'view' => 'create', 'url' => add_query_arg( 'view', 'create', recruitment_get_admin_url( 'vacancies' ) ) ],
+    ] ],
     [ 'label' => 'Form Lamaran', 'icon' => 'dashicons-forms', 'page' => 'recruitment-form-builder', 'url' => admin_url( 'admin.php?page=recruitment-form-builder' ) ],
 ];
 ?>
@@ -53,7 +57,22 @@ $root_links = [
             $is_active = ( isset( $item['page'] ) && $current_page === $item['page'] )
                 || ( isset( $item['post_type'] ) && $current_post_type === $item['post_type'] );
             ?>
-            <a href="<?= esc_url( $item['url'] ) ?>" class="<?= $is_active ? 'is-active' : '' ?>" title="<?= esc_attr( $item['label'] ) ?>" <?= $is_active ? 'aria-current="page"' : '' ?>><span class="dashicons <?= esc_attr( $item['icon'] ) ?>" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label"><?= esc_html( $item['label'] ) ?></span></a>
+            <?php if ( ! empty( $item['children'] ) ) : ?>
+                <div class="recruitment-dashboard__nav-group">
+                    <button type="button" class="recruitment-dashboard__nav-group-toggle <?= $is_active ? 'is-active' : '' ?>" data-nav-group-toggle aria-expanded="<?= $is_active ? 'true' : 'false' ?>" aria-controls="recruitment-vacancy-links">
+                        <span class="dashicons <?= esc_attr( $item['icon'] ) ?>" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label"><?= esc_html( $item['label'] ) ?></span><span class="dashicons dashicons-arrow-down-alt2 recruitment-dashboard__nav-chevron" aria-hidden="true"></span>
+                    </button>
+                    <div class="recruitment-dashboard__nav-group-items" id="recruitment-vacancy-links" data-nav-group-panel <?= $is_active ? '' : 'hidden' ?>>
+                        <?php foreach ( $item['children'] as $child ) :
+                            $child_is_active = $is_active && $vacancy_view === $child['view'];
+                            ?>
+                            <a href="<?= esc_url( $child['url'] ) ?>" class="<?= $child_is_active ? 'is-active' : '' ?>" <?= $child_is_active ? 'aria-current="page"' : '' ?>><span class="recruitment-dashboard__nav-label"><?= esc_html( $child['label'] ) ?></span></a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php else : ?>
+                <a href="<?= esc_url( $item['url'] ) ?>" class="<?= $is_active ? 'is-active' : '' ?>" title="<?= esc_attr( $item['label'] ) ?>" <?= $is_active ? 'aria-current="page"' : '' ?>><span class="dashicons <?= esc_attr( $item['icon'] ) ?>" aria-hidden="true"></span><span class="recruitment-dashboard__nav-label"><?= esc_html( $item['label'] ) ?></span></a>
+            <?php endif; ?>
         <?php endforeach; ?>
 
         <div class="recruitment-dashboard__nav-group">

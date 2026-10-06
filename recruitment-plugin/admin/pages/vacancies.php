@@ -3,15 +3,18 @@ $user = function_exists( 'wp_get_current_user' ) ? wp_get_current_user() : null;
 $display_name = $user && ! empty( $user->display_name ) ? $user->display_name : 'Admin HR';
 $user_email = $user && ! empty( $user->user_email ) ? $user->user_email : 'hr@daw.co.id';
 $logout_url = function_exists( 'wp_logout_url' ) ? wp_logout_url( home_url( '/' ) ) : '?page=login';
+$list_url = recruitment_get_admin_url( 'vacancies' );
+$create_url = add_query_arg( 'view', 'create', $list_url );
+$view = sanitize_key( $_GET['view'] ?? 'list' );
+$is_create_view = 'create' === $view;
 $vacancies = [
-    [ 'title' => 'Sales Consultant', 'dealer' => 'DAW Bitung', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'deadline' => '30 September 2026', 'posted' => '1 Agustus 2026', 'status' => 'closed' ],
-    [ 'title' => 'Service Advisor', 'dealer' => 'DAW Main Dealer Maumbi', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'deadline' => '15 September 2026', 'posted' => '5 Agustus 2026', 'status' => 'published' ],
-    [ 'title' => 'Staff Administrasi', 'dealer' => 'DAW Bitung', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'deadline' => '20 September 2026', 'posted' => '10 Agustus 2026', 'status' => 'closed' ],
-    [ 'title' => 'Marketing Coordinator', 'dealer' => 'DAW Main Dealer Maumbi', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'deadline' => '25 September 2026', 'posted' => '8 Agustus 2026', 'status' => 'published' ],
-    [ 'title' => 'Finance & Accounting Staff', 'dealer' => 'DAW Bitung', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'deadline' => '30 September 2026', 'posted' => '12 Agustus 2026', 'status' => 'published' ],
-    [ 'title' => 'Mekanik / Teknisi Motor', 'dealer' => 'DAW Main Dealer Maumbi', 'region' => 'Sulawesi Utara', 'type' => 'Full Time', 'deadline' => '10 Oktober 2026', 'posted' => '15 Agustus 2026', 'status' => 'published' ],
+    [ 'title' => 'Sales Executive', 'dealer' => 'Dealer Airmadidi', 'region' => 'Sulawesi Utara', 'type' => 'Full-time', 'deadline' => '30 Sep 2026', 'posted' => '15 Agu 2026', 'status' => 'published' ],
+    [ 'title' => 'Teknisi', 'dealer' => 'AHASS Manado Selatan', 'region' => 'Sulawesi Utara', 'type' => 'Full-time', 'deadline' => '15 Sep 2026', 'posted' => '10 Agu 2026', 'status' => 'published' ],
+    [ 'title' => 'Admin Finance', 'dealer' => 'Dealer Gorontalo', 'region' => 'Gorontalo', 'type' => 'Full-time', 'deadline' => '10 Sep 2026', 'posted' => '05 Agu 2026', 'status' => 'closed' ],
+    [ 'title' => 'Service Advisor', 'dealer' => 'AHASS Ternate', 'region' => 'Maluku Utara', 'type' => 'Full-time', 'deadline' => '31 Agu 2026', 'posted' => '20 Jul 2026', 'status' => 'archived' ],
+    [ 'title' => 'Kepala Mekanik', 'dealer' => 'Dealer Bitung', 'region' => 'Sulawesi Utara', 'type' => 'Full-time', 'deadline' => '30 Okt 2026', 'posted' => '28 Agu 2026', 'status' => 'draft' ],
 ];
-$status_labels = [ 'published' => 'Dipublikasikan', 'draft' => 'Draft', 'closed' => 'Ditutup' ];
+$status_labels = [ 'published' => 'Published', 'draft' => 'Draft', 'closed' => 'Closed', 'archived' => 'Archived' ];
 ?>
 <div class="daw-vacancies">
     <aside class="daw-vacancies__sidebar">
@@ -26,7 +29,13 @@ $status_labels = [ 'published' => 'Dipublikasikan', 'draft' => 'Draft', 'closed'
             <span class="daw-vacancies__nav-item">Wawancara User</span>
             <span class="daw-vacancies__nav-item">Final Decision</span>
             <span class="daw-vacancies__nav-item">Database Pelamar</span>
-            <span class="daw-vacancies__nav-item is-active">Lowongan</span>
+            <details class="daw-vacancies__nav-group" open>
+                <summary class="daw-vacancies__nav-parent">Lowongan</summary>
+                <div class="daw-vacancies__nav-children">
+                    <a class="daw-vacancies__nav-item daw-vacancies__nav-subitem <?= ! $is_create_view ? 'is-active' : '' ?>" href="<?= esc_url( $list_url ) ?>" <?= ! $is_create_view ? 'aria-current="page"' : '' ?>>Semua Lowongan</a>
+                    <a class="daw-vacancies__nav-item daw-vacancies__nav-subitem <?= $is_create_view ? 'is-active' : '' ?>" href="<?= esc_url( $create_url ) ?>" <?= $is_create_view ? 'aria-current="page"' : '' ?>>Tambah Lowongan</a>
+                </div>
+            </details>
             <span class="daw-vacancies__nav-item">Form Lamaran</span>
             <span class="daw-vacancies__nav-item">Psikotes</span>
             <span class="daw-vacancies__nav-item">Jadwal Wawancara</span>
@@ -39,7 +48,7 @@ $status_labels = [ 'published' => 'Dipublikasikan', 'draft' => 'Draft', 'closed'
 
     <div class="daw-vacancies__workspace">
         <header class="daw-vacancies__header">
-            <nav aria-label="Breadcrumb"><span>DAW Admin</span><i aria-hidden="true">/</i><strong>Lowongan</strong></nav>
+            <nav aria-label="Breadcrumb"><a href="<?= esc_url( $list_url ) ?>">Lowongan</a><i aria-hidden="true">/</i><strong><?= $is_create_view ? 'Tambah' : 'Semua Lowongan' ?></strong></nav>
             <div class="daw-vacancies__account">
                 <span class="daw-vacancies__avatar" aria-hidden="true">HR</span>
                 <span><strong><?= esc_html( $display_name ) ?></strong><small><?= esc_html( $user_email ) ?></small></span>
@@ -47,43 +56,42 @@ $status_labels = [ 'published' => 'Dipublikasikan', 'draft' => 'Draft', 'closed'
             </div>
         </header>
 
-        <main class="daw-vacancies__main">
-            <div class="daw-vacancies__overview">
-                <dl class="daw-vacancies__stat"><div><dd data-vacancy-count="total">6</dd><dt>Total Lowongan</dt></div></dl>
-                <dl class="daw-vacancies__stat"><div><dd data-vacancy-count="published">4</dd><dt>Dipublikasikan</dt></div></dl>
-                <dl class="daw-vacancies__stat"><div><dd data-vacancy-count="draft">1</dd><dt>Draft</dt></div></dl>
-                <dl class="daw-vacancies__stat"><div><dd data-vacancy-count="closed">2</dd><dt>Ditutup</dt></div></dl>
-                <button class="daw-vacancies__create" type="button" data-open-vacancy-dialog><span aria-hidden="true">+</span> Buat Lowongan</button>
-            </div>
-            <p class="daw-vacancies__feedback" role="status" aria-live="polite" data-vacancy-feedback hidden></p>
-            <div class="daw-vacancies__table-wrap">
-                <table class="daw-vacancies__table">
-                    <caption class="screen-reader-text">Daftar lowongan</caption>
-                    <thead><tr><th scope="col">Judul Jabatan</th><th scope="col">Dealer</th><th scope="col">Wilayah</th><th scope="col">Tipe</th><th scope="col">Batas Lamaran</th><th scope="col">Status</th><th scope="col">Aksi</th></tr></thead>
-                    <tbody data-vacancy-list>
-                        <?php foreach ( $vacancies as $index => $vacancy ) : ?>
-                            <tr data-vacancy-row data-vacancy-id="<?= esc_attr( (string) ( $index + 1 ) ) ?>" data-status="<?= esc_attr( $vacancy['status'] ) ?>">
-                                <td><strong data-field="title"><?= esc_html( $vacancy['title'] ) ?></strong><small>Diposting: <?= esc_html( $vacancy['posted'] ) ?></small></td>
-                                <td data-field="dealer"><?= esc_html( $vacancy['dealer'] ) ?></td><td data-field="region"><?= esc_html( $vacancy['region'] ) ?></td><td data-field="type"><?= esc_html( $vacancy['type'] ) ?></td><td data-field="deadline"><?= esc_html( $vacancy['deadline'] ) ?></td>
-                                <td><span class="daw-vacancies__badge daw-vacancies__badge--<?= esc_attr( $vacancy['status'] ) ?>" data-vacancy-status><?= esc_html( $status_labels[ $vacancy['status'] ] ) ?></span></td>
-                                <td class="daw-vacancies__actions"><button type="button" data-vacancy-edit>Edit</button><button type="button" data-vacancy-toggle><?= 'published' === $vacancy['status'] ? 'Tutup' : 'Publish' ?></button><button type="button" data-vacancy-archive>Arsip</button></td>
-                            </tr>
-                        <?php endforeach; ?>
+        <main class="daw-vacancies__main <?= $is_create_view ? 'daw-vacancies__main--create' : '' ?>">
+            <?php if ( $is_create_view ) : ?>
+                <a class="daw-vacancies__back" href="<?= esc_url( $list_url ) ?>">&#8592; Semua Lowongan</a>
+                <div class="daw-vacancies__page-heading"><h1>Tambah Lowongan</h1><p>Buat lowongan pekerjaan baru untuk dipublikasikan di portal karier DAW.</p></div>
+                <p class="daw-vacancies__feedback" role="status" aria-live="polite" data-vacancy-feedback hidden></p>
+                <form class="daw-vacancies__create-form" data-vacancy-create-form>
+                    <label>Nama Posisi <span>*</span><input name="title" required></label>
+                    <label>Deskripsi Pekerjaan<textarea name="description" placeholder="Deskripsi singkat tentang posisi dan tanggung jawab utama..."></textarea></label>
+                    <label>Tanggung Jawab<textarea name="responsibilities" placeholder="• Tanggung jawab 1&#10;• Tanggung jawab 2"></textarea></label>
+                    <label>Persyaratan<textarea name="requirements" placeholder="• Min. D3 bidang terkait&#10;• Pengalaman 1 tahun"></textarea></label>
+                    <div class="daw-vacancies__form-row"><label>Jenis Pekerjaan<select name="type"><option>Full-time</option><option>Part-time</option><option>Kontrak</option><option>Magang</option></select></label><label>Wilayah<select name="region"><option>Sulawesi Utara</option><option>Gorontalo</option><option>Maluku Utara</option></select></label></div>
+                    <div class="daw-vacancies__form-row"><label>Dealer <span>*</span><input name="dealer" placeholder="Nama Dealer / AHASS" required></label><label>Lokasi<input name="location" placeholder="Kota/Kabupaten"></label></div>
+                    <div class="daw-vacancies__form-row"><label>Deadline Lamaran <span>*</span><input name="deadline" type="date" value="2026-10-06" required></label><fieldset><legend>Status</legend><label><input type="radio" name="status" value="draft" checked> Draft</label><label><input type="radio" name="status" value="published"> Published</label></fieldset></div>
+                    <div class="daw-vacancies__form-actions"><a href="<?= esc_url( $list_url ) ?>">Batal</a><button type="button" data-vacancy-save-draft>Simpan Draft</button><button type="submit">Publish Lowongan</button></div>
+                </form>
+            <?php else : ?>
+                <div class="daw-vacancies__list-heading"><div><h1>Semua Lowongan</h1><p>Kelola lowongan pekerjaan yang dipublikasikan di portal karier DAW.</p></div><a class="daw-vacancies__create" href="<?= esc_url( $create_url ) ?>"><span aria-hidden="true">+</span> Tambah Lowongan</a></div>
+                <nav class="daw-vacancies__tabs" aria-label="Filter status lowongan" data-vacancy-tabs>
+                    <?php foreach ( [ 'all' => 'Semua', 'draft' => 'Draft', 'published' => 'Published', 'closed' => 'Closed', 'archived' => 'Archived' ] as $key => $label ) : ?>
+                        <button type="button" class="<?= 'all' === $key ? 'is-active' : '' ?>" data-vacancy-tab="<?= esc_attr( $key ) ?>" aria-pressed="<?= 'all' === $key ? 'true' : 'false' ?>"><?= esc_html( $label ) ?><span><?= esc_html( (string) ( 'all' === $key ? count( $vacancies ) : count( array_filter( $vacancies, static fn( $item ) => $item['status'] === $key ) ) ) ) ?></span></button>
+                    <?php endforeach; ?>
+                </nav>
+                <p class="daw-vacancies__feedback" role="status" aria-live="polite" data-vacancy-feedback hidden></p>
+                <div class="daw-vacancies__table-wrap"><table class="daw-vacancies__table"><caption class="screen-reader-text">Daftar lowongan</caption>
+                    <thead><tr><th scope="col">Posisi</th><th scope="col">Dealer</th><th scope="col">Wilayah</th><th scope="col">Jenis</th><th scope="col">Dibuat</th><th scope="col">Deadline</th><th scope="col">Status</th><th scope="col">Aksi</th></tr></thead>
+                    <tbody data-vacancy-list><?php foreach ( $vacancies as $index => $vacancy ) : ?>
+                        <tr data-vacancy-row data-vacancy-id="<?= esc_attr( (string) ( $index + 1 ) ) ?>" data-status="<?= esc_attr( $vacancy['status'] ) ?>">
+                            <td><strong data-field="title"><?= esc_html( $vacancy['title'] ) ?></strong></td><td data-field="dealer"><?= esc_html( $vacancy['dealer'] ) ?></td><td data-field="region"><?= esc_html( $vacancy['region'] ) ?></td><td data-field="type"><?= esc_html( $vacancy['type'] ) ?></td><td><?= esc_html( $vacancy['posted'] ) ?></td><td data-field="deadline"><?= esc_html( $vacancy['deadline'] ) ?></td>
+                            <td><span class="daw-vacancies__badge daw-vacancies__badge--<?= esc_attr( $vacancy['status'] ) ?>" data-vacancy-status><?= esc_html( $status_labels[ $vacancy['status'] ] ) ?></span></td><td class="daw-vacancies__actions"><a href="<?= esc_url( $create_url ) ?>">Edit</a><?php if ( 'published' === $vacancy['status'] ) : ?><button type="button" data-vacancy-toggle>Tutup</button><?php elseif ( 'draft' === $vacancy['status'] ) : ?><button type="button" data-vacancy-toggle>Publish</button><?php elseif ( 'closed' === $vacancy['status'] ) : ?><button type="button" data-vacancy-archive>Arsipkan</button><?php endif; ?></td>
+                        </tr><?php endforeach; ?>
                     </tbody>
-                </table>
-            </div>
+                </table></div>
+            <?php endif; ?>
         </main>
     </div>
 
-    <dialog class="daw-vacancies__dialog" data-vacancy-dialog aria-labelledby="vacancy-dialog-title">
-        <form data-vacancy-form>
-            <div class="daw-vacancies__dialog-heading"><h2 id="vacancy-dialog-title">Buat Lowongan</h2><button type="button" aria-label="Tutup" data-close-vacancy-dialog>&times;</button></div>
-            <label>Judul Jabatan<input name="title" required></label>
-            <div class="daw-vacancies__dialog-row"><label>Dealer<input name="dealer" required></label><label>Wilayah<input name="region" value="Sulawesi Utara" required></label></div>
-            <div class="daw-vacancies__dialog-row"><label>Tipe Pekerjaan<select name="type"><option>Full Time</option><option>Contract</option><option>Internship</option></select></label><label>Batas Lamaran<input name="deadline" type="date" required></label></div>
-            <div class="daw-vacancies__dialog-actions"><button type="button" data-close-vacancy-dialog>Batal</button><button type="submit">Simpan sebagai Draft</button></div>
-        </form>
-    </dialog>
 </div>
 <?php if ( defined( 'RECRUITMENT_SANDBOX' ) ) : ?>
     <?php require recruitment_get_plugin_path( 'public/components/screen-explorer.php' ); ?>

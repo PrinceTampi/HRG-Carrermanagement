@@ -32,14 +32,12 @@ class Recruitment_Router {
         'vacancies'          => 'admin/pages/vacancies.php',
         'applicants'         => 'admin/pages/applicants.php',
         'applications'       => 'admin/pages/applications.php',
+        'hr-interview'       => 'admin/pages/hr-interview.php',
         'final-decision'     => 'admin/pages/final-decision.php',
         'user-interview'     => 'admin/pages/user-interview.php',
-<<<<<<< HEAD
         'user-department'    => 'admin/pages/user-department.php',
-=======
         'interview-schedule' => 'admin/pages/interview-schedule.php',
         'user-management'    => 'admin/pages/user-management.php',
->>>>>>> origin/master
         'application-form-builder' => 'admin/pages/application-form-builder.php',
         'psychotest-settings' => 'admin/pages/psychotest-settings.php',
         'question-bank'      => 'admin/pages/question-bank.php',
@@ -47,11 +45,7 @@ class Recruitment_Router {
     ];
 
     /** @var string[] */
-<<<<<<< HEAD
-    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'final-decision', 'user-interview', 'user-department', 'application-form-builder', 'psychotest-settings', 'question-bank', 'settings' ];
-=======
-    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'final-decision', 'user-interview', 'interview-schedule', 'user-management', 'application-form-builder', 'psychotest-settings', 'question-bank', 'settings' ];
->>>>>>> origin/master
+    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'hr-interview', 'final-decision', 'user-interview', 'user-department', 'interview-schedule', 'user-management', 'application-form-builder', 'psychotest-settings', 'question-bank', 'settings' ];
 
     /**
      * @param array<string, mixed> $data
