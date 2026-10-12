@@ -45,7 +45,22 @@ class Recruitment_Router {
     ];
 
     /** @var string[] */
-    private const PROTECTED = [ 'dashboard', 'vacancies', 'applicants', 'applications', 'hr-interview', 'final-decision', 'user-interview', 'user-department', 'interview-schedule', 'user-management', 'application-form-builder', 'psychotest-settings', 'question-bank', 'settings' ];
+    private const PROTECTED = [
+        'dashboard',
+        'vacancies',
+        'applicants',
+        'applications',
+        'hr-interview',
+        'final-decision',
+        'user-interview',
+        'user-department',
+        'interview-schedule',
+        'user-management',
+        'application-form-builder',
+        'psychotest-settings',
+        'question-bank',
+        'settings',
+    ];
 
     /**
      * @param array<string, mixed> $data

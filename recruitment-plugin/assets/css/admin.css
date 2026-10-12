@@ -6075,8 +6075,6 @@ body:has(.daw-user-interview) {
     grid-template-columns: 1fr;
   }
 }
-<<<<<<< HEAD
-=======
 .daw-user-interview__main {
   margin: 0 auto;
   max-width: 1020px;
@@ -6700,7 +6698,6 @@ body:has(.daw-user-interview) {
     padding: 1px;
   }
 }
->>>>>>> origin/master
 .daw-vacancies,
 .daw-vacancies * {
   box-sizing: border-box;

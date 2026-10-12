@@ -207,7 +207,22 @@ class Recruitment_Admin {
 
 	private function is_recruitment_screen(): bool {
 		$page = sanitize_key( $_GET['page'] ?? '' );
-		$admin_pages = [ 'recruitment-dashboard', 'recruitment-vacancies', 'recruitment-applicants', 'recruitment-applications', 'recruitment-hr-interview', 'recruitment-final-decision', 'recruitment-user-interview', 'recruitment-interview-schedule', 'recruitment-user-management', 'recruitment-form-builder', 'recruitment-psychotest-settings', 'recruitment-question-bank', 'recruitment-settings', 'daw-user-department' ];
+		$admin_pages = [
+			'recruitment-dashboard',
+			'recruitment-vacancies',
+			'recruitment-applicants',
+			'recruitment-applications',
+			'recruitment-hr-interview',
+			'recruitment-final-decision',
+			'recruitment-user-interview',
+			'recruitment-interview-schedule',
+			'recruitment-user-management',
+			'recruitment-form-builder',
+			'recruitment-psychotest-settings',
+			'recruitment-question-bank',
+			'recruitment-settings',
+			'daw-user-department',
+		];
 
 		if ( in_array( $page, $admin_pages, true ) ) {
 			return true;
@@ -225,4 +240,3 @@ class Recruitment_Admin {
 			&& current_user_can( 'list_users' );
 	}
 }
-
