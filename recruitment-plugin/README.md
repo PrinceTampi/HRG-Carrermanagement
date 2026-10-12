@@ -17,7 +17,10 @@ recruitment-plugin/
 │   ├── public/
 │   └── admin/
 ├── routes/                  # Registry dan renderer route
-├── database/                # Gateway koneksi dan query Oracle
+├── database/
+│   ├── connection/           # Konfigurasi dan koneksi bersama Oracle
+│   ├── migrations/           # Migrasi skema Oracle
+│   └── class-database.php    # Query dan transaksi domain rekrutmen
 ├── includes/                # Helper, auth, dan bootstrap
 ├── public/                  # Template lama selama migrasi bertahap
 ├── admin/                   # Template lama selama migrasi bertahap
@@ -26,7 +29,15 @@ recruitment-plugin/
 
 Alur request: `recruitment-plugin.php` -> `includes/class-plugin.php` -> `routes/class-router.php` -> `pages/*` -> `components/*`.
 
-Konfigurasi Oracle dibaca otomatis dari `RECRUITMENT_ORACLE_DSN`, `RECRUITMENT_ORACLE_USER`, dan `RECRUITMENT_ORACLE_PASSWORD`, atau option WordPress `recruitment_oracle_config`. Pastikan ekstensi PHP `pdo_oci` tersedia. Page tidak boleh membuat koneksi atau menulis query langsung.
+Konfigurasi Oracle dibaca dengan urutan prioritas: konstanta PHP, environment variable proses, file `.env` yang ditunjuk oleh `RECRUITMENT_DOTENV_PATH`, lalu option WordPress `recruitment_oracle_config`. Untuk konfigurasi lokal, simpan file `.env` di luar document root dan jangan commit file rahasia. Salin format dari [`.env.example`](../.env.example) ke file lokal, isi kredensial Oracle, lalu tentukan path file tersebut di `wp-config.php` sebelum plugin dimuat. Pada instalasi Laragon ini, path yang digunakan adalah `D:/laragon/etc/hr-management.oracle.env`:
+
+```php
+define( 'RECRUITMENT_DOTENV_PATH', 'D:/laragon/etc/hr-management.oracle.env' );
+```
+
+File `.env` harus berisi pasangan `KEY=VALUE`, satu per baris. Baris komentar penuh diawali `#`; nilai boleh dibungkus tanda kutip tunggal atau ganda. Pastikan PHP dapat membaca file tersebut. Untuk produksi, lebih baik gunakan environment variable yang dikelola server. Pastikan ekstensi PHP `pdo_oci` tersedia. Koneksi dibuat secara lazy dan digunakan bersama selama request; operasi data gagal dengan pesan error jika Oracle belum terkonfigurasi atau tidak tersedia. Page tidak boleh membuat koneksi atau menulis query langsung. Tidak ada fallback penyimpanan database sandbox.
+
+Untuk instruksi setup lokal langkah demi langkah di Windows dan macOS, termasuk pemeriksaan PHP CLI/web dan troubleshooting, lihat [Panduan setup Oracle lokal](docs/oracle-env-setup.md). Setiap developer harus memakai path env lokalnya sendiri; jangan menyalin kredensial ke repository.
 
 Folder `public/` dan `admin/` dipertahankan sebagai bridge kompatibilitas agar migrasi template dapat dilakukan per halaman tanpa mengubah output.
 

@@ -234,19 +234,19 @@ Admin Access
 
 Tempat abstraction untuk operasi database plugin.
 
-Untuk tahap awal jangan membuat database table jika belum diperlukan.
+Operasi database sistem rekrutmen menggunakan Oracle melalui PDO_OCI. Query harus tetap berada di gateway database, bukan tersebar di page atau component.
 
-Jika nanti diperlukan:
+Konfigurasi dibaca dari konstanta PHP, environment variable, file `.env` di path yang ditentukan oleh `RECRUITMENT_DOTENV_PATH`, lalu option WordPress:
 
 ```text
 class-database.php
         ↓
-wpdb
+PDO_OCI
         ↓
-Custom Recruitment Tables
+Oracle
 ```
 
-Jangan menaruh query database tersebar di semua file.
+Simpan file `.env` di luar document root dan jangan commit kredensial. Untuk produksi, utamakan environment variable yang dikelola server.
 
 ---
 

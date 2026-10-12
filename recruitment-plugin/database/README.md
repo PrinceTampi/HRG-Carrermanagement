@@ -1,6 +1,24 @@
 # Database
 
-`class-database.php` is the Oracle gateway. It creates one lazy PDO OCI connection per request and reads configuration from constants, environment variables, or the `recruitment_oracle_config` WordPress option.
+## Structure
+
+```text
+database/
+  connection/
+    class-oracle-connection.php  # Oracle config and shared lazy PDO_OCI connection
+  class-database.php             # Domain queries used by pages and services
+  migrations/                    # Versioned Oracle schema changes
+```
+
+`Recruitment_Oracle_Connection` owns Oracle configuration and provides one lazy
+PDO connection shared for the request. `Recruitment_Database` owns the
+recruitment queries and transaction operations. Pages and components should
+call its methods; they must not create PDO connections, keep database state in
+PHP sessions/files, or embed SQL.
+
+Configuration is read in priority order from PHP constants, process
+environment variables, the `.env` file named by `RECRUITMENT_DOTENV_PATH`, and
+the `recruitment_oracle_config` WordPress option.
 
 Supported settings:
 
@@ -10,7 +28,9 @@ RECRUITMENT_ORACLE_USER
 RECRUITMENT_ORACLE_PASSWORD
 ```
 
-Pages and components must call `Recruitment_Database` methods rather than creating PDO connections or embedding SQL.
+The PHP `pdo_oci` extension and valid Oracle settings are required for database
+operations. If either is unavailable, database operations report an error;
+there is no JSON or session-backed database fallback.
 
 ## Application Payload Contract
 
@@ -29,8 +49,8 @@ consents      PDP consent flags
 photo         uploaded file metadata for the storage layer
 ```
 
-When the database schema is finalized, add the insert transaction to the
-database gateway and pass this payload to it from the application service.
+The application service passes this payload to the database gateway, which
+persists it in Oracle.
 
 ## Application Token Migration
 

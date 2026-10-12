@@ -13,5 +13,10 @@ Desktop.ini
 # Log files
 *.log
 
+# Local secrets
+.env
+.env.*
+!.env.example
+
 # Local AI instructions and UI reference material
 /example&guide/

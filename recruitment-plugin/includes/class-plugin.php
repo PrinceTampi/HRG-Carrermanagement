@@ -35,7 +35,7 @@ class Recruitment_Plugin {
         add_action( 'init', [ $this, 'register_user_department_role' ] );
         add_action( 'template_redirect', [ $this, 'handle_portal_login' ] );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_public_assets' ] );
-        add_filter( 'render_block', [ $this, 'remove_theme_footer' ], 10, 2 );
+        add_filter( 'render_block', [ $this, 'remove_theme_chrome' ], 10, 2 );
         add_filter( 'the_content', [ $this, 'render_front_page' ] );
         add_filter( 'login_url', [ $this, 'filter_admin_login_url' ], 10, 3 );
 
@@ -153,41 +153,34 @@ class Recruitment_Plugin {
         return $login_url;
     }
 
-    public function remove_theme_footer( string $block_content, array $block ): string {
-    if ( is_admin() ) {
+    public function remove_theme_chrome( string $block_content, array $block ): string {
+        if ( is_admin() || ! is_page() ) {
+            return $block_content;
+        }
+
+        if ( ! has_shortcode( get_post_field( 'post_content', get_queried_object_id() ), 'recruitment_careers' ) ) {
+            return $block_content;
+        }
+
+        if (
+            'core/paragraph' === ( $block['blockName'] ?? '' ) &&
+            '' === trim( wp_strip_all_tags( $block_content ) )
+        ) {
+            return '';
+        }
+
+        if (
+            'core/post-title' === ( $block['blockName'] ?? '' ) ||
+            (
+                'core/template-part' === ( $block['blockName'] ?? '' ) &&
+                in_array( $block['attrs']['slug'] ?? '', [ 'header', 'footer' ], true )
+            )
+        ) {
+            return '';
+        }
+
         return $block_content;
     }
-
-    if ( ! is_page() ) {
-        return $block_content;
-    }
-
-    // Hanya berlaku untuk halaman Recruitment/Career
-    if ( ! has_shortcode( get_post_field( 'post_content', get_queried_object_id() ), 'recruitment_careers' ) ) {
-        return $block_content;
-    }
-
-    // Remove the empty paragraph block that WordPress appends after the shortcode.
-    if (
-        isset( $block['blockName'] ) &&
-        'core/paragraph' === $block['blockName'] &&
-        '' === trim( wp_strip_all_tags( $block_content ) )
-    ) {
-        return '';
-    }
-
-    // Hapus template footer bawaan Twenty Twenty-Five
-    if (
-        isset( $block['blockName'] ) &&
-        'core/template-part' === $block['blockName'] &&
-        isset( $block['attrs']['slug'] ) &&
-        'footer' === $block['attrs']['slug']
-    ) {
-        return '';
-    }
-
-    return $block_content;
-}
 
     public function render_front_page( string $content ): string {
         if ( is_admin() || ! is_front_page() || ! is_main_query() || ! in_the_loop() ) {

@@ -1,26 +1,24 @@
 <?php
 
+require_once __DIR__ . '/connection/class-oracle-connection.php';
+
 /**
- * Oracle database gateway for the recruitment domain.
+ * Oracle data gateway for the recruitment domain.
  *
- * Connection details are read once from constants, environment variables, or
- * the WordPress options API. Queries stay in this class so pages do not know
- * how Oracle is configured or connected.
+ * Pages use this gateway; Oracle configuration and PDO creation are handled
+ * by Recruitment_Oracle_Connection.
  */
 class Recruitment_Database {
 
-    private ?PDO $connection = null;
+    private Recruitment_Oracle_Connection $oracle;
     private ?string $last_error = null;
 
     /**
      * @param array<string, string> $config Optional configuration overrides.
      */
     public function __construct( array $config = [] ) {
-        $this->config = array_merge( $this->get_default_config(), $config );
+        $this->oracle = new Recruitment_Oracle_Connection( $config );
     }
-
-    /** @var array<string, string> */
-    private array $config;
 
     /**
      * Return all published vacancies from Oracle.
@@ -58,10 +56,6 @@ class Recruitment_Database {
      * @return array{success: bool, token?: string, error?: string}
      */
     public function save_application( array $payload ): array {
-        if ( ! $this->is_configured() || ! class_exists( 'PDO' ) || ! in_array( 'oci', PDO::getAvailableDrivers(), true ) ) {
-            return $this->save_sandbox_application( $payload );
-        }
-
         for ( $attempt = 0; $attempt < 3; $attempt++ ) {
             try {
                 $token = $this->generate_application_token();
@@ -104,6 +98,9 @@ class Recruitment_Database {
                 }
                 error_log( 'Recruitment application save failed: ' . $exception->getMessage() );
                 return [ 'success' => false, 'error' => 'Data lamaran gagal disimpan. Silakan coba lagi.' ];
+            } catch ( RuntimeException $exception ) {
+                $this->log_error( 'Recruitment application save failed', $exception );
+                return [ 'success' => false, 'error' => 'Koneksi database belum tersedia. Silakan coba lagi nanti.' ];
             }
         }
 
@@ -112,16 +109,6 @@ class Recruitment_Database {
 
     /** @return array<string, mixed>|null */
     public function find_application_by_token( string $token, string $contact = '' ): ?array {
-        if ( ! $this->is_configured() || ! class_exists( 'PDO' ) || ! in_array( 'oci', PDO::getAvailableDrivers(), true ) ) {
-            $applications = $this->read_sandbox_applications();
-            foreach ( $applications as $application ) {
-                if ( hash_equals( (string) $application['token'], $token ) && ( '' === $contact || strtolower( $application['email'] ) === strtolower( $contact ) || (string) ( $application['phone'] ?? '' ) === $contact ) ) {
-                    return $application;
-                }
-            }
-            return null;
-        }
-
         $rows = $this->fetch_all(
             'SELECT a.id, a.application_token AS token, a.status, a.created_at, p.name, p.email FROM daw_applications a JOIN daw_applicants p ON p.id = a.applicant_id WHERE a.application_token = :token AND (:contact_email = \'\' OR LOWER(p.email) = LOWER(:contact_email) OR p.phone = :contact_phone)',
             [ 'token' => $token, 'contact_email' => $contact, 'contact_phone' => $contact ]
@@ -159,9 +146,6 @@ class Recruitment_Database {
 
     /** @return array<string, string>|null */
     public function get_interview_booking( string $token ): ?array {
-        if ( isset( $_SESSION['recruitment_interview_booking'][ $token ] ) ) {
-            return (array) $_SESSION['recruitment_interview_booking'][ $token ];
-        }
         $rows = $this->fetch_all(
             'SELECT interview_date AS date, start_time AS start, end_time AS end, status FROM daw_interview_bookings WHERE application_token = :token',
             [ 'token' => $token ]
@@ -171,13 +155,6 @@ class Recruitment_Database {
 
     /** @return array{success: bool, error?: string} */
     public function save_interview_booking( string $token, string $date, string $start, string $end ): array {
-        if ( ! $this->is_configured() ) {
-            if ( ! isset( $_SESSION['recruitment_interview_booking'] ) ) {
-                $_SESSION['recruitment_interview_booking'] = [];
-            }
-            $_SESSION['recruitment_interview_booking'][ $token ] = [ 'date' => $date, 'start' => $start, 'end' => $end, 'status' => 'Confirmed' ];
-            return [ 'success' => true ];
-        }
         try {
             $statement = $this->get_connection()->prepare(
                 'INSERT INTO daw_interview_bookings (application_token, interview_date, start_time, end_time, status, created_at) VALUES (:token, :date_value, :start_time, :end_time, :status, CURRENT_TIMESTAMP)'
@@ -187,11 +164,14 @@ class Recruitment_Database {
         } catch ( PDOException $exception ) {
             error_log( 'Interview booking save failed: ' . $exception->getMessage() );
             return [ 'success' => false, 'error' => 'Booking jadwal gagal disimpan. Silakan coba lagi.' ];
+        } catch ( RuntimeException $exception ) {
+            $this->log_error( 'Interview booking save failed', $exception );
+            return [ 'success' => false, 'error' => 'Koneksi database belum tersedia. Silakan coba lagi nanti.' ];
         }
     }
 
     public function is_configured(): bool {
-        return '' !== $this->config['username'] && '' !== $this->config['password'] && '' !== $this->config['dsn'];
+        return $this->oracle->is_configured();
     }
 
     /**
@@ -199,34 +179,26 @@ class Recruitment_Database {
      * @return array<int, array<string, mixed>>
      */
     private function fetch_all( string $sql, array $parameters = [] ): array {
-        if ( ! $this->is_configured() || ! class_exists( 'PDO' ) || ! in_array( 'oci', PDO::getAvailableDrivers(), true ) ) {
-            return [];
-        }
-
         try {
             $statement = $this->get_connection()->prepare( $sql );
             $statement->execute( $parameters );
             return $statement->fetchAll( PDO::FETCH_ASSOC );
-        } catch ( PDOException $exception ) {
+        } catch ( PDOException | RuntimeException $exception ) {
             $this->last_error = $exception->getMessage();
-            if ( function_exists( 'error_log' ) ) {
-                error_log( 'Recruitment Oracle query failed: ' . $exception->getMessage() );
-            }
+            $this->log_error( 'Recruitment Oracle query failed', $exception );
             return [];
         }
     }
 
     private function get_connection(): PDO {
-        if ( null === $this->connection ) {
-            $this->connection = new PDO(
-                $this->config['dsn'],
-                $this->config['username'],
-                $this->config['password'],
-                [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ]
-            );
-        }
+        return $this->oracle->get_connection();
+    }
 
-        return $this->connection;
+    private function log_error( string $context, Throwable $exception ): void {
+        $this->last_error = $exception->getMessage();
+        $previous = $exception->getPrevious();
+        $details = $previous ? $previous->getMessage() : $exception->getMessage();
+        error_log( $context . ': ' . $details );
     }
 
     private function generate_application_token(): string {
@@ -237,54 +209,4 @@ class Recruitment_Database {
         return false !== stripos( $exception->getMessage(), 'ORA-00001' ) || false !== stripos( $exception->getMessage(), 'unique constraint' );
     }
 
-    /** @param array<string, mixed> $payload */
-    private function save_sandbox_application( array $payload ): array {
-        $applications = $this->read_sandbox_applications();
-        for ( $attempt = 0; $attempt < 3; $attempt++ ) {
-            try {
-                $token = $this->generate_application_token();
-            } catch ( Throwable $exception ) {
-                return [ 'success' => false, 'error' => 'Token lamaran gagal dibuat. Silakan coba lagi.' ];
-            }
-            $exists = array_filter( $applications, static fn ( array $item ): bool => hash_equals( (string) $item['token'], $token ) );
-            if ( $exists ) {
-                continue;
-            }
-            $applications[] = [
-                'token'   => $token,
-                'status'  => 'submitted',
-                'name'    => $payload['applicant']['full_name'],
-                'email'   => $payload['applicant']['email'],
-                'phone'   => $payload['applicant']['phone'],
-                'created_at' => gmdate( 'c' ),
-            ];
-            $path = sys_get_temp_dir() . '/daw-recruitment-applications.json';
-            if ( false === file_put_contents( $path, json_encode( $applications, JSON_PRETTY_PRINT ), LOCK_EX ) ) {
-                return [ 'success' => false, 'error' => 'Data lamaran gagal disimpan. Silakan coba lagi.' ];
-            }
-            return [ 'success' => true, 'token' => $token ];
-        }
-        return [ 'success' => false, 'error' => 'Token lamaran gagal dibuat unik. Silakan coba lagi.' ];
-    }
-
-    /** @return array<int, array<string, mixed>> */
-    private function read_sandbox_applications(): array {
-        $path = sys_get_temp_dir() . '/daw-recruitment-applications.json';
-        if ( ! is_readable( $path ) ) {
-            return [];
-        }
-        $data = json_decode( (string) file_get_contents( $path ), true );
-        return is_array( $data ) ? $data : [];
-    }
-
-    /** @return array<string, string> */
-    private function get_default_config(): array {
-        $options = function_exists( 'get_option' ) ? (array) get_option( 'recruitment_oracle_config', [] ) : [];
-
-        return [
-            'dsn'      => (string) ( defined( 'RECRUITMENT_ORACLE_DSN' ) ? RECRUITMENT_ORACLE_DSN : ( getenv( 'RECRUITMENT_ORACLE_DSN' ) ?: ( $options['dsn'] ?? '' ) ) ),
-            'username' => (string) ( defined( 'RECRUITMENT_ORACLE_USER' ) ? RECRUITMENT_ORACLE_USER : ( getenv( 'RECRUITMENT_ORACLE_USER' ) ?: ( $options['username'] ?? '' ) ) ),
-            'password' => (string) ( defined( 'RECRUITMENT_ORACLE_PASSWORD' ) ? RECRUITMENT_ORACLE_PASSWORD : ( getenv( 'RECRUITMENT_ORACLE_PASSWORD' ) ?: ( $options['password'] ?? '' ) ) ),
-        ];
-    }
 }
