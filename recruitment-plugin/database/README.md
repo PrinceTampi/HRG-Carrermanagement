@@ -377,6 +377,20 @@ The plugin does not apply the migration automatically. The duplicate local
 copy of migration 016 was reconciled by retaining the canonical
 `migrations/016_hr_interview_department_assignment.sql`.
 
+Migration
+[`migrations/018_psychotest_question_metadata.sql`](migrations/018_psychotest_question_metadata.sql)
+adds a per-question explanation and active flag to the psychotest bank.
+Existing questions default to active. The question bank displays inactive
+questions, while new applicant sessions load active questions only. Sessions
+already in progress retain their assigned questions. Explanations are only used
+in the admin question bank and are not included in applicant assessment views.
+With the user's approval, it was applied and verified on the local Oracle XE
+`XEPDB1` schema on 2026-11-11. The explanation CLOB, `IS_ACTIVE NUMBER(1,0)
+DEFAULT 1 NOT NULL`, and enabled/validated check constraint are present. This
+does not confirm application to any shared or production schema; verify the
+target schema and obtain the Oracle owner's approval before applying it
+elsewhere.
+
 Some legacy application and vacancy gateway methods still contain
 `DAW_*`-table operations; they need schema reconciliation before being treated
 as aligned with the current Oracle schema. Do not run migration 003 for the

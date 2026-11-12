@@ -146,7 +146,7 @@ class Recruitment_Pauli_Assessment {
 
         $segment = absint( $state['current_segment'] ?? 0 );
         $column = $state['columns'][ $segment ] ?? null;
-        $catalog = $this->database->get_pauli_assessment();
+        $catalog = $this->database->get_pauli_assessment( true );
         if ( $this->database->has_error() ) {
             return [ 'error' => 'Koneksi Oracle belum tersedia. Silakan coba kembali nanti.' ];
         }

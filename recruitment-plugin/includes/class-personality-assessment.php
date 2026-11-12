@@ -115,7 +115,7 @@ class Recruitment_Personality_Assessment {
             return [ 'ready' => false, 'test_key' => $test_key ];
         }
 
-        $catalog = $this->database->get_personality_assessments();
+        $catalog = $this->database->get_personality_assessments( false, true );
         if ( $this->database->has_error() ) {
             return [ 'error' => 'Koneksi Oracle belum tersedia. Silakan coba kembali nanti.' ];
         }

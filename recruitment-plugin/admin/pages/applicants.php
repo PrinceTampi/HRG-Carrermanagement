@@ -134,16 +134,37 @@ foreach ( $applications as $application ) {
     $year = (string) date_i18n( 'Y', strtotime( $created_at ) );
     $position = (string) ( $application['title'] ?? $vacancy['title'] ?? $vacancy['job_title'] ?? $candidate['position'] ?? 'Posisi belum ditentukan' );
     $dealer_source = '';
+    $dealer = '';
+    $location_fallback = '';
     foreach ( [ $vacancy['dealer'] ?? '', $vacancy['location'] ?? '', $application['location'] ?? '', $candidate['dealer'] ?? '' ] as $branch_value ) {
-        if ( is_scalar( $branch_value ) && '' !== trim( (string) $branch_value ) ) {
-            $dealer_source = trim( (string) $branch_value );
+        if ( ! is_scalar( $branch_value ) || '' === trim( (string) $branch_value ) ) {
+            continue;
+        }
+        $branch_value = trim( (string) $branch_value );
+        if ( '' === $dealer_source ) {
+            $dealer_source = $branch_value;
+        }
+        $normalized_branch = $normalize_branch( $branch_value );
+        if ( '' !== $normalized_branch ) {
+            $dealer = $normalized_branch;
             break;
         }
     }
-    $dealer = $normalize_branch( $dealer_source );
+    if ( '' === $dealer ) {
+        $vacancy_location = trim( (string) ( $vacancy['location'] ?? '' ) );
+        $vacancy_dealer = trim( (string) ( $vacancy['dealer'] ?? '' ) );
+        if ( '' !== $vacancy_location && 0 !== strcasecmp( $vacancy_location, $vacancy_dealer ) ) {
+            $location_fallback = $vacancy_location;
+        }
+        $dealer = $location_fallback;
+    }
     $category = trim( (string) ( $application['category'] ?? '' ) );
     if ( '' === $category ) {
         $category = trim( (string) ( $vacancy['type'] ?? '' ) );
+    }
+    $department = trim( (string) ( $application['department'] ?? '' ) );
+    if ( '' === $department ) {
+        $department = trim( (string) ( $vacancy['department'] ?? '' ) );
     }
     $region = (string) ( $vacancy['region'] ?? $vacancy['location'] ?? $application['province'] ?? $candidate['region'] ?? '' );
     $effective_status = (string) ( $application['final_status'] ?? '' );
@@ -170,7 +191,7 @@ foreach ( $applications as $application ) {
     $code = 'DAW-' . $year . '-' . str_pad( (string) $applicant_id, 3, '0', STR_PAD_LEFT );
     $applicant_name = (string) ( $candidate['name'] ?? $application['applicant_name'] ?? 'Pelamar #' . $applicant_id );
     $applicant_email = (string) ( $candidate['email'] ?? $application['applicant_email'] ?? '' );
-    $search_text = strtolower( trim( $applicant_name . ' ' . $code . ' ' . $position . ' ' . $dealer_source . ' ' . $applicant_email ) );
+    $search_text = strtolower( trim( $applicant_name . ' ' . $code . ' ' . $position . ' ' . $department . ' ' . $dealer_source . ' ' . $applicant_email ) );
     $application_key = (string) ( $application['id'] ?? $applicant_id );
     $latest_candidates[ $application_key ] = [
         'id' => $applicant_id,
@@ -180,6 +201,7 @@ foreach ( $applications as $application ) {
         'email' => $applicant_email,
         'phone' => (string) ( $candidate['phone'] ?? $application['applicant_phone'] ?? '' ),
         'position' => $position,
+        'department' => '' !== $department ? $department : 'Departemen belum diatur',
         'dealer' => '' !== $dealer ? $dealer : 'Cabang belum ditentukan',
         'branch' => $dealer,
         'category' => '' !== $category ? $category : 'Kategori belum tersedia',
@@ -274,6 +296,13 @@ $dealers = [
     'Main Dealer DAW MAUMBI' => 'Main Dealer DAW MAUMBI',
     'DAW BITUNG' => 'DAW BITUNG',
 ];
+foreach ( $all_candidates as $candidate ) {
+    $branch = trim( (string) ( $candidate['branch'] ?? '' ) );
+    if ( '' !== $branch ) {
+        $dealers[ $branch ] = $branch;
+    }
+}
+ksort( $dealers );
 
 $stats = [
     'total' => count( $filtered_candidates ),
@@ -495,6 +524,7 @@ $view_mode = $selected_candidate ? 'detail' : 'list';
                 <div class="daw-applicant-profile-card__meta">
                     <span><?= esc_html( $selected_candidate['position'] ) ?></span>
                     <span><?= esc_html( $selected_candidate['category'] ) ?></span>
+                    <span><?= esc_html( $selected_candidate['department'] ) ?></span>
                     <span><?= esc_html( $selected_candidate['dealer'] ) ?></span>
                 </div>
             </div>

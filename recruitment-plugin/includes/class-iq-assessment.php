@@ -114,7 +114,7 @@ class Recruitment_IQ_Assessment {
 
         $index = absint( $state['subtest_index'] ?? 0 );
         $test_state = $state['tests'][ $index ] ?? null;
-        $catalog = $this->database->get_iq_assessment();
+        $catalog = $this->database->get_iq_assessment( true );
         if ( $this->database->has_error() ) {
             return [ 'error' => 'Koneksi Oracle belum tersedia. Silakan coba kembali nanti.' ];
         }

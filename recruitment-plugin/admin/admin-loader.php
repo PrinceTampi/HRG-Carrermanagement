@@ -1151,12 +1151,33 @@ class Recruitment_Admin {
 			'Kota' => $profile['city'] ?? '',
 			'Provinsi' => $profile['province'] ?? '',
 		];
+		$education_answers = [];
+		foreach ( (array) ( $report['answers'] ?? [] ) as $answer ) {
+			$field_key = (string) ( $answer['field_key'] ?? '' );
+			if ( preg_match( '/\Apendidikan_formal_(\d+)_(tingkat|nama_sekolah|program_studi|ipk|tahun_lulus)\z/i', $field_key, $matches ) ) {
+				$value = trim( (string) ( $answer['answer_value'] ?? '' ) );
+				if ( '' !== $value ) {
+					$education_answers[ (int) $matches[1] ][ strtolower( $matches[2] ) ] = $value;
+				}
+			}
+		}
+		ksort( $education_answers );
+		$first_education = reset( $education_answers );
+		$first_education = is_array( $first_education ) ? $first_education : [];
+		$education_value = static function ( string $detail_key, string $answer_key, string $fallback = '' ) use ( $details, $first_education ): string {
+			foreach ( [ $details[ $detail_key ] ?? '', $first_education[ $answer_key ] ?? '', $fallback ] as $value ) {
+				if ( is_scalar( $value ) && '' !== trim( (string) $value ) ) {
+					return trim( (string) $value );
+				}
+			}
+			return '';
+		};
 		$education = [
-			'Jenjang' => $details['education_level'] ?? $profile['education'] ?? '',
-			'Institusi' => $details['institution'] ?? '',
-			'Jurusan' => $details['major'] ?? '',
-			'IPK / Nilai' => $details['gpa'] ?? '',
-			'Tahun Lulus' => $details['graduation_year'] ?? '',
+			'Jenjang' => $education_value( 'education_level', 'tingkat', (string) ( $profile['education'] ?? '' ) ),
+			'Institusi' => $education_value( 'institution', 'nama_sekolah' ),
+			'Jurusan' => $education_value( 'major', 'program_studi' ),
+			'IPK / Nilai' => $education_value( 'gpa', 'ipk' ),
+			'Tahun Lulus' => $education_value( 'graduation_year', 'tahun_lulus' ),
 		];
 
 		$html = '<!doctype html><html lang="id"><meta charset="utf-8"><style>
@@ -1172,6 +1193,7 @@ class Recruitment_Admin {
 			[
 				'Tanggal Lamaran' => $application['application_date'] ?? '',
 				'Posisi' => $application['position'] ?? '',
+				'Cabang / Lokasi' => $application['vacancy_location'] ?? '',
 				'Dealer' => $application['dealer'] ?? '',
 				'Departemen' => $application['department'] ?? '',
 				'Status' => $application['application_status'] ?? '',
@@ -1211,7 +1233,8 @@ class Recruitment_Admin {
 			if ( ! is_array( $document ) || '' === (string) ( $document['name'] ?? '' ) || ( $department_scope && 'resume' !== $document_key ) ) {
 				continue;
 			}
-			$document_rows .= '<tr><th>' . $escape( $document_key ) . '</th><td>' . $escape( $document['name'] ) . '</td></tr>';
+			$document_label = [ 'resume' => 'CV / Resume', 'portfolio' => 'Portofolio', 'profile_photo' => 'Foto Profil' ][ $document_key ] ?? $document_key;
+			$document_rows .= '<tr><th>' . $escape( $document_label ) . '</th><td>' . $escape( $document['name'] ) . '</td></tr>';
 		}
 		foreach ( (array) ( $report['answers'] ?? [] ) as $answer ) {
 			if ( is_array( $answer ) ) {

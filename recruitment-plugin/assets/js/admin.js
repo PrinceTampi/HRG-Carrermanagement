@@ -898,27 +898,49 @@ document.documentElement.classList.add("js");
     return;
   }
 
-  const pdfTest = bank.querySelector("[data-pdf-import-test]");
-  const pdfSubtest = bank.querySelector("[data-pdf-import-subtest]");
-  const pdfSubtestField = bank.querySelector("[data-pdf-import-subtest-field]");
-  if (pdfTest && pdfSubtest && pdfSubtestField) {
-    const updatePdfSubtest = function updatePdfSubtest() {
-      const isIq = "iq" === pdfTest.value;
-      pdfSubtestField.hidden = !isIq;
-      pdfSubtest.required = isIq;
-    };
-    pdfTest.addEventListener("change", updatePdfSubtest);
-    updatePdfSubtest();
+  const pdfPreview = bank.querySelector("[data-pdf-preview]");
+  if (pdfPreview) {
+    const selectAll = pdfPreview.querySelector("[data-pdf-select-all]");
+    const questionCheckboxes = Array.from(
+      pdfPreview.querySelectorAll("[data-pdf-question-checkbox]"),
+    );
+    const selectedCount = pdfPreview.querySelector("[data-pdf-selected-count]");
+    const applyCount = pdfPreview.querySelector("[data-pdf-apply-count]");
+    const applyButton = pdfPreview.querySelector("[data-pdf-apply]");
+    if (selectAll && selectedCount && applyCount && applyButton) {
+      const updateSelection = function updateSelection() {
+        const selected = questionCheckboxes.filter(function isSelected(checkbox) {
+          return checkbox.checked;
+        }).length;
+        selectedCount.textContent = String(selected);
+        applyCount.textContent = String(selected);
+        applyButton.disabled = 0 === selected;
+        selectAll.checked = 0 < selected && selected === questionCheckboxes.length;
+        selectAll.indeterminate = 0 < selected && selected < questionCheckboxes.length;
+      };
+
+      selectAll.addEventListener("change", function toggleAllQuestions() {
+        questionCheckboxes.forEach(function setSelected(checkbox) {
+          checkbox.checked = selectAll.checked;
+        });
+        updateSelection();
+      });
+      questionCheckboxes.forEach(function bindQuestionCheckbox(checkbox) {
+        checkbox.addEventListener("change", updateSelection);
+      });
+      updateSelection();
+    }
   }
 
   const dialog = bank.querySelector("[data-question-dialog]");
   const form = bank.querySelector("[data-question-form]");
   const prompt = form.querySelector("[data-question-prompt]");
+  const explanation = form.querySelector("[data-question-explanation]");
+  const active = form.querySelector("[data-question-active]");
   const choices = form.querySelector("[data-question-choices]");
   const choicesLabel = form.querySelector("[data-question-choices-label]");
   const answerLabel = form.querySelector("[data-question-answer-label]");
   const test = form.querySelector("[data-question-test]");
-  const subtest = form.querySelector("[data-question-subtest]");
   const type = form.querySelector("[data-question-type]");
   const promptHelp = form.querySelector("[data-question-prompt-help]");
   const questionAction = form.querySelector("[data-question-action]");
@@ -931,17 +953,20 @@ document.documentElement.classList.add("js");
     const isIq = "iq" === test.value;
     const isPauli = "pauli" === test.value;
     const isPersonality = ["disc", "papi"].includes(test.value);
-    form.querySelector("[data-question-subtest-label]").hidden = !isIq;
+    const isNewQuestion = "" === form.querySelector("[data-question-id]").value;
     form.querySelector("[data-question-type-label]").hidden = !isIq;
     choicesLabel.hidden = !isIq;
     answerLabel.hidden = !isIq;
-    subtest.disabled = !isIq || Boolean(form.querySelector("[data-question-id]").value);
     type.disabled = !isIq || Boolean(form.querySelector("[data-question-id]").value);
     questionTestValue.value = test.value;
-    questionSubtestValue.value = subtest.value;
+    if ( isIq && isNewQuestion ) {
+      questionSubtestValue.value = "iq_numbers";
+    }
     questionTypeValue.value = type.value;
     if (isIq) {
-      promptHelp.textContent = "Masukkan satu pertanyaan IQ.";
+      promptHelp.textContent = isNewQuestion
+        ? "Soal IQ baru otomatis masuk ke IQ - 1 Berhitung Angka."
+        : "Masukkan satu pertanyaan IQ.";
     } else if (isPauli) {
       promptHelp.textContent =
         "Setiap entri bank menjadi satu lajur Pauli; lajur berjalan tiga menit dan memuat hingga 900 jawaban.";
@@ -980,7 +1005,11 @@ document.documentElement.classList.add("js");
     test.value = question
       ? question.dataset.test
       : bank.dataset.filterTest || "iq";
-    subtest.value = question ? question.dataset.subtest || "" : "iq_numbers";
+    questionSubtestValue.value = question
+      ? question.dataset.subtest || ""
+      : "iq" === test.value
+        ? "iq_numbers"
+        : "";
     type.value = question
       ? question.dataset.type
       : "iq" === test.value
@@ -994,6 +1023,8 @@ document.documentElement.classList.add("js");
       : "pauli" === test.value
         ? "Kolom Pauli baru"
         : "";
+    explanation.value = question ? question.dataset.explanation || "" : "";
+    active.checked = question ? "1" === question.dataset.active : true;
     choices.value = question ? question.dataset.choices || "" : "";
     form.querySelector("[data-question-answer]").value = question
       ? question.dataset.answer || ""
@@ -1026,9 +1057,6 @@ document.documentElement.classList.add("js");
     .querySelector("[data-question-type]")
     .addEventListener("change", updateTypeFields);
   test.addEventListener("change", setQuestionTypeForTest);
-  subtest.addEventListener("change", function syncQuestionSubtest() {
-    questionSubtestValue.value = subtest.value;
-  });
   dialog
     .querySelectorAll("[data-close-question-dialog]")
     .forEach(function bindClose(button) {

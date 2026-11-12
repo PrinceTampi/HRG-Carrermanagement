@@ -65,7 +65,17 @@ class Recruitment_Psychotest_Pdf_Importer {
      */
     public function parse_questions( string $text, string $test, string $subtest = '' ): array {
         if ( 'iq' === $test ) {
-            return $this->parse_iq_questions( $text, $subtest );
+            $remove_heading = '' === $subtest;
+            if ( $remove_heading ) {
+                $subtest = $this->detect_iq_subtest( $text );
+            }
+            if ( '' === $subtest ) {
+                return [
+                    'success' => false,
+                    'error' => 'Kategori subtes IQ tidak dapat dikenali. Pastikan judul PDF mencantumkan Berhitung Angka, Gabungan Bagian, Hubungan Kata, atau Abstraksi Nonverbal.',
+                ];
+            }
+            return $this->parse_iq_questions( $text, $subtest, $remove_heading );
         }
         if ( ! in_array( $test, [ 'disc', 'papi' ], true ) ) {
             return [ 'success' => false, 'error' => 'Impor PDF hanya tersedia untuk IQ, DISC, dan PAPI Kostick.' ];
@@ -127,10 +137,47 @@ class Recruitment_Psychotest_Pdf_Importer {
         return [ 'success' => true, 'questions' => $questions ];
     }
 
+    private function detect_iq_subtest( string $text ): string {
+        $text = preg_replace( '/\r\n?/', "\n", $text ) ?? $text;
+        $lines = preg_split( '/\n/u', $text ) ?: [];
+        $header_lines = $lines;
+        foreach ( $lines as $line_index => $line ) {
+            if ( preg_match( '/^\s*\d{1,3}[.)]\s+\S/u', $line ) ) {
+                $header_lines = array_slice( $lines, 0, $line_index );
+                break;
+            }
+        }
+        if ( $header_lines === $lines ) {
+            $paragraphs = preg_split( '/\n\s*\n/u', trim( $text ) ) ?: [];
+            $header_lines = preg_split( '/\n/u', $paragraphs[0] ?? '' ) ?: [];
+            if ( 1 === count( $header_lines ) && 1 === count( $paragraphs ) && isset( $lines[0] ) ) {
+                $header_lines = [ $lines[0] ];
+            }
+        }
+        $header = implode( "\n", $header_lines );
+        $patterns = [
+            'iq_numbers' => [ '/\bberhitung(?:\s+angka)?\b/iu', '/\bangka\b/iu', '/\bnumbers?\b/iu' ],
+            'iq_assembly' => [ '/\bgabungan(?:\s+bagian)?\b/iu', '/\bassembly\b/iu' ],
+            'iq_words' => [ '/\bhubungan\s+kata\b/iu', '/\bwords?\b/iu' ],
+            'iq_abstraction' => [ '/\babstraksi\b/iu', '/\bnon[\s-]?verbal\b/iu', '/\babstraction\b/iu' ],
+        ];
+        $matches = [];
+        foreach ( $patterns as $subtest => $aliases ) {
+            foreach ( $aliases as $pattern ) {
+                if ( 1 === preg_match( $pattern, $header ) ) {
+                    $matches[] = $subtest;
+                    break;
+                }
+            }
+        }
+
+        return 1 === count( $matches ) ? $matches[0] : '';
+    }
+
     /**
      * @return array{success: bool, questions?: array<int, array<string, mixed>>, error?: string}
      */
-    private function parse_iq_questions( string $text, string $subtest ): array {
+    private function parse_iq_questions( string $text, string $subtest, bool $remove_heading = false ): array {
         if ( ! in_array( $subtest, [ 'iq_numbers', 'iq_assembly', 'iq_words', 'iq_abstraction' ], true ) ) {
             return [ 'success' => false, 'error' => 'Pilih salah satu dari empat subtes IQ sebelum memproses PDF.' ];
         }
@@ -138,6 +185,16 @@ class Recruitment_Psychotest_Pdf_Importer {
         $text = trim( preg_replace( '/\r\n?/', "\n", $text ) ?? $text );
         if ( '' === $text ) {
             return [ 'success' => false, 'error' => 'Tidak ada teks soal IQ untuk diproses.' ];
+        }
+
+        if ( $remove_heading ) {
+            $lines = preg_split( '/\n/u', $text ) ?: [];
+            foreach ( $lines as $line_index => $line ) {
+                if ( preg_match( '/^\s*\d{1,3}[.)]\s+\S/u', $line ) ) {
+                    $text = implode( "\n", array_slice( $lines, $line_index ) );
+                    break;
+                }
+            }
         }
 
         $blocks = preg_split( '/\n\s*\n/u', $text ) ?: [];
