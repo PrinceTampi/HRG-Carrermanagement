@@ -170,8 +170,13 @@ their SQL is compatible with the current Oracle database.
   and response shapes follow the supplied company reference PDFs. Questions
   retain Oracle display order, and neither personality subtest has a hard time
   limit; the displayed elapsed-time reminders do not end a session.
-- Active assessment sessions keep their original question order when HR adds
-  questions; new questions are included in sessions started afterward.
+- Each assessment locks its active question order when that individual
+  assessment starts. Questions HR adds before a later IQ subtest, Pauli test,
+  DISC test, or PAPI test starts are included in that test; a test already in
+  progress keeps its original questions and answer order.
+- Pauli remains a fixed 20-column, one-hour test. When its active bank has more
+  than 20 question templates, a new session uses the 20 most recently ordered
+  active templates, so newly added Pauli questions enter the next session.
 - Psychometric routes require an authenticated applicant portal session.
 - The HR Hasil Psikotes page reads saved and completed IQ, Pauli, DISC, and PAPI
   records from Oracle, including response counts for sessions without a result
@@ -354,6 +359,47 @@ candidate lists, profile details, and submitted-file downloads must verify
 that same account assignment in Oracle; department-name matching alone is not
 authorization. User interview results are linked to `LAMARAN_ID` so repeated
 applications by one candidate do not share interview data.
+
+Selection advances in order: Administration to Psychotest, then Psychotest to
+HR Interview. HR's interview decision is saved through the HR interview screen;
+passing requires an active User Department account belonging to the vacancy's
+Oracle department. The HR result, account assignment, `INTERVIEW_USER` status,
+and tracking event are saved in one Oracle transaction. This makes the
+application appear on the assigned account's User Department interview page.
+Only an existing `INTERVIEW_USER` application with a stored passing HR result
+can have its department account reassigned from the applicant detail screen.
+Legacy `INTERVIEW_USER` rows without a passing HR result are excluded from the
+User Department queue and must be reviewed rather than reassigned.
+User Department results are linked to `LAMARAN_ID`, and HR final decisions
+require that application's own passing HR result and saved passing User
+interview result. The decision screen includes only applications with both
+passing results, and the save operation independently validates both stages.
+A failed User interview also marks that same application `DITOLAK` in the same
+transaction as its result and tracking history.
+
+`HRS_REKAPAN_KEPUTUSAN_HR` currently stores decisions by candidate and
+department, not by application. If a candidate has multiple applications to
+the same department, final-decision records cannot be distinguished reliably
+until an application-level link is added. The current save operation therefore
+refuses to write a decision when the candidate has multiple applications to
+that department.
+
+The verified Oracle schema also links `HRS_JADWAL_KANDIDAT` and psychometric
+result records to a candidate, but not to a specific application. For
+candidates with multiple applications, a schedule or psychometric result
+cannot be attributed reliably to one application. Do not treat the latest
+candidate-level record as application-specific.
+
+Migration
+[`migrations/019_application_scoped_records.sql`](migrations/019_application_scoped_records.sql)
+is prepared but has not been run. It adds nullable `LAMARAN_ID` foreign keys
+for schedules, psychometric results, and final-decision records. It backfills a
+legacy final-decision row only when the candidate has exactly one application
+for that department. Legacy schedules and psychometric results remain unlinked
+because their application cannot be reliably inferred. The application code
+must be updated to consume these links after the Oracle owner reviews and
+approves the migration; do not run it before that code change and target-schema
+verification.
 
 These features require migration
 [`migrations/016_hr_interview_department_assignment.sql`](migrations/016_hr_interview_department_assignment.sql).

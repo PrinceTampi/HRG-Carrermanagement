@@ -27,6 +27,7 @@ $stats = [
     'passed'      => 0,
     'failed'      => 0,
 ];
+$unverified_interview_count = 0;
 
 foreach ( $applications as $app ) {
     $raw_status = strtoupper( (string) ( $app['status'] ?? 'SUBMITTED' ) );
@@ -34,9 +35,14 @@ foreach ( $applications as $app ) {
     $has_result = '' !== $selection_status;
     $is_passed = in_array( $selection_status, [ 'Lolos Wawancara User', 'Lolos' ], true );
     $is_failed = in_array( $selection_status, [ 'Tidak Lolos Wawancara User', 'Tidak Lolos' ], true );
-    $is_waiting = 'INTERVIEW_USER' === $raw_status && ! $has_result;
+    $hr_passed = 'LOLOS' === strtoupper( trim( (string) ( $app['hr_result'] ?? '' ) ) );
+    $has_department_assignment = (int) ( $app['department_account_id'] ?? 0 ) > 0;
+    $is_waiting = 'INTERVIEW_USER' === $raw_status && ! $has_result && $hr_passed && $has_department_assignment;
 
-    if ( 'INTERVIEW_USER' !== $raw_status && ! $has_result ) {
+    if ( ! $has_result && ! $is_waiting ) {
+        if ( 'INTERVIEW_USER' === $raw_status ) {
+            $unverified_interview_count++;
+        }
         continue;
     }
 
@@ -236,8 +242,7 @@ if ( ! $selected_cand && 0 === $selected_application_id && 0 === $selected_candi
         <?php elseif ( $show_results ) : ?>
             <?php if ( $database_error ) : ?><div class="notice notice-error"><p>Data hasil wawancara User belum dapat dimuat dari Oracle. Silakan coba kembali.</p></div><?php endif; ?>
             <div class="daw-user-results__heading">
-                <div><h1>Detail Hasil Wawancara User</h1><p>Rekap hasil wawancara yang telah disampaikan oleh Kepala Departemen. Keputusan final ditetapkan pada Final Decision.</p></div>
-                <a class="daw-user-results__queue-link" href="<?= esc_url( $queue_url ) ?>">Antrian Wawancara User</a>
+                <div><h1>Detail Hasil Wawancara User</h1><p>Rekap hasil wawancara user yang telah disampaikan oleh Kepala Departemen. Data ini hanya untuk review HR — bukan tempat HR melakukan wawancara user.</p></div>
             </div>
             <section class="daw-user-results__stats" aria-label="Ringkasan hasil wawancara User">
                 <article><span>Total Diwawancarai</span><strong><?= esc_html( (string) $result_stats['total'] ) ?></strong></article>
@@ -245,26 +250,20 @@ if ( ! $selected_cand && 0 === $selected_application_id && 0 === $selected_candi
                 <article><span>Diterima</span><strong class="is-green"><?= esc_html( (string) $result_stats['accepted'] ) ?></strong></article>
                 <article><span>Menunggu Keputusan</span><strong class="is-amber"><?= esc_html( (string) $result_stats['pending'] ) ?></strong></article>
             </section>
-            <form class="daw-user-results__search" method="get" action="<?= esc_url( admin_url( 'admin.php' ) ) ?>">
-                <input type="hidden" name="page" value="recruitment-user-interview">
-                <label class="screen-reader-text" for="user-results-search">Cari nama atau kode pelamar</label>
-                <input id="user-results-search" type="search" name="search" value="<?= esc_attr( $result_search ) ?>" placeholder="Cari nama, kode lamaran, atau posisi...">
-                <?php if ( '' !== $result_department ) : ?><input type="hidden" name="department" value="<?= esc_attr( $result_department ) ?>"><?php endif; ?>
-                <?php if ( '' !== $result_rating ) : ?><input type="hidden" name="rating" value="<?= esc_attr( $result_rating ) ?>"><?php endif; ?>
-                <button type="submit">Cari</button>
-            </form>
-            <nav class="daw-user-results__filters" aria-label="Filter departemen">
-                <a class="<?= '' === $result_department ? 'is-active' : '' ?>" href="<?= esc_url( $result_filter_url( [ 'department' => '' ] ) ) ?>">Semua</a>
-                <?php foreach ( $result_departments as $department_name ) : ?>
-                    <a class="<?= $result_department === $department_name ? 'is-active' : '' ?>" href="<?= esc_url( $result_filter_url( [ 'department' => $department_name ] ) ) ?>"><?= esc_html( $department_name ) ?></a>
-                <?php endforeach; ?>
-            </nav>
-            <nav class="daw-user-results__filters daw-user-results__filters--ratings" aria-label="Filter hasil wawancara">
-                <a class="<?= '' === $result_rating ? 'is-active' : '' ?>" href="<?= esc_url( $result_filter_url( [ 'rating' => '' ] ) ) ?>">Semua Hasil</a>
-                <?php foreach ( $result_ratings as $rating_name ) : ?>
-                    <a class="<?= $result_rating === $rating_name ? 'is-active' : '' ?>" href="<?= esc_url( $result_filter_url( [ 'rating' => $rating_name ] ) ) ?>"><?= esc_html( $rating_name ) ?></a>
-                <?php endforeach; ?>
-            </nav>
+            <div class="daw-user-results__filter-bar">
+                <nav class="daw-user-results__filters daw-user-results__filters--departments" aria-label="Filter departemen">
+                    <a class="<?= '' === $result_department ? 'is-active' : '' ?>" href="<?= esc_url( $result_filter_url( [ 'department' => '' ] ) ) ?>">Semua</a>
+                    <?php foreach ( $result_departments as $department_name ) : ?>
+                        <a class="<?= $result_department === $department_name ? 'is-active' : '' ?>" href="<?= esc_url( $result_filter_url( [ 'department' => $department_name ] ) ) ?>"><?= esc_html( $department_name ) ?></a>
+                    <?php endforeach; ?>
+                </nav>
+                <nav class="daw-user-results__filters daw-user-results__filters--ratings" aria-label="Filter hasil wawancara">
+                    <a class="<?= '' === $result_rating ? 'is-active' : '' ?>" href="<?= esc_url( $result_filter_url( [ 'rating' => '' ] ) ) ?>">Semua</a>
+                    <?php foreach ( $result_ratings as $rating_name ) : ?>
+                        <a class="<?= $result_rating === $rating_name ? 'is-active' : '' ?>" href="<?= esc_url( $result_filter_url( [ 'rating' => $rating_name ] ) ) ?>"><?= esc_html( $rating_name ) ?></a>
+                    <?php endforeach; ?>
+                </nav>
+            </div>
             <section class="daw-user-results__list" aria-label="Daftar hasil wawancara User">
                 <?php if ( empty( $filtered_result_candidates ) ) : ?>
                     <div class="daw-user-results__empty">Belum ada hasil wawancara yang sesuai dengan filter.</div>
@@ -296,6 +295,9 @@ if ( ! $selected_cand && 0 === $selected_application_id && 0 === $selected_candi
                 <div><h1>Wawancara User</h1><p>Kelola wawancara user (hiring manager) untuk kandidat yang lolos wawancara HR.</p></div>
                 <a class="daw-user-results__queue-link" href="<?= esc_url( $results_url ) ?>">Detail Hasil Wawancara User</a>
             </div>
+            <?php if ( $unverified_interview_count > 0 ) : ?>
+                <div class="notice notice-warning"><p><?= esc_html( number_format_i18n( $unverified_interview_count ) ) ?> lamaran berstatus Wawancara User tidak ditampilkan karena hasil HR belum lolos atau akun User Department belum ditetapkan. Tinjau lamaran tersebut sebelum melanjutkan; status Oracle tidak diubah otomatis.</p></div>
+            <?php endif; ?>
             <section class="daw-interview-screen__stats" aria-label="Ringkasan wawancara user">
                 <article class="is-waiting"><strong><?= esc_html( (string) $stats['waiting'] ) ?></strong><span>Menunggu Wawancara</span></article>
                 <article class="is-scheduled"><strong><?= esc_html( (string) $stats['interviewed'] ) ?></strong><span>Sudah Diwawancarai</span></article>

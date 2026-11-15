@@ -4,9 +4,6 @@ $allowed_sections = [ 'decision', 'email', 'analytics' ];
 if ( ! in_array( $section, $allowed_sections, true ) ) {
 	$section = 'decision';
 }
-if ( 'decision' === $section && $application_id_filter > 0 && $candidate['application_id'] !== $application_id_filter ) {
-	$matches = false;
-}
 
 $filters = [
 	'search' => sanitize_text_field( wp_unslash( $_GET['search'] ?? '' ) ),
@@ -83,6 +80,8 @@ foreach ( $applications as $app ) {
 		$decision = 'Tidak Diterima';
 	}
 	$user_selection_status = trim( (string) ( $app['user_selection_status'] ?? '' ) );
+	$user_passed = in_array( strtoupper( $user_selection_status ), [ 'LOLOS WAWANCARA USER', 'LOLOS' ], true );
+	$hr_passed = 'LOLOS' === strtoupper( trim( (string) ( $app['hr_result'] ?? '' ) ) );
 	$user_recommendation = trim( (string) ( $app['user_recommendation'] ?? '' ) );
 	$user_result = '' !== $user_selection_status
 		? $user_selection_status . ( '' !== $user_recommendation ? ' · ' . $user_recommendation : '' )
@@ -106,7 +105,7 @@ foreach ( $applications as $app ) {
 		'email_status'  => 'Belum Dikirim',
 		'email_date'    => '',
 		'email'         => (string) ( $app['applicant_email'] ?: '' ),
-		'user_interview_ready' => '' !== $user_selection_status,
+		'user_interview_ready' => $hr_passed && $user_passed,
 	];
 }
 
@@ -277,13 +276,12 @@ $filter_form = static function ( string $tab, array $fields, string $search_plac
 		<input type="hidden" name="page" value="<?= esc_attr( $page_base_args['page'] ) ?>" />
 		<input type="hidden" name="section" value="<?= esc_attr( $tab ) ?>" />
 		<?php if ( absint( $_GET['application_id'] ?? 0 ) > 0 ) : ?><input type="hidden" name="application_id" value="<?= esc_attr( (string) absint( $_GET['application_id'] ) ) ?>" /><?php endif; ?>
-		<div class="daw-fd-filter__search"><input type="search" name="search" value="<?= esc_attr( $filters['search'] ) ?>" placeholder="<?= esc_attr( $search_placeholder ) ?>" /><button class="button" type="submit">Cari</button></div>
+		<div class="daw-fd-filter__search"><input type="search" name="search" value="<?= esc_attr( $filters['search'] ) ?>" placeholder="<?= esc_attr( $search_placeholder ) ?>" /><button class="button" type="submit">Cari</button><a class="button" href="<?= esc_url( add_query_arg( array_merge( $page_base_args, [ 'section' => $tab ] ), $page_url ) ) ?>">Reset</a></div>
 		<div class="daw-fd-filter__fields">
 			<?php foreach ( $fields as $field => $label ) : ?>
 				<label><span><?= esc_html( $label ) ?></span><select name="<?= esc_attr( $field ) ?>"><option value="">Semua</option><?php $filter_options( $field, $options[ $field ] ?? [] ); ?></select></label>
 			<?php endforeach; ?>
 			<button class="button button-primary" type="submit">Terapkan</button>
-			<a class="button" href="<?= esc_url( add_query_arg( array_merge( $page_base_args, [ 'section' => $tab ] ), $page_url ) ) ?>">Reset</a>
 		</div>
 	</form>
 	<?php
@@ -291,8 +289,8 @@ $filter_form = static function ( string $tab, array $fields, string $search_plac
 ?>
 <div class="wrap recruitment-admin daw-final-decision-page">
 	<header class="daw-fd-heading">
-		<p class="daw-fd-heading__breadcrumb">Recruitment <span>/</span> Keputusan Akhir</p>
-		<h1>Keputusan Akhir</h1>
+		<p class="daw-fd-heading__breadcrumb">Recruitment <span>/</span> Final Decision</p>
+		<h1>Final Decision</h1>
 		<p>Buat keputusan rekrutmen final untuk kandidat yang telah menyelesaikan seluruh tahap seleksi.</p>
 	</header>
 
@@ -312,7 +310,6 @@ $filter_form = static function ( string $tab, array $fields, string $search_plac
 		</section>
 		<?php $filter_form( 'decision', [ 'batch' => 'Batch Rekrutmen', 'year' => 'Tahun', 'dealer' => 'Dealer', 'department' => 'Departemen', 'position' => 'Posisi', 'user_result' => 'Hasil Wawancara User', 'decision' => 'Status Keputusan' ], 'Cari nama, kode lamaran, atau posisi...' ); ?>
 		<div class="daw-fd-table-card daw-fd-ready-card">
-			<div class="daw-fd-ready-card__heading"><h2>Kandidat Siap Keputusan</h2></div>
 			<div class="daw-fd-table-scroll"><table class="daw-fd-table daw-fd-ready-table">
 				<thead><tr><th>No.</th><th>Nama Pelamar</th><th>Posisi</th><th>Dealer / Departemen</th><th>Hasil User</th><th>Tanggal</th><th>Status Keputusan</th><th>Aksi</th></tr></thead>
 				<tbody>

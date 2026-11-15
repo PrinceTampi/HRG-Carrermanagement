@@ -376,7 +376,14 @@ class Recruitment_Plugin {
             }
             $requested_page = sanitize_key( wp_unslash( $_GET['page'] ?? '' ) );
             $department_page = 'daw-user-department' === $requested_page;
-            if ( ( 'user_department' === $account_type && ! $department_page ) || ( 'hr' === $account_type && $department_page ) ) {
+            global $pagenow;
+            $department_download_action = 'admin-post.php' === $pagenow
+                && in_array(
+                    sanitize_key( wp_unslash( $_GET['action'] ?? '' ) ),
+                    [ 'daw_download_department_profile', 'daw_download_department_document' ],
+                    true
+                );
+            if ( ( 'user_department' === $account_type && ! $department_page && ! $department_download_action ) || ( 'hr' === $account_type && $department_page ) ) {
                 wp_logout();
                 $redirect = 'user_department' === $account_type
                     ? recruitment_get_department_login_url( [ 'login_error' => 'no_access' ] )

@@ -72,7 +72,7 @@ $scheduled_date_timestamp = ! empty( $selected_candidate['scheduled_interview_da
 	: false;
 $scheduled_interview_date = $scheduled_date_timestamp ? date_i18n( 'j F Y', $scheduled_date_timestamp ) : '—';
 ?>
-<div class="daw-user-interview daw-interview-screen">
+<div class="daw-user-interview daw-interview-screen<?= $selected_candidate ? '' : ' daw-interview-screen--list' ?>">
 	<header class="daw-user-interview__header">
 		<nav class="daw-user-interview__breadcrumb" aria-label="Breadcrumb">
 			<span class="daw-user-interview__breadcrumb-root">DAW Admin</span>
@@ -207,19 +207,12 @@ $scheduled_interview_date = $scheduled_date_timestamp ? date_i18n( 'j F Y', $sch
 				</div>
 			</div>
 		<?php else : ?>
-			<div class="daw-interview-screen__heading">
-				<div><h1>Wawancara HR</h1><p>Kelola catatan, penilaian, dan keputusan kandidat pada tahap wawancara HR.</p></div>
-			</div>
-			<section class="daw-interview-screen__stats" aria-label="Ringkasan wawancara HR">
-				<article class="is-waiting"><strong><?= esc_html( (string) count( $candidates ) ) ?></strong><span>Menunggu Wawancara</span></article>
-				<article class="is-scheduled"><strong><?= esc_html( (string) count( $department_accounts ) ) ?></strong><span>Akun User Department Aktif</span></article>
-			</section>
 			<section class="daw-user-interview__panel daw-interview-screen__panel" aria-labelledby="hr-interview-candidates-title">
-				<div class="daw-interview-screen__panel-heading"><h2 id="hr-interview-candidates-title">Kandidat Tahap Wawancara HR</h2></div>
+				<div class="daw-interview-screen__panel-heading"><h2 id="hr-interview-candidates-title">Kandidat — Wawancara HR</h2></div>
 				<div class="daw-user-interview__table-wrap">
 					<table class="daw-interview-screen__table daw-hr-interview__table">
 						<caption class="screen-reader-text">Kandidat menunggu keputusan wawancara HR</caption>
-						<thead><tr><th scope="col">Kandidat</th><th scope="col">Posisi / Departemen</th><th scope="col">Dealer</th><th scope="col">Nilai Psikotes</th><th scope="col">Tanggal Wawancara</th><th scope="col">Status</th><th scope="col">Aksi</th></tr></thead>
+						<thead><tr><th scope="col">Kandidat</th><th scope="col">Posisi</th><th scope="col">Dealer</th><th scope="col">Hasil Psikotes</th><th scope="col">Tgl Wawancara</th><th scope="col">Status</th><th scope="col">Aksi</th></tr></thead>
 						<tbody>
 							<?php if ( ! empty( $candidates ) ) : ?>
 								<?php foreach ( $candidates as $candidate ) :
